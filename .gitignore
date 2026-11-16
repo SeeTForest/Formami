@@ -1,6 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
+/.dependency-backup/
 node_modules
 .pnp
 .pnp.js
@@ -49,6 +50,8 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+.local/
+.local-config/
 .env
 .env.*
 *.env.*

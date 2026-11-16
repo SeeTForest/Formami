@@ -1,0 +1,8 @@
+{
+  "selectedCandidate": "02-forest-echo",
+  "generator": "Built-in image_gen",
+  "reference": "../logo-candidates/2026-11-17/02-forest-echo.png",
+  "master": "forest-echo-transparent.png",
+  "prompt": "Produce the final clean transparent Forami logo from this selected design. Keep the exact recognizable two nested curved canopies, spreading central trunk, and one four-point star in the gap. Delete the wordmark. Make a clean flat two-color logo, gold tree #e0c58c and silver star #b9c5cf, on a truly transparent RGBA background. Absolutely no black background, no glow, no yellow/red speckles, no noisy partially erased background, no texture or gradients. Every pixel outside the solid smooth logo shapes must be fully transparent, including the inner cutouts. Sharp antialiased smooth silhouette. Only a centered tree emblem, with about 10 percent safe padding on a square canvas. Faithfully retain the reference tree shape and proportions. This is final software icon artwork.",
+  "source": "C:\\Users\\PerrinPC\\.codex\\generated_images\\01a00b0e-6057-7bf0-a406-3bc05db7e9b2\\exec-93d25d0d-ae43-43bb-a755-60170633376e.png"
+}

@@ -7,7 +7,6 @@ import {
   FormField,
   FormSubmitButton,
   Heading,
-  Icon,
   Text,
   TextField,
 } from '@umami/react-zen';
@@ -90,10 +89,11 @@ export function LoginTwoFactorPage() {
 
   return (
     <Column justifyContent="center" alignItems="center" gap="6">
-      <Icon size="lg">
-        <Logo />
-      </Icon>
-      <Heading>umami</Heading>
+      <div className="forami-brand">
+        <Logo aria-hidden="true" />
+        <Heading>Formami</Heading>
+        <small>SEE THE FOREST</small>
+      </div>
       <Column gap="4" style={{ minWidth: 300 }}>
         <Heading size="xl">{t(labels.twoFactorLogin)}</Heading>
         <Text>{t(messages.twoFactorLoginDescription)}</Text>

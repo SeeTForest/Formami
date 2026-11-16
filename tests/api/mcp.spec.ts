@@ -61,7 +61,7 @@ test.describe('MCP API-key authentication', () => {
         params: {},
       });
       expect(response.status).toBe(401);
-      expect(response.headers['www-authenticate']).toContain('Bearer realm="Umami MCP"');
+      expect(response.headers['www-authenticate']).toContain('Bearer realm="Formami MCP"');
       expect(response.headers['www-authenticate']).not.toContain('resource_metadata');
     }
   });

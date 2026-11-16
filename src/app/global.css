@@ -4,11 +4,34 @@
 
 /* Preserve the brand accent when Zen applies its light or dark theme tokens. */
 :root,
-[data-theme="light"],
+[data-theme="light"] {
+  --zen-primary: #725522;
+  --zen-primary-fg: #ffffff;
+}
+
 [data-theme="dark"],
 .dark {
-  --zen-primary: oklch(62.3% 0.214 259.815);
-  --zen-primary-fg: oklch(98.5% 0 0);
+  --zen-primary: #e0c58c;
+  --zen-primary-fg: #0a0d12;
+}
+
+.forami-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.forami-brand svg {
+  width: 64px;
+  height: 64px;
+  color: var(--zen-primary);
+}
+
+.forami-brand small {
+  color: var(--zen-fg-muted);
+  font-size: 11px;
+  letter-spacing: 0.14em;
 }
 
 /* Zen's rem-based typography and spacing assume the browser's default root size. */

@@ -53,7 +53,7 @@ export function mcpAuthErrorResponse(result: McpAuthResult) {
     {
       status: failure.status,
       headers: {
-        'www-authenticate': `Bearer realm="Umami MCP", error="${failure.error}"`,
+        'www-authenticate': `Bearer realm="Formami MCP", error="${failure.error}"`,
         'cache-control': 'no-store',
       },
     },

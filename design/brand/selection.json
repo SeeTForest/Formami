@@ -1,0 +1,12 @@
+{
+  "selectedCandidate": "03-negative-canopy",
+  "selectionBasis": "User image attachment overrides the earlier ambiguous ordinal selection",
+  "generator": "Built-in image_gen",
+  "reference": "user-selected-negative-canopy.png",
+  "master": "negative-canopy-transparent.png",
+  "prompt": "Extract the logo SYMBOL from the supplied user-approved Forami image, with utmost fidelity. This is the gold rounded negative-space canopy/F emblem, NOT the prior nested canopy or star design. Preserve exactly the outer almost-circular two gold lobes, flat top segment, rounded corners, central dark branching tree cutout and angular upward/right branch tips, the distinctive open bottom gap, and the original gold coloring and geometry. Remove only the 'Forami' wordmark and the dark background; negative-space tree holes must also be transparent. Center the unchanged emblem on a square genuinely transparent canvas, about 10 percent padding each side. No new design, no star, no added trunk or leaves, no border, no text. Clean antialiased edges. Use the attached image as the exact shape source, not loose inspiration.",
+  "source": "C:\\Users\\PerrinPC\\.codex\\generated_images\\01a00b0e-6057-7bf0-a406-3bc05db7e9b2\\exec-30c8a6ad-2944-4d56-b1c1-4cb3c5b7a7b8.png",
+  "supersedes": "selection-forest-echo-superseded.json",
+  "productName": "Formami",
+  "originalArtworkName": "Forami"
+}

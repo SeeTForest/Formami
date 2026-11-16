@@ -5,7 +5,6 @@ import {
   FormField,
   FormSubmitButton,
   Heading,
-  Icon,
   PasswordField,
   TextField,
 } from '@umami/react-zen';
@@ -38,10 +37,11 @@ export function LoginForm() {
 
   return (
     <Column justifyContent="center" alignItems="center" gap="6">
-      <Icon size="lg">
-        <Logo />
-      </Icon>
-      <Heading>umami</Heading>
+      <div className="forami-brand">
+        <Logo aria-hidden="true" />
+        <Heading>Formami</Heading>
+        <small>SEE THE FOREST</small>
+      </div>
       <Form
         onSubmit={handleSubmit}
         error={getErrorMessage(error)}

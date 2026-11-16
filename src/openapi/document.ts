@@ -102,17 +102,17 @@ export async function buildOpenApiDocument(
     {
       openapi: '3.1.0',
       info: {
-        title: 'Umami API',
+        title: 'Formami API',
         version,
         description:
-          'REST API for Umami analytics. Every App Router API operation is included. Operations marked with x-umami-contract: inferred are generated from handler source; colocated explicit contracts provide curated descriptions and exact response models. Self-hosted deployments serve these paths beneath their configured BASE_PATH.',
+          'REST API for Formami analytics (based on Umami). Every App Router API operation is included. Operations marked with x-umami-contract: inferred are generated from handler source; colocated explicit contracts provide curated descriptions and exact response models. Self-hosted deployments serve these paths beneath their configured BASE_PATH.',
         license: {
           name: 'MIT',
           identifier: 'MIT',
         },
       },
       externalDocs: {
-        description: 'Umami API documentation',
+        description: 'Upstream Umami API documentation',
         url: 'https://docs.umami.is/docs/api',
       },
       tags: getDocumentTags(paths),

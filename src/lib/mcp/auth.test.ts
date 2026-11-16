@@ -29,7 +29,7 @@ describe('authenticateMcpRequest', () => {
 
     expect(response.status).toBe(401);
     expect(response.headers.get('www-authenticate')).toBe(
-      'Bearer realm="Umami MCP", error="invalid_request"',
+      'Bearer realm="Formami MCP", error="invalid_request"',
     );
     expect(response.headers.get('cache-control')).toBe('no-store');
   });

@@ -1,13 +1,13 @@
 {
-  "name": "umami",
+  "name": "formami",
   "version": "3.5.0",
-  "description": "An open-source web and product analytics platform.",
+  "description": "Formami — web and product analytics in the See the Forest family, based on Umami.",
   "author": "Umami Software, Inc. <hello@umami.is>",
   "license": "MIT",
-  "homepage": "https://umami.is",
+  "homepage": "https://seetheforest.net",
   "repository": {
     "type": "git",
-    "url": "https://github.com/umami-software/umami.git"
+    "url": "https://github.com/SeeTForest/Formami.git"
   },
   "type": "module",
   "engines": {
@@ -70,7 +70,14 @@
     "lint": "biome lint .",
     "lint:i18n": "eloqnt lint",
     "format": "biome format --write .",
-    "check": "biome check --write"
+    "check": "biome check --write",
+    "local:setup": "node scripts/local-dev.mjs setup",
+    "local:dev": "node scripts/local-dev.mjs dev",
+    "local:build": "node scripts/local-dev.mjs build",
+    "local:stop": "node scripts/local-dev.mjs stop",
+    "build:brand": "node scripts/build-brand.mjs && svgr src/assets/logo.svg src/assets/logo-white.svg --out-dir src/components/svg --typescript --icon 24 --jsx-runtime automatic && biome check --write src/components/svg/Logo.tsx src/components/svg/LogoWhite.tsx",
+    "local:test": "node scripts/local-dev.mjs test",
+    "local:start": "node scripts/local-dev.mjs start"
   },
   "cacheDirectories": [
     ".next/cache"
@@ -171,5 +178,6 @@
     "vite": "^8.3.4",
     "vitest": "^5.0.3",
     "zod-openapi": "^6.0.2"
-  }
+  },
+  "private": true
 }
