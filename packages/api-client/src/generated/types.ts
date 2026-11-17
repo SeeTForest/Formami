@@ -2222,6 +2222,26 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/websites/{websiteId}/page-links': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get dashboard navigation links and optional tracked page URLs
+     * @description Requires a user session or API key with website access. Share tokens are not accepted. Dashboard paths include BASE_PATH, require browser login, and do not apply query filters or time ranges. Optional tracked page URLs use administrator-managed origins; no network requests or reachability guarantees. Feature availability and report configuration are unchanged.
+     */
+    get: operations['getWebsitePageLinks'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/websites/{websiteId}/pageviews': {
     parameters: {
       query?: never;
@@ -19129,6 +19149,93 @@ export interface operations {
            *       }
            *     }
            */
+          'application/json': components['schemas']['ApiError'];
+        };
+      };
+    };
+  };
+  getWebsitePageLinks: {
+    parameters: {
+      query?: {
+        /** @description Optional tracked page path, e.g. /docs. Resolved only against the website pageOrigins or domain allowlist; no URL is fetched. */
+        pagePath?: string;
+      };
+      header?: never;
+      path: {
+        /** @description Website ID. */
+        websiteId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful response. */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            pages: {
+              /** @description Unique identifier of the resource. */
+              id: string;
+              /** @description Origin-relative dashboard path, including BASE_PATH. Resolve against your trusted Formami origin. */
+              path: string;
+            }[];
+            /**
+             * @description Dashboard links are navigation entry points. They do not preserve API time ranges, filters, or report configuration.
+             * @constant
+             */
+            queryApplied: false;
+            /** @constant */
+            requiresLogin: true;
+            trackedPage: {
+              path: string;
+              /** @description Null for one resolved URL; ambiguousDomain indicates multiple candidates; other values explain why no safe URL could be constructed. Reachability is not checked. */
+              reason: string | null;
+              urls: string[];
+            } | null;
+            /**
+             * Format: uuid
+             * @description ID of the website.
+             */
+            websiteId: string;
+          };
+        };
+      };
+      /** @description Successful response. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ApiError'];
+        };
+      };
+      /** @description Successful response. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ApiError'];
+        };
+      };
+      /** @description Successful response. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ApiError'];
+        };
+      };
+      /** @description Successful response. */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
           'application/json': components['schemas']['ApiError'];
         };
       };

@@ -39,7 +39,10 @@ export function isApiKey(token?: string | null): token is string {
 // request.url keeps the path the client sent. Undo those rewrites (Next matches them
 // case-insensitively) so the check sees the route that handles the request.
 function getRewrittenPath(pathname: string) {
-  const path = pathname.replace(/^\/teams\/[^/]+(?=\/)/i, '');
+  let path = decodeURIComponent(pathname).toLowerCase();
+  const basePath = (process.env.BASE_PATH || '').replace(/\/+$/, '').toLowerCase();
+  if (basePath && path.startsWith(`${basePath}/`)) path = path.slice(basePath.length);
+  path = path.replace(/^\/teams\/[^/]+(?=\/)/i, '');
   const apiUrl = process.env.API_URL || '';
 
   if (apiUrl && !/^https?:\/\//i.test(apiUrl)) {
@@ -54,9 +57,15 @@ function getRewrittenPath(pathname: string) {
 }
 
 export function isApiKeyBlockedPath(pathname: string) {
-  const path = getRewrittenPath(pathname);
-
-  return API_KEY_BLOCKED_PATHS.some(blocked => path === blocked || path.startsWith(`${blocked}/`));
+  try {
+    const path = getRewrittenPath(pathname);
+    return API_KEY_BLOCKED_PATHS.some(
+      blocked => path === blocked || path.startsWith(`${blocked}/`),
+    );
+  } catch {
+    // Malformed URL encoding must not bypass credential-route restrictions.
+    return true;
+  }
 }
 
 export function isApiKeyEnabled() {

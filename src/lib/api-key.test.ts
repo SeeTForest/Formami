@@ -54,6 +54,22 @@ describe('isApiKey', () => {
 });
 
 describe('isApiKeyBlockedPath', () => {
+  test('normalizes base paths, casing and encoded paths before checking restrictions', () => {
+    vi.stubEnv('BASE_PATH', '/analytics');
+    vi.stubEnv('API_URL', '/formami-api');
+    for (const path of [
+      '/analytics/api/me/api-keys',
+      '/ANALYTICS/API/ME/API-KEYS/key',
+      '/analytics/teams/team/formami-api/ME/API-KEYS',
+      '/analytics/api/%6de/api-keys',
+      '/analytics/api/me%2fapi-keys',
+      '/analytics/api/%invalid',
+    ])
+      expect(isApiKeyBlockedPath(path)).toBe(true);
+    expect(isApiKeyBlockedPath('/analytics/api/websites')).toBe(false);
+    expect(isApiKeyBlockedPath('/analytics/api/me')).toBe(false);
+    expect(isApiKeyBlockedPath('/analytics-other/api/me/api-keys')).toBe(false);
+  });
   test('blocks credential and admin routes', () => {
     expect(isApiKeyBlockedPath('/api/me/password')).toBe(true);
     expect(isApiKeyBlockedPath('/api/me/api-keys')).toBe(true);

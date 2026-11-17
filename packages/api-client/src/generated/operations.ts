@@ -2200,6 +2200,14 @@ export const operations = {
     ],
     hasBody: false,
   },
+  getWebsitePageLinks: {
+    operationId: 'getWebsitePageLinks',
+    method: 'get',
+    path: '/api/websites/{websiteId}/page-links',
+    pathParams: ['websiteId'],
+    queryParams: ['pagePath'],
+    hasBody: false,
+  },
   getWebsitePageviews: {
     operationId: 'getWebsitePageviews',
     method: 'get',
@@ -4738,6 +4746,18 @@ export abstract class GeneratedFormamiClient {
     options?: RequestOptions,
   ): Promise<OperationOutput<'getWebsiteMetrics'>> {
     return this.execute('getWebsiteMetrics', input, options);
+  }
+
+  /**
+   * Get dashboard navigation links and optional tracked page URLs
+   * Requires a user session or API key with website access. Share tokens are not accepted. Dashboard paths include BASE_PATH, require browser login, and do not apply query filters or time ranges. Optional tracked page URLs use administrator-managed origins; no network requests or reachability guarantees. Feature availability and report configuration are unchanged.
+   * `GET /api/websites/{websiteId}/page-links`
+   */
+  getWebsitePageLinks(
+    input: OperationInput<'getWebsitePageLinks'>,
+    options?: RequestOptions,
+  ): Promise<OperationOutput<'getWebsitePageLinks'>> {
+    return this.execute('getWebsitePageLinks', input, options);
   }
 
   /**
