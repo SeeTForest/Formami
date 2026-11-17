@@ -1,23 +1,71 @@
 <p align="center"><img src="public/forami-icon.svg" alt="Formami" width="96" /></p>
 <h1 align="center">Formami</h1>
-<p align="center">See the Forest · 从访问与行为中看见产品的全貌</p>
+<p align="center">从访问与行为中看见产品的全貌</p>
 
-Formami 是基于 [Umami](https://github.com/umami-software/umami) 维护的自托管网站与产品分析工具，属于 See the Forest 产品系列。支持页面、来源、自定义事件、漏斗、留存与产品行为分析，采用 Formami Tracker 和 SDK 命名；旧接入需按[更名指南](docs/formami-naming-migration.md)迁移。
+Formami 是一款开源、自托管的网站与产品分析工具，帮助你了解用户从哪里来、如何使用产品，以及哪些行为带来转化和留存。
 
-## 本地开始
+## 主要能力
 
-安装 Node.js（本次验证版本 24.13.1），启动 Docker Desktop 的 Linux containers。在本仓库执行：
+- **访问分析**：查看访问量、访客、页面、来源、设备和地区分布。
+- **产品行为**：通过自定义事件和属性了解功能使用情况。
+- **转化与留存**：使用漏斗、用户旅程、目标和留存报告分析关键路径。
+- **实时洞察**：查看近期访问、会话和事件，观察产品变化带来的影响。
+- **团队协作**：通过网站、团队、角色和分享链接管理分析视图。
+- **程序化访问**：通过 API、TypeScript 客户端和 MCP 查询分析数据。
+
+## 快速开始
+
+### 环境要求
+
+- Node.js 24
+- pnpm 12.3.4
+- PostgreSQL 16
+
+本地体验也可以使用 Docker 启动隔离的数据库，步骤见[开发指南](docs/development.md)。
+
+### 安装依赖
+
+下载源码后，在项目根目录执行：
 
 ```sh
 npx --yes pnpm@12.3.4 install --frozen-lockfile
-npx --yes pnpm@12.3.4 run local:setup
-npx --yes pnpm@12.3.4 run local:dev
 ```
 
-访问 http://127.0.0.1:3035。新数据库初始账号 `admin` / `umami`（历史引导密码不随产品更名修改），登录后必须修改密码。本地应用直接通过 Node.js 运行，PostgreSQL 使用独立容器，仅绑定本机 55435 端口。
+### 配置数据库
 
-[开发、构建、测试与品牌维护说明](docs/development.md) 包含环境隔离、日常命令与兼容边界。
+在项目根目录创建 `.env` 文件：
+
+```dotenv
+DATABASE_URL=postgresql://username:password@localhost:5432/formami
+APP_SECRET=replace-with-a-random-secret
+```
+
+将示例替换为你的数据库连接和随机生成的应用密钥。
+
+### 构建和启动
+
+```sh
+npx --yes pnpm@12.3.4 run build
+npx --yes pnpm@12.3.4 run start
+```
+
+默认访问地址为 <http://localhost:3000>。首次构建会初始化数据库，创建用户名为 `admin`、初始密码为 `umami` 的管理员账号；首次登录后必须修改密码。
+
+当前依赖存在阻止完整构建的安全检查，修复前不应将此版本用于生产部署。验证状态见[构建说明](docs/formami-naming-migration.md#验证)。
+
+## 开始采集
+
+在管理界面添加网站，将生成的跟踪脚本放入网站页面，即可开始查看访问数据。使用 `formami.track()` 发送自定义事件，分析注册、功能使用或其他关键行为。
+
+已有接入升级时，请参阅[接入迁移指南](docs/formami-naming-migration.md)。
+
+## 开发与集成
+
+- [开发、测试与本地运行](docs/development.md)
+- [TypeScript API 客户端](packages/api-client/README.md)
+- [MCP 接入](packages/mcp/README.md)
+- [API 契约](src/openapi/README.md)
 
 ## 许可
 
-本仓库保留上游 [MIT LICENSE](LICENSE) 与原作者版权声明。第三方依赖、字体和数据资产按各自许可使用，商业发行前需单独完成相应审查。
+采用 [MIT License](LICENSE)。第三方依赖和资源遵循各自的许可证。
