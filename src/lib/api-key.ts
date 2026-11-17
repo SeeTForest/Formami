@@ -30,7 +30,9 @@ export function getApiKeyPrefix(key: string) {
 }
 
 export function isApiKey(token?: string | null): token is string {
-  return typeof token === 'string' && token.startsWith(API_KEY_PREFIX);
+  return (
+    typeof token === 'string' && (token.startsWith(API_KEY_PREFIX) || token.startsWith('umami_'))
+  );
 }
 
 // next.config.ts rewrites /teams/:teamId/:path* and a relative API_URL onto the API routes, but

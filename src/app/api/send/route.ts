@@ -1,6 +1,7 @@
 import { isbot } from 'isbot';
 import clickhouse from '@/lib/clickhouse';
 import { type CollectionCache, resolveIdentifiedSession } from '@/lib/collection-session';
+import { getCompatibleHeader } from '@/lib/compat';
 import { CACHE_TOKEN_TYPE, COLLECTION_TYPE, EVENT_TYPE, FIELD_LENGTH } from '@/lib/constants';
 import { hash, secret } from '@/lib/crypto';
 import { getClientInfo, hasBlockedIp } from '@/lib/detect';
@@ -64,7 +65,7 @@ export async function POST(request: Request) {
     let cache: CollectionCache | null = null;
 
     if (websiteId) {
-      const cacheHeader = request.headers.get('x-formami-cache');
+      const cacheHeader = getCompatibleHeader(request.headers, 'x-formami-cache');
 
       if (cacheHeader) {
         const result = await parseToken(cacheHeader, secret());

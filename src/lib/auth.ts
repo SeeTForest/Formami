@@ -6,6 +6,7 @@ import {
   isApiKeyBlockedPath,
   isApiKeyEnabled,
 } from '@/lib/api-key';
+import { getCompatibleHeader } from '@/lib/compat';
 import {
   AUTH_SESSION_TTL,
   PARTIAL_AUTH_TOKEN_TYPE,
@@ -149,7 +150,7 @@ export async function checkAuth(request: Request) {
   }
 
   if (!user?.id && shareToken) {
-    const shareContext = request.headers.get(SHARE_CONTEXT_HEADER);
+    const shareContext = getCompatibleHeader(request.headers, SHARE_CONTEXT_HEADER);
     if (!shareContext) {
       log('Share token used outside share context');
       return null;
@@ -200,7 +201,10 @@ export async function hasPermission(role: string, permission: string | string[])
 
 export async function parseShareToken(request: Request) {
   try {
-    const token: any = parseToken(request.headers.get(SHARE_TOKEN_HEADER), secret());
+    const token: any = parseToken(
+      getCompatibleHeader(request.headers, SHARE_TOKEN_HEADER),
+      secret(),
+    );
 
     // Only accept tokens explicitly minted as share tokens. This prevents other
     // tokens signed with the same secret (e.g. the cache token from /api/send)

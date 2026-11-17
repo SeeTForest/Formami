@@ -1,6 +1,8 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 
 afterEach(() => {
+  delete window.umami;
+  delete window.umamiConfig;
   delete (window as Window & { formami?: unknown }).formami;
   delete (window as Window & { formamiConfig?: unknown }).formamiConfig;
   delete (document as Document & { currentScript?: HTMLScriptElement | null }).currentScript;
@@ -39,6 +41,32 @@ test('identifies data-distinct-id before the initial page view', async () => {
     type: 'event',
     payload: { id: 'visitor-id', website: 'website-id' },
   });
+});
+
+test('legacy SDK alias and config send once and preserve legacy opt-out', async () => {
+  window.umamiConfig = {
+    websiteId: 'legacy-site',
+    hostUrl: 'https://analytics.example.com',
+    autoTrack: false,
+  };
+  Object.defineProperty(document, 'currentScript', { configurable: true, value: null });
+  const fetchMock = vi.fn().mockResolvedValue({ json: vi.fn().mockResolvedValue({}) });
+  vi.stubGlobal('fetch', fetchMock);
+  await import('./index');
+  expect(window.umami).toBe(window.formami);
+  await window.umami?.track('legacy-sdk');
+  expect(fetchMock).toHaveBeenCalledTimes(1);
+  expect(JSON.parse(fetchMock.mock.calls[0][1].body).payload.website).toBe('legacy-site');
+  vi.resetModules();
+  await import('./index');
+  expect(fetchMock).toHaveBeenCalledTimes(1);
+  localStorage.setItem('umami.disabled', '1');
+  try {
+    await window.formami.track('must-not-send');
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  } finally {
+    localStorage.removeItem('umami.disabled');
+  }
 });
 
 const loadTracker = async (framed: boolean) => {

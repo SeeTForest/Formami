@@ -181,6 +181,10 @@ declare global {
   interface Window {
     formami: FormamiTracker;
     formamiConfig?: FormamiConfig;
+    /** @deprecated Compatibility alias for existing Umami integrations. */
+    umami?: FormamiTracker;
+    /** @deprecated Use formamiConfig for new integrations. */
+    umamiConfig?: FormamiConfig;
   }
 }
 export type BeforeSend = (

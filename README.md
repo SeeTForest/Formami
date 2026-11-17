@@ -51,7 +51,7 @@ npx --yes pnpm@12.3.4 run start
 
 默认访问地址为 <http://localhost:3000>。首次构建会初始化数据库，创建用户名为 `admin`、初始密码为 `umami` 的管理员账号；首次登录后必须修改密码。
 
-当前依赖存在阻止完整构建的安全检查，修复前不应将此版本用于生产部署。验证状态见[构建说明](docs/formami-naming-migration.md#验证)。
+Next.js 已更新至 16.4.5，完整本地构建通过。升级现有实例前仍须备份并验证数据库迁移，见[构建与兼容说明](docs/formami-naming-migration.md#原位升级兼容)。
 
 ## 开始采集
 

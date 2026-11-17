@@ -564,19 +564,22 @@ describe('cache token handling', () => {
 
   // A valid token already proved the website exists, so repeat sends skip the lookup on the hot
   // path. Account collection blocks are enforced by the cloud gateway, not here.
-  test('a valid cache token skips session creation and the website lookup when it matches the computed session', async () => {
-    const timestamp = 1704067200;
-    const token = makeCacheToken({ sessionId: makeComputedSessionId(WEBSITE_ID, timestamp) });
+  test.each(['x-formami-cache', 'x-umami-cache'])(
+    'a valid %s token skips session creation and website lookup when it matches the computed session',
+    async header => {
+      const timestamp = 1704067200;
+      const token = makeCacheToken({ sessionId: makeComputedSessionId(WEBSITE_ID, timestamp) });
 
-    const response = await callPOST(
-      { type: 'event', payload: { website: WEBSITE_ID, url: '/', timestamp } },
-      { headers: { 'x-formami-cache': token } },
-    );
+      const response = await callPOST(
+        { type: 'event', payload: { website: WEBSITE_ID, url: '/', timestamp } },
+        { headers: { [header]: token } },
+      );
 
-    expect(fetchWebsiteMock).not.toHaveBeenCalled();
-    expect(createSessionMock).not.toHaveBeenCalled();
-    await expect(response.json()).resolves.toMatchObject({ visitId: 'cached-visit' });
-  });
+      expect(fetchWebsiteMock).not.toHaveBeenCalled();
+      expect(createSessionMock).not.toHaveBeenCalled();
+      await expect(response.json()).resolves.toMatchObject({ visitId: 'cached-visit' });
+    },
+  );
 
   test('a valid cache token creates the computed session before event writes when the cached session differs', async () => {
     const token = makeCacheToken({ sessionId: 'cached-session' });

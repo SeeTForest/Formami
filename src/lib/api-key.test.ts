@@ -46,6 +46,7 @@ describe('getApiKeyPrefix', () => {
 describe('isApiKey', () => {
   test('detects api keys by prefix', () => {
     expect(isApiKey('formami_abc')).toBe(true);
+    expect(isApiKey('umami_abc')).toBe(true);
     expect(isApiKey('eyJhbGciOi')).toBe(false);
     expect(isApiKey(undefined)).toBe(false);
     expect(isApiKey(null)).toBe(false);

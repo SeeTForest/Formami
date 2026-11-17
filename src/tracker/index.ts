@@ -197,6 +197,10 @@ declare global {
   interface Window {
     formami: FormamiTracker;
     formamiConfig?: FormamiConfig;
+    /** @deprecated Compatibility alias for existing Umami integrations. */
+    umami?: FormamiTracker;
+    /** @deprecated Use formamiConfig for new integrations. */
+    umamiConfig?: FormamiConfig;
   }
 }
 
@@ -254,6 +258,12 @@ type MetricEntry = PerformanceEntry & {
   value: number;
 };
 (window => {
+  // Do not install a second tracker or duplicate listeners on mixed/duplicate loads.
+  if (window.formami || window.umami) {
+    window.formami ||= window.umami as FormamiTracker;
+    window.umami ||= window.formami;
+    return;
+  }
   const {
     screen: { width, height },
     navigator: { language, doNotTrack: ndnt, msDoNotTrack: msdnt },
@@ -264,7 +274,7 @@ type MetricEntry = PerformanceEntry & {
     doNotTrack,
   } = window;
   const { currentScript, referrer } = document as TrackerDocument;
-  const globalConfig = window.formamiConfig || {};
+  const globalConfig = window.formamiConfig || window.umamiConfig || {};
   if (!currentScript && !globalConfig.websiteId) return;
 
   const { hostname, href, origin } = location;
@@ -324,8 +334,8 @@ type MetricEntry = PerformanceEntry & {
 
   const endpoint = `${host.replace(/\/$/, '')}__COLLECT_API_ENDPOINT__`;
   const screen = `${width}x${height}`;
-  const eventRegex = /data-formami-event-([\w-_]+)/;
   const eventNameAttribute = `${_data}formami-event`;
+  const legacyEventAttribute = `${_data}umami-event`;
   const delayDuration = 300;
 
   /* Helper functions */
@@ -412,7 +422,9 @@ type MetricEntry = PerformanceEntry & {
 
   const handleClicks = () => {
     const trackElement = async (el: Element) => {
-      const eventName = el.getAttribute(eventNameAttribute);
+      const prefix = el.hasAttribute(eventNameAttribute) ? 'formami' : 'umami';
+      const eventName = el.getAttribute(`${_data}${prefix}-event`);
+      const eventRegex = new RegExp(`^data-${prefix}-event-([\\w-_]+)$`);
       if (eventName) {
         const eventData: EventData = {};
 
@@ -427,7 +439,7 @@ type MetricEntry = PerformanceEntry & {
     const onClick = (e: MouseEvent) => {
       const el = e.target as Element | null;
       if (!el || typeof el.closest !== 'function') return;
-      const eventEl = el.closest(`[${eventNameAttribute}]`);
+      const eventEl = el.closest(`[${eventNameAttribute}], [${legacyEventAttribute}]`);
       if (!eventEl) return;
 
       if (eventEl.tagName === 'A' && (eventEl as HTMLAnchorElement).href) {
@@ -457,7 +469,8 @@ type MetricEntry = PerformanceEntry & {
     disabled ||
     !website ||
     localStorage?.getItem('formami.disabled') ||
-    (window.name === 'formami.disabled' && top !== window) ||
+    localStorage?.getItem('umami.disabled') ||
+    (['formami.disabled', 'umami.disabled'].includes(window.name) && top !== window) ||
     (domain && !domains.includes(hostname)) ||
     (dnt && hasDoNotTrack());
 
@@ -763,6 +776,7 @@ type MetricEntry = PerformanceEntry & {
       getSession: () => ({ cache, website }),
       ...errors,
     } as FormamiTracker;
+    window.umami = window.formami;
   }
 
   if (distinctId) {
