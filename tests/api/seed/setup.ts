@@ -195,7 +195,7 @@ async function waitForAnalytics(admin: ApiClient, dataset: Dataset, ingested: In
 }
 
 export async function seedEnvironment(api: ApiClient): Promise<SeedState> {
-  const db = process.env.UMAMI_TEST_DB === 'clickhouse' ? 'clickhouse' : 'postgres';
+  const db = process.env.FORMAMI_TEST_DB === 'clickhouse' ? 'clickhouse' : 'postgres';
 
   const admin = api.bearer(await login(api, ADMIN_USER));
   const user = await ensureUser(admin, SEED_USERS.user);

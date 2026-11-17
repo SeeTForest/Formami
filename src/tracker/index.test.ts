@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 
 afterEach(() => {
-  delete (window as Window & { umami?: unknown }).umami;
-  delete (window as Window & { umamiConfig?: unknown }).umamiConfig;
+  delete (window as Window & { formami?: unknown }).formami;
+  delete (window as Window & { formamiConfig?: unknown }).formamiConfig;
   delete (document as Document & { currentScript?: HTMLScriptElement | null }).currentScript;
   delete (document as Document & { readyState?: DocumentReadyState }).readyState;
   delete (document as Document & { visibilityState?: DocumentVisibilityState }).visibilityState;
@@ -54,11 +54,11 @@ const loadTracker = async (framed: boolean) => {
   const fetchMock = vi.fn().mockResolvedValue({ json: vi.fn().mockResolvedValue({}) });
   vi.stubGlobal('fetch', fetchMock);
   if (framed) vi.stubGlobal('top', {});
-  window.name = 'umami.disabled';
+  window.name = 'formami.disabled';
 
   try {
     await import('./index');
-    await window.umami.track('signup-button');
+    await window.formami.track('signup-button');
   } finally {
     window.name = '';
   }
@@ -66,11 +66,11 @@ const loadTracker = async (framed: boolean) => {
   return fetchMock;
 };
 
-test('does not track when loaded in a frame named umami.disabled', async () => {
+test('does not track when loaded in a frame named formami.disabled', async () => {
   expect(await loadTracker(true)).not.toHaveBeenCalled();
 });
 
-test('still tracks in a top-level window named umami.disabled', async () => {
+test('still tracks in a top-level window named formami.disabled', async () => {
   expect(await loadTracker(false)).toHaveBeenCalled();
 });
 
@@ -99,7 +99,7 @@ test('ignores clicks dispatched on non-element targets', async () => {
   expect(errors).toHaveLength(0);
 });
 
-test('configures tracker from umamiConfig only, with no data-* attributes', async () => {
+test('configures tracker from formamiConfig only, with no data-* attributes', async () => {
   const script = document.createElement('script');
   script.src = 'https://analytics.example.com/script.js';
 
@@ -108,7 +108,7 @@ test('configures tracker from umamiConfig only, with no data-* attributes', asyn
     readyState: { configurable: true, value: 'complete' },
   });
 
-  window.umamiConfig = {
+  window.formamiConfig = {
     websiteId: 'global-website-id',
     tag: 'custom-tag',
   };
@@ -123,14 +123,14 @@ test('configures tracker from umamiConfig only, with no data-* attributes', asyn
   const request = JSON.parse(init.body);
 
   expect(url).toBe('https://analytics.example.com/api/send');
-  expect(init.headers['x-umami-website-id']).toBe('global-website-id');
+  expect(init.headers['x-formami-website-id']).toBe('global-website-id');
   expect(request.payload).toMatchObject({
     website: 'global-website-id',
     tag: 'custom-tag',
   });
 });
 
-test('data-* attribute takes precedence over umamiConfig', async () => {
+test('data-* attribute takes precedence over formamiConfig', async () => {
   const script = document.createElement('script');
   script.src = 'https://analytics.example.com/script.js';
   script.dataset.websiteId = 'attr-website-id';
@@ -141,7 +141,7 @@ test('data-* attribute takes precedence over umamiConfig', async () => {
     readyState: { configurable: true, value: 'complete' },
   });
 
-  window.umamiConfig = {
+  window.formamiConfig = {
     websiteId: 'global-website-id',
     tag: 'global-tag',
   };
@@ -155,12 +155,12 @@ test('data-* attribute takes precedence over umamiConfig', async () => {
   const [, init] = fetchMock.mock.calls[0];
   const request = JSON.parse(init.body);
 
-  expect(init.headers['x-umami-website-id']).toBe('attr-website-id');
+  expect(init.headers['x-formami-website-id']).toBe('attr-website-id');
   expect(request.payload.website).toBe('attr-website-id');
   expect(request.payload.tag).toBe('attr-tag');
 });
 
-test('tracks when the hostname is in domains given as an array in umamiConfig', async () => {
+test('tracks when the hostname is in domains given as an array in formamiConfig', async () => {
   const script = document.createElement('script');
   script.src = 'https://analytics.example.com/script.js';
   script.dataset.websiteId = 'website-id';
@@ -170,7 +170,7 @@ test('tracks when the hostname is in domains given as an array in umamiConfig', 
     readyState: { configurable: true, value: 'complete' },
   });
 
-  window.umamiConfig = {
+  window.formamiConfig = {
     domains: ['other.com', location.hostname],
   };
 
@@ -182,7 +182,7 @@ test('tracks when the hostname is in domains given as an array in umamiConfig', 
   await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
 });
 
-test('does not track when the hostname is not in domains given as an array in umamiConfig', async () => {
+test('does not track when the hostname is not in domains given as an array in formamiConfig', async () => {
   const script = document.createElement('script');
   script.src = 'https://analytics.example.com/script.js';
   script.dataset.websiteId = 'website-id';
@@ -192,7 +192,7 @@ test('does not track when the hostname is not in domains given as an array in um
     readyState: { configurable: true, value: 'complete' },
   });
 
-  window.umamiConfig = {
+  window.formamiConfig = {
     domains: ['disallowed.com', 'other.com'],
   };
 
@@ -205,7 +205,7 @@ test('does not track when the hostname is not in domains given as an array in um
   expect(fetchMock).not.toHaveBeenCalled();
 });
 
-test('applies beforeSend given as a function in umamiConfig', async () => {
+test('applies beforeSend given as a function in formamiConfig', async () => {
   const script = document.createElement('script');
   script.src = 'https://analytics.example.com/script.js';
   script.dataset.websiteId = 'website-id';
@@ -220,7 +220,7 @@ test('applies beforeSend given as a function in umamiConfig', async () => {
     customProp: 'modified',
   }));
 
-  window.umamiConfig = {
+  window.formamiConfig = {
     beforeSend: beforeSendFn,
   };
 
@@ -236,7 +236,7 @@ test('applies beforeSend given as a function in umamiConfig', async () => {
   expect(request.payload.customProp).toBe('modified');
 });
 
-test('applies beforeSend given as a string name in umamiConfig', async () => {
+test('applies beforeSend given as a string name in formamiConfig', async () => {
   const script = document.createElement('script');
   script.src = 'https://analytics.example.com/script.js';
   script.dataset.websiteId = 'website-id';
@@ -252,7 +252,7 @@ test('applies beforeSend given as a string name in umamiConfig', async () => {
   }));
   (window as unknown as Record<string, unknown>).myBeforeSendHook = globalHook;
 
-  window.umamiConfig = {
+  window.formamiConfig = {
     beforeSend: 'myBeforeSendHook',
   };
 
@@ -276,7 +276,7 @@ test('does not initialize when there is no currentScript and no hostUrl', async 
     readyState: { configurable: true, value: 'complete' },
   });
 
-  window.umamiConfig = {
+  window.formamiConfig = {
     websiteId: 'website-id',
   };
 
@@ -287,16 +287,16 @@ test('does not initialize when there is no currentScript and no hostUrl', async 
 
   await new Promise(resolve => setTimeout(resolve, 50));
   expect(fetchMock).not.toHaveBeenCalled();
-  expect(window.umami).toBeUndefined();
+  expect(window.formami).toBeUndefined();
 });
 
-test('initializes without currentScript when websiteId and hostUrl are provided in umamiConfig', async () => {
+test('initializes without currentScript when websiteId and hostUrl are provided in formamiConfig', async () => {
   Object.defineProperties(document, {
     currentScript: { configurable: true, value: null },
     readyState: { configurable: true, value: 'complete' },
   });
 
-  window.umamiConfig = {
+  window.formamiConfig = {
     websiteId: 'website-id',
     hostUrl: 'https://analytics.example.com',
   };
@@ -309,8 +309,8 @@ test('initializes without currentScript when websiteId and hostUrl are provided 
   await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
   const [url, init] = fetchMock.mock.calls[0];
   expect(url).toBe('https://analytics.example.com/api/send');
-  expect(init.headers['x-umami-website-id']).toBe('website-id');
-  expect(window.umami).toBeDefined();
+  expect(init.headers['x-formami-website-id']).toBe('website-id');
+  expect(window.formami).toBeDefined();
 });
 
 const loadTrackerWithSalt = async (setup: (script: HTMLScriptElement) => void) => {
@@ -341,9 +341,9 @@ test('sends data-salt in the payload', async () => {
   expect(payload.salt).toBe('2026-10-30');
 });
 
-test('sends umamiConfig.salt in the payload', async () => {
+test('sends formamiConfig.salt in the payload', async () => {
   const payload = await loadTrackerWithSalt(() => {
-    window.umamiConfig = { salt: '2026-10-30' };
+    window.formamiConfig = { salt: '2026-10-30' };
   });
 
   expect(payload.salt).toBe('2026-10-30');
@@ -390,9 +390,9 @@ describe('data-salt-rotation', () => {
     expect(payload.salt).toBe('2026-11-29');
   });
 
-  test('reads umamiConfig.saltRotation', async () => {
+  test('reads formamiConfig.saltRotation', async () => {
     const payload = await loadTrackerWithSalt(() => {
-      window.umamiConfig = { saltRotation: 'daily' };
+      window.formamiConfig = { saltRotation: 'daily' };
     });
 
     expect(payload.salt).toBe('2026-11-04');
@@ -423,7 +423,7 @@ describe('data-salt-rotation', () => {
 
     vi.setSystemTime(new Date('2026-11-04T16:00:00Z'));
     const fetchMock = vi.mocked(fetch);
-    await window.umami.track('later');
+    await window.formami.track('later');
 
     const request = JSON.parse(fetchMock.mock.lastCall?.[1]?.body as string);
     expect(request.payload.salt).toBe('2026-11-04T16');

@@ -1,4 +1,4 @@
-// ISO 3166-1 alpha-3 to alpha-2. Umami stores and labels countries by alpha-2 code, while some
+// ISO 3166-1 alpha-3 to alpha-2. Formami stores and labels countries by alpha-2 code, while some
 // sources (such as Google Search Console) report alpha-3.
 const ALPHA3_TO_ALPHA2: Record<string, string> = {
   ABW: 'AW',

@@ -2,7 +2,7 @@
 <h1 align="center">Formami</h1>
 <p align="center">See the Forest · 从访问与行为中看见产品的全貌</p>
 
-Formami 是基于 [Umami](https://github.com/umami-software/umami) 维护的自托管网站与产品分析工具，属于 See the Forest 产品系列。支持页面、来源、自定义事件、漏斗、留存与产品行为分析，保留 Umami Tracker 和 SDK 接入协议。
+Formami 是基于 [Umami](https://github.com/umami-software/umami) 维护的自托管网站与产品分析工具，属于 See the Forest 产品系列。支持页面、来源、自定义事件、漏斗、留存与产品行为分析，采用 Formami Tracker 和 SDK 命名；旧接入需按[更名指南](docs/formami-naming-migration.md)迁移。
 
 ## 本地开始
 
@@ -14,7 +14,7 @@ npx --yes pnpm@12.3.4 run local:setup
 npx --yes pnpm@12.3.4 run local:dev
 ```
 
-访问 http://127.0.0.1:3035。新数据库初始账号 `admin` / `umami`，登录后必须修改密码。本地应用直接通过 Node.js 运行，PostgreSQL 使用独立容器，仅绑定本机 55435 端口。
+访问 http://127.0.0.1:3035。新数据库初始账号 `admin` / `umami`（历史引导密码不随产品更名修改），登录后必须修改密码。本地应用直接通过 Node.js 运行，PostgreSQL 使用独立容器，仅绑定本机 55435 端口。
 
 [开发、构建、测试与品牌维护说明](docs/development.md) 包含环境隔离、日常命令与兼容边界。
 

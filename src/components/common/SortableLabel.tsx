@@ -1,6 +1,6 @@
 'use client';
 
-import { Icon } from '@umami/react-zen';
+import { Icon } from '@formami/react-zen';
 import type { ReactNode } from 'react';
 import { useNavigation } from '@/components/hooks';
 import { ChevronDown, ChevronUp } from '@/components/icons';

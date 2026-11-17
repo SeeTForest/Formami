@@ -1,5 +1,5 @@
 'use client';
-import { Loading } from '@umami/react-zen';
+import { Loading } from '@formami/react-zen';
 import { usePathname, useRouter } from 'next/navigation';
 import { createContext, type ReactNode, useEffect } from 'react';
 import { useShareTokenQuery } from '@/components/hooks';

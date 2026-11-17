@@ -1,14 +1,14 @@
 import debug from 'debug';
 import { createClient, type RedisClientType } from 'redis';
 
-const log = debug('umami:redis-client');
+const log = debug('formami:redis-client');
 
 export const DELETED = '__DELETED__';
 export const DEFAULT_TTL = 3600;
 
 const logError = (err: unknown) => log(err);
 
-class UmamiRedisClient {
+class FormamiRedisClient {
   url: string;
   client: RedisClientType;
   isConnected: boolean;
@@ -106,7 +106,7 @@ const REDIS = 'redis';
 const enabled = !!process.env.REDIS_URL;
 
 function getClient() {
-  const redis = new UmamiRedisClient(process.env.REDIS_URL);
+  const redis = new FormamiRedisClient(process.env.REDIS_URL);
   const originalConnect = redis.connect.bind(redis);
   let connectPromise: Promise<void> | null = null;
 
@@ -148,6 +148,6 @@ function getClient() {
   return redis;
 }
 
-const client: UmamiRedisClient = globalThis[REDIS] || getClient();
+const client: FormamiRedisClient = globalThis[REDIS] || getClient();
 
 export default { client, enabled };

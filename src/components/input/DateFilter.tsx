@@ -1,4 +1,11 @@
-import { Dialog, ListItem, ListSeparator, Modal, Select, type SelectProps } from '@umami/react-zen';
+import {
+  Dialog,
+  ListItem,
+  ListSeparator,
+  Modal,
+  Select,
+  type SelectProps,
+} from '@formami/react-zen';
 import { Fragment, type Key, useState } from 'react';
 import { ControlledDialog } from '@/components/common/ControlledDialog';
 import { DateDisplay } from '@/components/common/DateDisplay';

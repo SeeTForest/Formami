@@ -9,7 +9,9 @@ import {
   TabPanel,
   Tabs,
   TextField,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
+import { Avatar } from '@/components/common/Avatar';
+import { LoadingPanel } from '@/components/common/LoadingPanel';
 import {
   useConfig,
   useMessages,
@@ -18,11 +20,9 @@ import {
   useWebsiteSessionQuery,
 } from '@/components/hooks';
 import { X } from '@/components/icons';
-import { Avatar } from '@/components/common/Avatar';
-import { LoadingPanel } from '@/components/common/LoadingPanel';
 import { SessionActivity } from './SessionActivity';
-import { SessionDeleteButton } from './SessionDeleteButton';
 import { SessionData } from './SessionData';
+import { SessionDeleteButton } from './SessionDeleteButton';
 import { SessionInfo } from './SessionInfo';
 import { SessionReplaysDataTable } from './SessionReplaysDataTable';
 import { SessionStats } from './SessionStats';
@@ -66,11 +66,7 @@ export function SessionProfile({
               style={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }}
             >
               {showDeleteButton && (
-                <SessionDeleteButton
-                  websiteId={websiteId}
-                  sessionId={sessionId}
-                  onSave={onClose}
-                />
+                <SessionDeleteButton websiteId={websiteId} sessionId={sessionId} onSave={onClose} />
               )}
               <Button onPress={onClose} variant="quiet">
                 <Icon>

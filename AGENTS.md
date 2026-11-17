@@ -5,7 +5,7 @@
 - 当前阶段只做本地开发与测试。未经明确授权，不部署、提交、推送或连接生产数据库。
 - 本地环境使用 `local:setup` / `local:dev` / `local:build`，数据库仅为 127.0.0.1:55435/forami，应用仅绑定 127.0.0.1:3035。
 - `.env`、真实密码与 Token 不得提交或输出；本机测试默认值须明确标注用途。不得读取父工程生产凭据用于开发。
-- 展示品牌为 Formami；保留 Umami SDK/API 协议、数据结构与迁移兼容性，不做全文替换标识符。
+- 展示品牌和自有标识统一为 Formami/formami（2026-11-17 用户明确要求）。Tracker、包名、请求头、存储键等使用新名称；保留上游版权、真实第三方来源及不可改写的历史迁移，见 docs/formami-naming-migration.md。
 - Logo 使用用户附图确认的「负形树冠」方案（原候选 3），母版为 design/brand/negative-canopy-transparent.png；使用 build:brand 生成 src/assets/logo.svg、React 组件与浏览器图标，不手工重绘或修改生成文件。
 - 保留上游 LICENSE 与第三方署名，不把品牌替换当成许可审核。
 - 构建忽略类型错误，因此交付时单独运行 tsc，并执行相关单元测试和本地浏览器验证。报告实际结果与未验证范围。

@@ -4,7 +4,7 @@ import { addCustomEvent, record } from 'rrweb';
   const { document } = window;
   const { currentScript } = document;
 
-  const globalConfig = window.umamiConfig || {};
+  const globalConfig = window.formamiConfig || {};
   if (!currentScript && !globalConfig.websiteId) return;
 
   const _data = 'data-';
@@ -38,7 +38,7 @@ import { addCustomEvent, record } from 'rrweb';
   const REPLAY_FLUSH_EVENT_COUNT = 100;
   const REPLAY_FLUSH_INTERVAL = 2000;
   const REPLAY_MAX_PAYLOAD_SIZE = 500000;
-  const REPLAY_FRAGMENT_TYPE = 'umami:rrweb-event-fragment';
+  const REPLAY_FRAGMENT_TYPE = 'formami:rrweb-event-fragment';
   const REPLAY_FRAGMENT_TOTAL_PLACEHOLDER = 999999999;
   const RRWEB_EVENT_TYPE = {
     FullSnapshot: 2,
@@ -64,7 +64,7 @@ import { addCustomEvent, record } from 'rrweb';
   let replayStopped = false;
   let heatmapStarted = false;
 
-  const getSessionCache = () => window.umami?.getSession?.()?.cache;
+  const getSessionCache = () => window.formami?.getSession?.()?.cache;
 
   const getPayloadBody = (type, payload) =>
     JSON.stringify({
@@ -135,7 +135,7 @@ import { addCustomEvent, record } from 'rrweb';
       body,
       headers: {
         'Content-Type': 'application/json',
-        'x-umami-cache': cache,
+        'x-formami-cache': cache,
       },
       credentials: 'omit',
     }).catch(() => {});

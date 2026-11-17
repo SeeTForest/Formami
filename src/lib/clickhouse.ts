@@ -1,6 +1,7 @@
 import { type ClickHouseClient, createClient } from '@clickhouse/client';
 import { formatInTimeZone } from 'date-fns-tz';
 import debug from 'debug';
+import { countryFilterValue, countrySQL } from '@/lib/country-policy';
 import { CLICKHOUSE } from '@/lib/db';
 import { DATA_TYPE, DEFAULT_PAGE_SIZE, FILTER_COLUMNS, OPERATORS } from './constants';
 import { filtersObjectToArray } from './params';
@@ -29,7 +30,7 @@ const CLICKHOUSE_BUCKET_FORMATS = {
   year: '%Y-01-01T00:00:00Z',
 };
 
-const log = debug('umami:clickhouse');
+const log = debug('formami:clickhouse');
 
 const EQUALITY_OPERATORS: Operator[] = [OPERATORS.equals, OPERATORS.notEquals];
 const REGEX_OPERATORS: Operator[] = [OPERATORS.regex, OPERATORS.notRegex];
@@ -121,6 +122,8 @@ function mapFilter(
 ) {
   const param = paramName ?? name;
   const value = `{${param}:${type}}`;
+
+  if (column === 'country' || column === 'website_event.country') column = countrySQL(column);
 
   switch (operator) {
     case OPERATORS.equals:
@@ -254,6 +257,7 @@ function getQueryParams(filters: Record<string, any>) {
 
       if (!resolvedColumn || !name || value === undefined) return obj;
 
+      if (resolvedColumn === 'country') value = countryFilterValue(value, operator);
       const key = paramName ?? name;
 
       obj[key] = EQUALITY_OPERATORS.includes(operator)

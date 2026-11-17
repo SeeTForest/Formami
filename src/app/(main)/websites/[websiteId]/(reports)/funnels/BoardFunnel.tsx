@@ -1,4 +1,4 @@
-import { Text } from '@umami/react-zen';
+import { Text } from '@formami/react-zen';
 import { EmptyPlaceholder } from '@/components/common/EmptyPlaceholder';
 import { LoadingPanel } from '@/components/common/LoadingPanel';
 import { useFunnelDefinitionQuery } from '@/components/hooks/queries/useSavedDefinitionsQuery';

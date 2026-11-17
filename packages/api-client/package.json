@@ -1,7 +1,7 @@
 {
-  "name": "@umami/api-client",
+  "name": "@formami/api-client",
   "version": "0.81.0",
-  "description": "TypeScript client for the Umami API, generated from the Umami OpenAPI contract.",
+  "description": "TypeScript client for the Formami API, generated from the Formami OpenAPI contract.",
   "author": "Umami Software, Inc. <hello@umami.is>",
   "license": "MIT",
   "type": "module",

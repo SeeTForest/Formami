@@ -36,7 +36,7 @@ npx --yes pnpm@12.3.4 run local:test
 
 `local:build` 执行完整构建及本地迁移。`local:test` 以 UTC、最多两个 Worker 运行单元测试，再运行 API Client 与 MCP 包测试，避免宿主时区和过高并行度影响结果。构建后可运行 `local:start` 本地预览；它与 `local:dev` 共用 3035 端口，不能同时启动。Next.js 上游配置忽略类型错误，因此必须单独运行 `tsc`。GeoIP 下载关闭意味着本地测试不验证真实地区识别；发布前需另行准备有适用许可的数据并验证。
 
-首次运行浏览器测试前执行 `npx --yes pnpm@12.3.4 exec playwright install chromium --only-shell`。浏览器测试使用隔离的本地实例。设置 `PLAYWRIGHT_BASE_URL=http://127.0.0.1:3035`、`PLAYWRIGHT_SKIP_WEB_SERVER=1`、`UMAMI_USER=admin`、`UMAMI_PASSWORD` 为本地测试密码，再执行 `pnpm exec playwright test`。测试的 setup 会将新数据库的引导密码改为该密码，并创建测试网站/用户；不得对生产 URL 执行。截图和报告保存在被忽略的 `test-results/`、`playwright-report/`。
+首次运行浏览器测试前执行 `npx --yes pnpm@12.3.4 exec playwright install chromium --only-shell`。浏览器测试使用隔离的本地实例。设置 `PLAYWRIGHT_BASE_URL=http://127.0.0.1:3035`、`PLAYWRIGHT_SKIP_WEB_SERVER=1`、`FORMAMI_USER=admin`、`FORMAMI_PASSWORD` 为本地测试密码，再执行 `pnpm exec playwright test`。测试的 setup 会将新数据库的引导密码改为该密码，并创建测试网站/用户；不得对生产 URL 执行。截图和报告保存在被忽略的 `test-results/`、`playwright-report/`。
 
 ## 品牌与兼容性
 
@@ -44,7 +44,7 @@ npx --yes pnpm@12.3.4 run local:test
 - `pnpm run build:brand` 从母版生成透明 PNG、含嵌入位图的 SVG、React 图标、ICO 和各尺寸 PNG；SVG 是交付容器，不是手工重绘的矢量。修改 Logo 后运行此命令，不单独手改生成文件。
 - UI 图标统一使用深色圆角底，保证浅色和深色界面中的金色树冠可辨识；保留的 `LogoWhite` 导出也使用同一彩色图标。浏览器使用 PNG/ICO favicon，已停用旧的 Safari 单色 mask 链接。
 - 浅色界面使用深金色 `#725522`，深色界面使用暖金色 `#e0c58c`，应用图标背景为 `#0a0d12`。
-- 产品展示名称改为 Formami；现有 `window.umami`、`data-umami-*`、`x-umami-*`、存储键、数据库迁移和 `@umami/*` 包名保持兼容，已有 Umami SDK 无需仅因改名而改协议。
+- 自有标识已统一为 `window.formami`、`data-formami-*`、`x-formami-*`、`formami.*` 存储键和 `@formami/*` 包名。旧接入需要更新，见 [更名迁移指南](formami-naming-migration.md)。数据库历史迁移与已有账户密码不改写。
 - `LICENSE` 中原作者版权和第三方许可保留。此轮品牌修改不代表已完成商业发行许可审查。
 - 上游文档链接仍用于说明兼容接口；项目主页指向 See the Forest，源码链接指向 Formami。现有生产部署仍独立维护，升级/迁移必须单独规划和授权。
 

@@ -1,4 +1,4 @@
-import { Button, Column, Row, useToast } from '@umami/react-zen';
+import { Button, Column, Row, useToast } from '@formami/react-zen';
 import { useState } from 'react';
 import { IconLabel } from '@/components/common/IconLabel';
 import { useConfig, useMessages, useModified } from '@/components/hooks';
@@ -48,7 +48,10 @@ export function WebsiteAddButton({ teamId, onSave }: { teamId: string; onSave?: 
       >
         {({ close }) =>
           createdWebsite ? (
-            <TrackingCodeStep websiteId={createdWebsite.id} onClose={() => handleOpenChange(false)} />
+            <TrackingCodeStep
+              websiteId={createdWebsite.id}
+              onClose={() => handleOpenChange(false)}
+            />
           ) : (
             <WebsiteAddForm
               teamId={teamId}

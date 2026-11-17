@@ -1,7 +1,7 @@
 {
-  "name": "@umami/components",
+  "name": "@formami/components",
   "version": "0.130.0",
-  "description": "Umami React components.",
+  "description": "Formami React components.",
   "author": "Mike Cao <mike@mikecao.com>",
   "license": "MIT",
   "type": "module",

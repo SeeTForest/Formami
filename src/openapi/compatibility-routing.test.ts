@@ -46,12 +46,12 @@ describe('legacy report compatibility routing', () => {
 
   test('preserves a configured base path', async () => {
     const response = await unstable_getResponseFromNextConfig({
-      url: 'https://example.com/umami/api/reports/funnel?websiteId=website-id',
-      nextConfig: { ...nextConfig, basePath: '/umami' },
+      url: 'https://example.com/formami/api/reports/funnel?websiteId=website-id',
+      nextConfig: { ...nextConfig, basePath: '/formami' },
     });
 
     expect(getRewrittenUrl(response)).toBe(
-      'https://example.com/umami/compat/api/reports/funnel?websiteId=website-id',
+      'https://example.com/formami/compat/api/reports/funnel?websiteId=website-id',
     );
   });
 });

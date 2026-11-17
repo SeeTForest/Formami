@@ -1,4 +1,4 @@
-import { Box, Column, Grid, Icon, ProgressBar, Row, Text } from '@umami/react-zen';
+import { Box, Column, Grid, Icon, ProgressBar, Row, Text } from '@formami/react-zen';
 import { LoadingPanel } from '@/components/common/LoadingPanel';
 import { useFunnelQuery, useMessages, useNavigation, useOperatorLabels } from '@/components/hooks';
 import { File, User } from '@/components/icons';

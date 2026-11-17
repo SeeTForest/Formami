@@ -126,7 +126,7 @@ async function findAdminUser(prisma: PrismaClient): Promise<string> {
     throw new Error(
       'No admin user found in the database.\n' +
         'Please ensure you have run the initial setup and created an admin user.\n' +
-        'The default admin user is created during first build (username: admin, password: umami).',
+        'The default admin user is created during first build (username: admin, password: umami; historical migration bootstrap).',
     );
   }
 
@@ -275,7 +275,7 @@ function createPrismaClient(): PrismaClient {
     throw new Error(
       'DATABASE_URL environment variable is not set.\n' +
         'Please set DATABASE_URL in your .env file or environment.\n' +
-        'Example: DATABASE_URL=postgresql://user:password@localhost:5432/umami',
+        'Example: DATABASE_URL=postgresql://user:password@localhost:5432/formami',
     );
   }
 

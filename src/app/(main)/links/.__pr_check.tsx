@@ -10,7 +10,7 @@ import {
   Loading,
   Row,
   TextField,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { useState } from 'react';
 import { useConfig, useLinkQuery, useMessages } from '@/components/hooks';
 import { useUpdateQuery } from '@/components/hooks/queries/useUpdateQuery';
@@ -60,7 +60,7 @@ export function LinkEditForm({
   };
 
   const checkUrl = (url: string, formValues: any) => {
-    if (!isValidUrl(url) || (url === `${hostUrl}/${formValues.slug}`)) {
+    if (!isValidUrl(url) || url === `${hostUrl}/${formValues.slug}`) {
       return t(labels.invalidUrl);
     }
     return true;

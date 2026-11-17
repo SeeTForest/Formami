@@ -1,5 +1,4 @@
 'use client';
-import { useQueryClient } from '@tanstack/react-query';
 import {
   Button,
   Code,
@@ -10,7 +9,8 @@ import {
   Label,
   Row,
   Text,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
+import { useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { Badge } from '@/components/common/Badge';
 import { DataGrid } from '@/components/common/DataGrid';

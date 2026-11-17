@@ -1,6 +1,6 @@
 'use client';
+import { RouterProvider, ZenProvider } from '@formami/react-zen';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { RouterProvider, ZenProvider } from '@umami/react-zen';
 import { NextIntlClientProvider } from 'next-intl';
 import { type ReactNode, useEffect } from 'react';
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';

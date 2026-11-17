@@ -1,8 +1,8 @@
-# @umami/mcp
+# @formami/mcp
 
-[Model Context Protocol](https://modelcontextprotocol.io) server for [Umami](https://umami.is)
+[Model Context Protocol](https://modelcontextprotocol.io) server for [Formami](https://github.com/SeeTForest/Formami)
 analytics. Lets Claude, ChatGPT, Cursor and other MCP clients answer questions about your
-website traffic using read-only tools that call the Umami API through `@umami/api-client`.
+website traffic using read-only tools that call the Formami API through `@formami/api-client`.
 
 The MCP server never talks to a database; every tool goes through the public API and the same
 user/team permission checks as the web app.
@@ -37,34 +37,19 @@ user/team permission checks as the web app.
 
 All tools are read-only. Dates are ISO 8601; results are paginated with a hard cap on page size.
 
-## Remote: Umami Cloud
-
-Connect to `https://cloud.umami.is/mcp` using your existing Cloud API key:
-
-```text
-Authorization: Bearer api_<your-cloud-api-key>
-```
-
-Clients that support custom headers may use `x-umami-api-key` instead. If both headers are
-provided, they must contain the same key. Use a client that supports API-key or bearer-header
-configuration.
-
-Cloud MCP has the same subscription requirements and website/team permissions as the Cloud API.
-All tools call the Cloud API gateway, which validates the key and routes requests to your region.
-
 ## Remote: self-hosted
 
-Generate an API key under **Settings → API keys** in your Umami instance, then configure your
+Generate an API key under **Settings → API keys** in your Formami instance, then configure your
 MCP client with the Streamable HTTP endpoint:
 
 ```text
-https://your-umami.example.com/mcp
+https://your-formami.example.com/mcp
 ```
 
 Set the authorization header using your key:
 
 ```text
-Authorization: Bearer umami_<your-api-key>
+Authorization: Bearer formami_<your-api-key>
 ```
 
 Use a client that supports bearer tokens or custom authorization headers. The endpoint accepts
@@ -74,15 +59,17 @@ MCP is disabled by default. Set `MCP_ENABLED=1` to enable the endpoint.
 
 ## Local / stdio
 
+Build with `pnpm build:packages` first. Set the absolute script path below for your checkout. These workspace packages have not been published by this change.
+
 ```json
 {
   "mcpServers": {
-    "umami": {
-      "command": "npx",
-      "args": ["-y", "@umami/mcp"],
+    "formami": {
+      "command": "node",
+      "args": ["/absolute/path/to/Formami/packages/mcp/bin/formami-mcp.js"],
       "env": {
-        "UMAMI_URL": "https://analytics.example.com",
-        "UMAMI_API_TOKEN": "umami_…"
+        "FORMAMI_URL": "https://analytics.example.com",
+        "FORMAMI_API_TOKEN": "formami_…"
       }
     }
   }
@@ -91,24 +78,12 @@ MCP is disabled by default. Set `MCP_ENABLED=1` to enable the endpoint.
 
 | Variable          | Description                                                        |
 | ----------------- | ------------------------------------------------------------------ |
-| `UMAMI_URL`       | Self-hosted instance URL (`/api` is appended).                     |
-| `UMAMI_API_URL`   | Full API base URL instead, e.g. `https://api.umami.is/v1`.         |
-| `UMAMI_API_TOKEN` | API key or login token (self-hosted).                              |
-| `UMAMI_API_KEY`   | Umami Cloud API key.                                               |
+| `FORMAMI_URL`       | Self-hosted instance URL (`/api` is appended).                     |
+| `FORMAMI_API_URL`   | Full API base URL instead, e.g. `https://analytics.example.com/api`.         |
+| `FORMAMI_API_TOKEN` | API key or login token (self-hosted).                              |
+| `FORMAMI_API_KEY`   | Instance API key.                                               |
 
-For Cloud stdio, set `UMAMI_API_KEY` and omit `UMAMI_URL` and `UMAMI_API_TOKEN`:
-
-```json
-{
-  "mcpServers": {
-    "umami": {
-      "command": "npx",
-      "args": ["-y", "@umami/mcp"],
-      "env": { "UMAMI_API_KEY": "api_<your-cloud-api-key>" }
-    }
-  }
-}
-```
+An explicit `FORMAMI_URL` or `FORMAMI_API_URL` is required. No hosted Formami service is assumed.
 
 ## Example prompts
 
@@ -129,13 +104,13 @@ For Cloud stdio, set `UMAMI_API_KEY` and omit `UMAMI_URL` and `UMAMI_API_TOKEN`:
 ## Programmatic use
 
 ```ts
-import { UmamiClient } from '@umami/api-client';
-import { createUmamiMcpServer } from '@umami/mcp';
+import { FormamiClient } from '@formami/api-client';
+import { createFormamiMcpServer } from '@formami/mcp';
 
-const server = createUmamiMcpServer({
-  client: new UmamiClient({ baseUrl, token }),
+const server = createFormamiMcpServer({
+  client: new FormamiClient({ baseUrl, token }),
 });
 ```
 
-`createUmamiMcpHttpHandler({ createClient })` returns a Streamable HTTP handler for embedding in
+`createFormamiMcpHttpHandler({ createClient })` returns a Streamable HTTP handler for embedding in
 any web framework; the host verifies the bearer token and passes `authInfo`.

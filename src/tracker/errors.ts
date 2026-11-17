@@ -66,7 +66,7 @@ export function createErrorCollector(options: CollectorOptions) {
               body,
               headers: {
                 'Content-Type': 'application/json',
-                ...(item.cache ? { 'x-umami-cache': item.cache } : {}),
+                ...(item.cache ? { 'x-formami-cache': item.cache } : {}),
               },
             });
             if (response.ok) {

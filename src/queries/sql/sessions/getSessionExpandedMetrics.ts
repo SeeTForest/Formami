@@ -1,9 +1,6 @@
 import clickhouse from '@/lib/clickhouse';
-import {
-  EVENT_TYPE,
-  FILTER_COLUMNS,
-  SESSION_COLUMNS,
-} from '@/lib/constants';
+import { EVENT_TYPE, FILTER_COLUMNS, SESSION_COLUMNS } from '@/lib/constants';
+import { countrySQL, reportingCountryRows } from '@/lib/country-policy';
 import { CLICKHOUSE, PRISMA, runQuery } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import type { QueryFilters } from '@/lib/types';
@@ -31,7 +28,7 @@ export async function getSessionExpandedMetrics(
   return runQuery({
     [PRISMA]: () => relationalQuery(...args),
     [CLICKHOUSE]: () => clickhouseQuery(...args),
-  });
+  }).then(reportingCountryRows);
 }
 
 async function relationalQuery(
@@ -54,6 +51,8 @@ async function relationalQuery(
     );
   const needsBounceEvents = filters.excludeBounce !== true;
   const includeCountry = column === 'city' || column === 'region';
+
+  if (type === 'country') column = countrySQL(column);
 
   if (type === 'language') {
     column = `lower(left(${type}, 2))`;
@@ -131,6 +130,8 @@ async function clickhouseQuery(
   });
   const needsBounceEvents = filters.excludeBounce !== true;
   const includeCountry = column === 'city' || column === 'region';
+
+  if (type === 'country') column = countrySQL(column);
 
   if (type === 'language') {
     column = `lower(left(${type}, 2))`;

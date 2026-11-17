@@ -1,4 +1,4 @@
-import { Button, DialogTrigger, Icon, Menu, Popover } from '@umami/react-zen';
+import { Button, DialogTrigger, Icon, Menu, Popover } from '@formami/react-zen';
 import {
   Children,
   cloneElement,

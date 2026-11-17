@@ -12,7 +12,7 @@ env:
 
 jobs:
   build:
-    if: github.repository == 'umami-software/umami'
+    if: github.repository == 'SeeTForest/Formami'
     runs-on: blacksmith-4vcpu-ubuntu-2404
 
     steps:

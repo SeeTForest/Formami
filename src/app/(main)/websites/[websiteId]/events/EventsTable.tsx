@@ -9,7 +9,7 @@ import {
   Popover,
   Row,
   Text,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { Avatar } from '@/components/common/Avatar';
 import { DateDistance } from '@/components/common/DateDistance';
 import { IconLabel } from '@/components/common/IconLabel';

@@ -47,7 +47,7 @@ describe('record route CORS', () => {
 
     expect(response.status).toBe(204);
     expect(response.headers.get('Access-Control-Allow-Origin')).toBe('*');
-    expect(response.headers.get('Access-Control-Allow-Headers')).toContain('x-umami-cache');
+    expect(response.headers.get('Access-Control-Allow-Headers')).toContain('x-formami-cache');
     expect(response.headers.get('Access-Control-Allow-Methods')).toContain('POST');
   });
 
@@ -116,7 +116,7 @@ describe('record route cache token binding', () => {
     return POST(
       new Request('http://localhost/api/record', {
         method: 'POST',
-        headers: { 'x-umami-cache': 'token' },
+        headers: { 'x-formami-cache': 'token' },
       }),
     );
   }

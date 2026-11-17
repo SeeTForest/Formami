@@ -1,6 +1,6 @@
 'use client';
+import { Column, Row, Switch, Text, Tooltip, TooltipTrigger } from '@formami/react-zen';
 import { useQueryClient } from '@tanstack/react-query';
-import { Column, Row, Switch, Text, Tooltip, TooltipTrigger } from '@umami/react-zen';
 import {
   useMessages,
   useTeamQuery,

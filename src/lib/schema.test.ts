@@ -202,7 +202,7 @@ describe('urlOrPathParam', () => {
   });
 
   test('accepts an absolute url', () => {
-    expect(urlOrPathParam.parse('https://umami.is/docs')).toBe('https://umami.is/docs');
+    expect(urlOrPathParam.parse('https://example.com/docs')).toBe('https://example.com/docs');
   });
 });
 

@@ -17,8 +17,8 @@ const useDateRangeMock = vi.fn((_options?: { timezone?: string }) => ({
   dateCompare: { compare: 'prev', startDate: compareStart, endDate: compareEnd },
 }));
 
-vi.mock('@umami/react-zen', async importOriginal => ({
-  ...(await importOriginal<typeof import('@umami/react-zen')>()),
+vi.mock('@formami/react-zen', async importOriginal => ({
+  ...(await importOriginal<typeof import('@formami/react-zen')>()),
   Select: ({ children }: { children: ReactNode }) => <div>{children}</div>,
   ListItem: ({ children }: { children: ReactNode }) => <div>{children}</div>,
 }));

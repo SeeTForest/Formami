@@ -1,9 +1,9 @@
-import { UmamiApiError, type UmamiApiErrorBody } from './errors';
+import { FormamiApiError, type FormamiApiErrorBody } from './errors';
 import type { HttpMethod, OperationDefinition } from './generated/operations';
-import type { FetchLike, RequestOptions, UmamiClientOptions } from './types';
+import type { FetchLike, FormamiClientOptions, RequestOptions } from './types';
 
-export const DEFAULT_BASE_URL = 'https://api.umami.is/v1';
-export const API_KEY_HEADER = 'x-umami-api-key';
+export const DEFAULT_BASE_URL = '';
+export const API_KEY_HEADER = 'x-formami-api-key';
 
 type QueryValue = string | number | boolean | Date | null | undefined | QueryValue[];
 
@@ -13,7 +13,7 @@ export function trimSlashes(value: string) {
 
 /**
  * OpenAPI paths are documented as `/api/...`. The base URL already points at the API root
- * (`https://api.umami.is/v1` or `https://example.com/api`), so the `/api` prefix is dropped.
+ * (`https://analytics.example.com/api` or `https://example.com/api`), so the `/api` prefix is dropped.
  */
 export function stripApiPrefix(path: string) {
   return path.replace(/^\/api(?=\/|$)/, '');
@@ -63,7 +63,7 @@ export function buildUrl(baseUrl: string, path: string, query: Record<string, un
   return url;
 }
 
-export function buildAuthHeaders(options: Pick<UmamiClientOptions, 'token' | 'apiKey'>) {
+export function buildAuthHeaders(options: Pick<FormamiClientOptions, 'token' | 'apiKey'>) {
   const headers: Record<string, string> = {};
 
   if (options.apiKey) {
@@ -132,7 +132,7 @@ async function parseBody(response: Response): Promise<unknown> {
   try {
     return JSON.parse(text);
   } catch {
-    throw new UmamiApiError({
+    throw new FormamiApiError({
       status: response.status,
       code: 'invalid-json',
       message: 'Response body is not valid JSON',
@@ -188,8 +188,8 @@ export async function sendRequest<T>(fetchImpl: FetchLike, request: HttpRequest)
   try {
     body = await parseBody(response);
   } catch (error) {
-    if (error instanceof UmamiApiError && response.ok) {
-      throw new UmamiApiError({
+    if (error instanceof FormamiApiError && response.ok) {
+      throw new FormamiApiError({
         status: response.status,
         code: error.code,
         message: error.message,
@@ -203,9 +203,9 @@ export async function sendRequest<T>(fetchImpl: FetchLike, request: HttpRequest)
   }
 
   if (!response.ok) {
-    const error = (body as UmamiApiErrorBody | undefined)?.error;
+    const error = (body as FormamiApiErrorBody | undefined)?.error;
 
-    throw new UmamiApiError({
+    throw new FormamiApiError({
       status: response.status,
       code: error?.code,
       message: error?.message,
@@ -224,7 +224,7 @@ export function resolveFetch(custom?: FetchLike): FetchLike {
   }
 
   if (typeof fetch !== 'function') {
-    throw new Error('No fetch implementation available. Pass `fetch` in UmamiClient options.');
+    throw new Error('No fetch implementation available. Pass `fetch` in FormamiClient options.');
   }
 
   return (input, init) => fetch(input, init);

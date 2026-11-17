@@ -135,3 +135,16 @@ test('getReplayEventCount counts a fragment group as one event', () => {
     ]),
   ).toBe(3);
 });
+
+// Previously persisted replay data must remain readable after the product rename.
+test('restores legacy replay fragments without rewriting stored recordings', () => {
+  const event = { type: 3, timestamp: 1, data: {} };
+  expect(
+    restoreReplayEventFragments([
+      {
+        type: 'umami:rrweb-event-fragment',
+        data: { id: 'legacy', index: 0, total: 1, value: JSON.stringify(event) },
+      },
+    ]),
+  ).toEqual([event]);
+});

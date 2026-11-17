@@ -10,7 +10,7 @@ const websiteValuesQueryMock = vi.fn(({ type }: { type: string }) => ({
   isLoading: false,
 }));
 
-vi.mock('@umami/react-zen', () => ({
+vi.mock('@formami/react-zen', () => ({
   cn: (...values: string[]) => values.filter(Boolean).join(' '),
   Label: ({ children }: { children: ReactNode }) => <label>{children}</label>,
   ListItem: ({ children }: { children: ReactNode }) => <div>{children}</div>,

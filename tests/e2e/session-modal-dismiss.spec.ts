@@ -1,6 +1,6 @@
 import { type APIRequestContext, expect, type Page, test } from '@playwright/test';
 import { uuid } from '../../src/lib/crypto';
-import { type Auth, authHeaders, deleteWebsite, loginPage, umamiUser } from './helpers';
+import { type Auth, authHeaders, deleteWebsite, formamiUser, loginPage } from './helpers';
 
 // The session modal is a bottom sheet capped at 1320px and centered, so on a
 // wide viewport there are dark side margins. Clicking those margins must
@@ -14,7 +14,7 @@ async function createWebsite(request: APIRequestContext, auth: Auth, websiteId: 
     headers: authHeaders(auth),
     data: {
       id: websiteId,
-      createdBy: umamiUser.id,
+      createdBy: formamiUser.id,
       name: 'Modal dismiss test',
       domain: 'modal-dismiss-test.com',
     },

@@ -5,7 +5,7 @@ import { getWebsiteSegment } from '@/queries/prisma';
 import { getQueryFilters, parseRequest, resolvePeriodDateRange } from './request';
 
 vi.hoisted(() => {
-  process.env.DATABASE_URL ??= 'postgresql://user:pass@localhost:5432/umami?schema=public';
+  process.env.DATABASE_URL ??= 'postgresql://user:pass@localhost:5432/formami?schema=public';
   delete process.env.DATABASE_REPLICA_URL;
 });
 

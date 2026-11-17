@@ -8,7 +8,7 @@ export type TrackedProperties = {
    * Hostname of server
    *
    * @description extracted from `window.location.hostname`
-   * @example 'analytics.umami.is'
+   * @example 'analytics.example.com'
    */
   hostname?: string;
 
@@ -34,7 +34,7 @@ export type TrackedProperties = {
    * Page referrer
    *
    * @description extracted from `document.referrer`
-   * @example 'https://analytics.umami.is/docs/getting-started'
+   * @example 'https://analytics.example.com/docs/getting-started'
    */
   referrer?: string;
 
@@ -53,7 +53,7 @@ export type TrackedProperties = {
    * Page title
    *
    * @description extracted from `document.querySelector('head > title')`
-   * @example 'umami'
+   * @example 'formami'
    */
   title?: string;
 
@@ -61,7 +61,7 @@ export type TrackedProperties = {
    * Page url
    *
    * @description normalized from `window.location.href`
-   * @example 'https://analytics.umami.is/docs/getting-started'
+   * @example 'https://analytics.example.com/docs/getting-started'
    */
   url?: string;
 
@@ -101,7 +101,7 @@ export type CustomEventFunction = (
   props: PageViewProperties,
 ) => EventProperties | PageViewProperties;
 
-export type UmamiTracker = {
+export type FormamiTracker = {
   /** Capture an exception when data-errors is enabled. Never throws. */
   captureException: (error: unknown, options?: ErrorCaptureOptions) => Promise<void>;
   track: {
@@ -109,7 +109,7 @@ export type UmamiTracker = {
      * Track a page view
      *
      * @example ```
-     * umami.track();
+     * formami.track();
      * ```
      */
     (): Promise<void>;
@@ -120,7 +120,7 @@ export type UmamiTracker = {
      * NOTE: event names will be truncated past 50 characters
      *
      * @example ```
-     * umami.track('signup-button');
+     * formami.track('signup-button');
      * ```
      */
     (eventName: string): Promise<void>;
@@ -133,7 +133,7 @@ export type UmamiTracker = {
      * When tracking events, the default properties are included in the payload. This is equivalent to running:
      *
      * ```js
-     * umami.track(props => ({
+     * formami.track(props => ({
      *   ...props,
      *   name: 'signup-button',
      *   data: {
@@ -144,7 +144,7 @@ export type UmamiTracker = {
      * ```
      *
      * @example ```
-     * umami.track('signup-button', { name: 'newsletter', id: 123 });
+     * formami.track('signup-button', { name: 'newsletter', id: 123 });
      * ```
      */
     (eventName: string, obj: EventData): Promise<void>;
@@ -153,7 +153,7 @@ export type UmamiTracker = {
      * Tracks a page view with custom properties
      *
      * @example ```
-     * umami.track({ website: 'e676c9b4-11e4-4ef1-a4d7-87001773e9f2', url: '/home', title: 'Home page' });
+     * formami.track({ website: 'e676c9b4-11e4-4ef1-a4d7-87001773e9f2', url: '/home', title: 'Home page' });
      * ```
      */
     (properties: PageViewProperties): Promise<void>;
@@ -163,7 +163,7 @@ export type UmamiTracker = {
      * If you don't specify any `name` and/or `data`, it will be treated as a page view
      *
      * @example ```
-     * umami.track((props) => ({ ...props, url: path }));
+     * formami.track((props) => ({ ...props, url: path }));
      * ```
      */
     (eventFunction: CustomEventFunction): Promise<void>;
@@ -173,7 +173,7 @@ export type UmamiTracker = {
      * Identify a visitor with optional associated data.
      *
      * @example ```
-     * umami.identify('user-123', { plan: 'pro' });
+     * formami.identify('user-123', { plan: 'pro' });
      * ```
      */
     (id: string, data?: EventData): Promise<void>;
@@ -182,7 +182,7 @@ export type UmamiTracker = {
      * Associate data with the current visitor. An `id` string sets the Distinct ID.
      *
      * @example ```
-     * umami.identify({ id: 'user-123', plan: 'pro' });
+     * formami.identify({ id: 'user-123', plan: 'pro' });
      * ```
      */
     (data: EventData & { id?: string }): Promise<void>;
@@ -195,8 +195,8 @@ export type UmamiTracker = {
 
 declare global {
   interface Window {
-    umami: UmamiTracker;
-    umamiConfig?: UmamiConfig;
+    formami: FormamiTracker;
+    formamiConfig?: FormamiConfig;
   }
 }
 
@@ -209,7 +209,7 @@ export type BeforeSend = (
   | undefined
   | Promise<Record<string, unknown> | null | undefined>;
 
-export type UmamiConfig = {
+export type FormamiConfig = {
   websiteId?: string;
   hostUrl?: string;
   autoTrack?: boolean;
@@ -264,7 +264,7 @@ type MetricEntry = PerformanceEntry & {
     doNotTrack,
   } = window;
   const { currentScript, referrer } = document as TrackerDocument;
-  const globalConfig = window.umamiConfig || {};
+  const globalConfig = window.formamiConfig || {};
   if (!currentScript && !globalConfig.websiteId) return;
 
   const { hostname, href, origin } = location;
@@ -324,8 +324,8 @@ type MetricEntry = PerformanceEntry & {
 
   const endpoint = `${host.replace(/\/$/, '')}__COLLECT_API_ENDPOINT__`;
   const screen = `${width}x${height}`;
-  const eventRegex = /data-umami-event-([\w-_]+)/;
-  const eventNameAttribute = `${_data}umami-event`;
+  const eventRegex = /data-formami-event-([\w-_]+)/;
+  const eventNameAttribute = `${_data}formami-event`;
   const delayDuration = 300;
 
   /* Helper functions */
@@ -456,8 +456,8 @@ type MetricEntry = PerformanceEntry & {
   const trackingDisabled = () =>
     disabled ||
     !website ||
-    localStorage?.getItem('umami.disabled') ||
-    (window.name === 'umami.disabled' && top !== window) ||
+    localStorage?.getItem('formami.disabled') ||
+    (window.name === 'formami.disabled' && top !== window) ||
     (domain && !domains.includes(hostname)) ||
     (dnt && hasDoNotTrack());
 
@@ -479,9 +479,9 @@ type MetricEntry = PerformanceEntry & {
         body: JSON.stringify({ type, payload }),
         headers: {
           'Content-Type': 'application/json',
-          'x-umami-website-id': website as string,
-          'x-umami-hostname': hostname,
-          ...(typeof cache !== 'undefined' && { 'x-umami-cache': cache }),
+          'x-formami-website-id': website as string,
+          'x-formami-hostname': hostname,
+          ...(typeof cache !== 'undefined' && { 'x-formami-cache': cache }),
         },
         credentials,
       });
@@ -740,7 +740,7 @@ type MetricEntry = PerformanceEntry & {
   let identity = distinctId;
   let flushPerformance: (() => void) | undefined;
 
-  if (!window.umami) {
+  if (!window.formami) {
     const errors = createErrorCollector({
       endpoint,
       enabled: config('errors') === _true,
@@ -757,12 +757,12 @@ type MetricEntry = PerformanceEntry & {
         return typeof callback === 'function' ? callback('error', payload) : payload;
       },
     });
-    window.umami = {
+    window.formami = {
       track,
       identify,
       getSession: () => ({ cache, website }),
       ...errors,
-    } as UmamiTracker;
+    } as FormamiTracker;
   }
 
   if (distinctId) {

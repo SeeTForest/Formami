@@ -1,5 +1,5 @@
 'use client';
-import { Column, DataColumn, DataTable, Grid, Row, Text } from '@umami/react-zen';
+import { Column, DataColumn, DataTable, Grid, Row, Text } from '@formami/react-zen';
 import { useMemo } from 'react';
 import { DistributionBarChart } from '@/components/charts/DistributionBarChart';
 import { Empty } from '@/components/common/Empty';

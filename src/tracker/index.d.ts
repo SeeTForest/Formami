@@ -6,7 +6,7 @@ export type TrackedProperties = {
    * Hostname of server
    *
    * @description extracted from `window.location.hostname`
-   * @example 'analytics.umami.is'
+   * @example 'analytics.example.com'
    */
   hostname?: string;
   /** Distinct ID associated with the current visitor. */
@@ -28,7 +28,7 @@ export type TrackedProperties = {
    * Page referrer
    *
    * @description extracted from `document.referrer`
-   * @example 'https://analytics.umami.is/docs/getting-started'
+   * @example 'https://analytics.example.com/docs/getting-started'
    */
   referrer?: string;
   /**
@@ -44,14 +44,14 @@ export type TrackedProperties = {
    * Page title
    *
    * @description extracted from `document.querySelector('head > title')`
-   * @example 'umami'
+   * @example 'formami'
    */
   title?: string;
   /**
    * Page url
    *
    * @description normalized from `window.location.href`
-   * @example 'https://analytics.umami.is/docs/getting-started'
+   * @example 'https://analytics.example.com/docs/getting-started'
    */
   url?: string;
   /**
@@ -87,7 +87,7 @@ export type PageViewProperties = WithRequired<TrackedProperties, 'website'>;
 export type CustomEventFunction = (
   props: PageViewProperties,
 ) => EventProperties | PageViewProperties;
-export type UmamiTracker = {
+export type FormamiTracker = {
   /** Capture an exception when data-errors is enabled. Never throws. */
   captureException: (error: unknown, options?: ErrorCaptureOptions) => Promise<void>;
   track: {
@@ -95,7 +95,7 @@ export type UmamiTracker = {
      * Track a page view
      *
      * @example ```
-     * umami.track();
+     * formami.track();
      * ```
      */
     (): Promise<void>;
@@ -105,7 +105,7 @@ export type UmamiTracker = {
      * NOTE: event names will be truncated past 50 characters
      *
      * @example ```
-     * umami.track('signup-button');
+     * formami.track('signup-button');
      * ```
      */
     (eventName: string): Promise<void>;
@@ -117,7 +117,7 @@ export type UmamiTracker = {
      * When tracking events, the default properties are included in the payload. This is equivalent to running:
      *
      * ```js
-     * umami.track(props => ({
+     * formami.track(props => ({
      *   ...props,
      *   name: 'signup-button',
      *   data: {
@@ -128,7 +128,7 @@ export type UmamiTracker = {
      * ```
      *
      * @example ```
-     * umami.track('signup-button', { name: 'newsletter', id: 123 });
+     * formami.track('signup-button', { name: 'newsletter', id: 123 });
      * ```
      */
     (eventName: string, obj: EventData): Promise<void>;
@@ -136,7 +136,7 @@ export type UmamiTracker = {
      * Tracks a page view with custom properties
      *
      * @example ```
-     * umami.track({ website: 'e676c9b4-11e4-4ef1-a4d7-87001773e9f2', url: '/home', title: 'Home page' });
+     * formami.track({ website: 'e676c9b4-11e4-4ef1-a4d7-87001773e9f2', url: '/home', title: 'Home page' });
      * ```
      */
     (properties: PageViewProperties): Promise<void>;
@@ -145,7 +145,7 @@ export type UmamiTracker = {
      * If you don't specify any `name` and/or `data`, it will be treated as a page view
      *
      * @example ```
-     * umami.track((props) => ({ ...props, url: path }));
+     * formami.track((props) => ({ ...props, url: path }));
      * ```
      */
     (eventFunction: CustomEventFunction): Promise<void>;
@@ -155,7 +155,7 @@ export type UmamiTracker = {
      * Identify a visitor with optional associated data.
      *
      * @example ```
-     * umami.identify('user-123', { plan: 'pro' });
+     * formami.identify('user-123', { plan: 'pro' });
      * ```
      */
     (id: string, data?: EventData): Promise<void>;
@@ -163,7 +163,7 @@ export type UmamiTracker = {
      * Associate data with the current visitor. An `id` string sets the Distinct ID.
      *
      * @example ```
-     * umami.identify({ id: 'user-123', plan: 'pro' });
+     * formami.identify({ id: 'user-123', plan: 'pro' });
      * ```
      */
     (
@@ -179,8 +179,8 @@ export type UmamiTracker = {
 };
 declare global {
   interface Window {
-    umami: UmamiTracker;
-    umamiConfig?: UmamiConfig;
+    formami: FormamiTracker;
+    formamiConfig?: FormamiConfig;
   }
 }
 export type BeforeSend = (
@@ -191,7 +191,7 @@ export type BeforeSend = (
   | null
   | undefined
   | Promise<Record<string, unknown> | null | undefined>;
-export type UmamiConfig = {
+export type FormamiConfig = {
   websiteId?: string;
   hostUrl?: string;
   autoTrack?: boolean;

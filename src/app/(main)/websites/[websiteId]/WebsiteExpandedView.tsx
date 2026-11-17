@@ -1,4 +1,4 @@
-import { Column, Grid, Row } from '@umami/react-zen';
+import { Column, Grid, Row } from '@formami/react-zen';
 import { WebsiteExpandedMenu } from '@/app/(main)/websites/[websiteId]/WebsiteExpandedMenu';
 import { OverlayScrollArea } from '@/components/common/OverlayScrollArea';
 import { useMessages, useNavigation } from '@/components/hooks';

@@ -10,7 +10,7 @@ import {
   Select,
   Text,
   TextField,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { useBoardQuery, useMessages, useNavigation, useUpdateQuery } from '@/components/hooks';
 import { LinkSelect } from '@/components/input/LinkSelect';
 import { PixelSelect } from '@/components/input/PixelSelect';

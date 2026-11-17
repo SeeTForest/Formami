@@ -1,15 +1,15 @@
-# Migrating from the hand-written `@umami/api-client`
+# Migrating from the hand-written `@formami/api-client`
 
 The previous client (`umami-software/api-client`) maintained every endpoint by hand. This package
-is generated from Umami's OpenAPI contract and replaces it. That repository will be archived once
+is generated from Formami's OpenAPI contract and replaces it. That repository will be archived once
 this package is stable.
 
 ## What changed
 
 | Before                                                  | After                                                                                   |
 | ------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `getClient({ apiEndpoint, apiKey, userId, secret })`    | `new UmamiClient({ baseUrl, apiKey, token })`                                          |
-| Methods return `{ ok, data, status, error }`            | Methods return the response body and **throw** `UmamiApiError` on non-2xx              |
+| `getClient({ apiEndpoint, apiKey, userId, secret })`    | `new FormamiClient({ baseUrl, apiKey, token })`                                          |
+| Methods return `{ ok, data, status, error }`            | Methods return the response body and **throw** `FormamiApiError` on non-2xx              |
 | Positional arguments `getWebsiteStats(websiteId, params)` | Single object `getWebsiteStats({ websiteId, ...params })` (positional still works for common analytics methods, see below) |
 | `getWebsites()`                                         | `listWebsites()` (`getWebsites` kept as a deprecated alias)                             |
 | `userId` + `secret` mint a token client-side            | Removed. Mint the token yourself and pass `token`.                                      |
@@ -25,7 +25,7 @@ if (!ok) { … }
 try {
   const data = await client.getWebsiteStats({ websiteId: id, ...params });
 } catch (error) {
-  if (isUmamiApiError(error)) { error.status; error.code; }
+  if (isFormamiApiError(error)) { error.status; error.code; }
 }
 ```
 

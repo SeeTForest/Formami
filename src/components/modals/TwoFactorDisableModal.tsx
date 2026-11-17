@@ -10,7 +10,7 @@ import {
   Modal,
   PasswordField,
   Text,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { useState } from 'react';
 import { ControlledDialog } from '@/components/common/ControlledDialog';
 import { OtpInput } from '@/components/common/OtpInput';

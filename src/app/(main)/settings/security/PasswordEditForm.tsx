@@ -5,7 +5,7 @@ import {
   FormField,
   FormSubmitButton,
   PasswordField,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { useMessages, useUpdateQuery } from '@/components/hooks';
 import { setClientAuthToken } from '@/lib/client';
 

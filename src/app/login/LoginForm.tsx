@@ -7,7 +7,7 @@ import {
   Heading,
   PasswordField,
   TextField,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { useRouter } from 'next/navigation';
 import { useMessages, useUpdateQuery } from '@/components/hooks';
 import { Logo } from '@/components/svg';
@@ -24,7 +24,7 @@ export function LoginForm() {
     await mutateAsync(data, {
       onSuccess: async (response: any) => {
         if (response.requiresTwoFactor) {
-          sessionStorage.setItem('umami.partial-token', response.partialToken);
+          sessionStorage.setItem('formami.partial-token', response.partialToken);
           router.push('/login/two-factor');
           return;
         }

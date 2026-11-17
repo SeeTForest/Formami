@@ -1318,6 +1318,30 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/websites/{websiteId}/access-evidence': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Query separate access and content-use observations
+     * @description Counts observations, not people. UA and reporter claims are unverified. Fetch, citation, referral and conversion totals are independent; no automatic attribution or training-use inference. Overview filters are not applied. At most 500 groups; totals are complete.
+     */
+    get: operations['getAccessEvidence'];
+    put?: never;
+    /**
+     * Report server-side access observations with write permission
+     * @description Server-side credentials only; requires website update permission, granted consent and FORMAMI_ACCESS_CONTENT_KEYS allowlist. No raw URLs, UA, prompts, IP or identity. Maximum 100 observations / 64 KiB, timestamps within past 7 days and 5 minutes future. Stable IDs deduplicate retries within a website; conflicting duplicates are not overwritten. Conversion reports require backend source.
+     */
+    post: operations['saveAccessEvidence'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/websites/{websiteId}/active': {
     parameters: {
       query?: never;
@@ -3010,7 +3034,7 @@ export interface components {
       /** @description Unique visitor counts for the selected period. */
       visitors: number;
     };
-    /** @description Standard Umami API error response. */
+    /** @description Standard Formami API error response. */
     ApiError: {
       /** @description Error details returned when the operation fails. */
       error: {
@@ -3029,15 +3053,16 @@ export interface components {
       id?: string | null;
       /** @description Display name of the resource. */
       name: string;
+      pageOrigins?: string | null;
       /** @description Identifier used to access a shared resource. */
       shareId?: string | null;
       /** @description ID of the associated team. */
       teamId?: string | null;
     };
     LoginRequest: {
-      /** @description Umami password. */
+      /** @description Formami password. */
       password: string;
-      /** @description Umami username. */
+      /** @description Formami username. */
       username: string;
     };
     LoginResponse:
@@ -3148,6 +3173,7 @@ export interface components {
       domain?: string;
       /** @description Display name of the resource. */
       name?: string;
+      pageOrigins?: string | null;
       /** @description Session replay and heatmap recording configuration. */
       replayConfig?: components['schemas']['ReplayConfigInput'] | null;
       /** @description Identifier used to access a shared resource. */
@@ -3169,6 +3195,7 @@ export interface components {
       id: string;
       /** @description Display name of the resource. */
       name: string;
+      pageOrigins?: string | null;
       /** @description Whether recording is enabled for the website. */
       recorderEnabled: boolean;
       /** @description Session replay and heatmap recording configuration. */
@@ -12666,6 +12693,208 @@ export interface operations {
            *       }
            *     }
            */
+          'application/json': components['schemas']['ApiError'];
+        };
+      };
+    };
+  };
+  getAccessEvidence: {
+    parameters: {
+      query: {
+        actor?: 'human' | 'agent' | 'automation' | 'unknown';
+        contentKey?: string;
+        /** @description End of the date range as a Unix timestamp in milliseconds. */
+        endAt: number;
+        kind?: 'fetch' | 'citation' | 'referral' | 'conversion';
+        purpose?:
+          | 'reading'
+          | 'agent_retrieval'
+          | 'search_index'
+          | 'training_collection'
+          | 'unknown';
+        /** @description Start of the date range as a Unix timestamp in milliseconds. */
+        startAt: number;
+      };
+      header?: never;
+      path: {
+        /** @description Website ID. */
+        websiteId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful response. */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            /** @constant */
+            actualTrainingUse: 'unknown';
+            groups: {
+              actor: string;
+              confidence: string;
+              contentKey: string;
+              /** @description Number of matching records. */
+              count: number;
+              evidence: string;
+              kind: string;
+              outcome: string;
+              provider: string;
+              purpose: string;
+              ruleVersion: string;
+              source: string;
+            }[];
+            /** @constant */
+            identityVerified: false;
+            totals: {
+              [key: string]: number;
+            };
+            truncated: boolean;
+          };
+        };
+      };
+      /** @description Successful response. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ApiError'];
+        };
+      };
+      /** @description Successful response. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ApiError'];
+        };
+      };
+      /** @description Successful response. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ApiError'];
+        };
+      };
+    };
+  };
+  saveAccessEvidence: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Website ID. */
+        websiteId: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          observations: {
+            /** @constant */
+            consent: 'granted';
+            contentKey: string;
+            /**
+             * Format: uuid
+             * @description Unique identifier of the resource.
+             */
+            id: string;
+            /** @enum {string} */
+            kind: 'fetch' | 'citation' | 'referral' | 'conversion';
+            /** Format: date-time */
+            occurredAt: string;
+            /**
+             * @default unknown
+             * @enum {string}
+             */
+            outcome?: 'success' | 'failure' | 'unknown';
+            /**
+             * @default unknown
+             * @enum {string}
+             */
+            provider?: 'openai' | 'google' | 'other' | 'unknown';
+            /**
+             * @default unknown
+             * @enum {string}
+             */
+            signal?:
+              | 'unknown'
+              | 'browser'
+              | 'user_action'
+              | 'automation'
+              | 'chatgpt_user'
+              | 'oai_searchbot'
+              | 'gptbot'
+              | 'googlebot';
+            /** @enum {string} */
+            source: 'server' | 'cdn' | 'mcp' | 'backend' | 'manual';
+          }[];
+        };
+      };
+    };
+    responses: {
+      /** @description Successful response. */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            accepted: number;
+            duplicates: number;
+          };
+        };
+      };
+      /** @description Successful response. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ApiError'];
+        };
+      };
+      /** @description Successful response. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ApiError'];
+        };
+      };
+      /** @description Successful response. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ApiError'];
+        };
+      };
+      /** @description Successful response. */
+      413: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ApiError'];
+        };
+      };
+      /** @description Successful response. */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
           'application/json': components['schemas']['ApiError'];
         };
       };

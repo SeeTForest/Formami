@@ -1,4 +1,4 @@
-import { Column, Heading, Row, Text } from '@umami/react-zen';
+import { Column, Heading, Row, Text } from '@formami/react-zen';
 import { IconLabel } from '@/components/common/IconLabel';
 import Link from '@/components/common/Link';
 

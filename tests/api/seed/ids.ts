@@ -21,7 +21,11 @@ export const SEED_WEBSITES = {
   secondary: { name: 'API Test Website (user)', domain: 'user.example.test' },
 } as const;
 
-export const SEED_LINK = { name: 'API Test Link', url: 'https://umami.is/', slug: 'apitestlink' };
+export const SEED_LINK = {
+  name: 'API Test Link',
+  url: 'https://example.com/',
+  slug: 'apitestlink',
+};
 export const SEED_PIXEL = { name: 'API Test Pixel', slug: 'apitestpixel' };
 export const SEED_TEAM = { name: 'API Test Team' };
 export const SEED_SHARE = { name: 'API Test Share' };

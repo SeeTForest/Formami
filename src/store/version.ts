@@ -15,6 +15,7 @@ const initialState = {
 const store = create(() => ({ ...initialState }));
 
 export async function checkVersion() {
+  if (!UPDATES_URL) return;
   const { current } = store.getState();
 
   const data = await fetch(`${UPDATES_URL}?v=${current}`, {

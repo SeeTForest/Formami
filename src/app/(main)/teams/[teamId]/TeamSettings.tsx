@@ -1,4 +1,4 @@
-import { Column, Heading, Row } from '@umami/react-zen';
+import { Column, Heading, Row } from '@formami/react-zen';
 import { TeamLeaveButton } from '@/app/(main)/teams/TeamLeaveButton';
 import { PageHeader } from '@/components/common/PageHeader';
 import { Panel } from '@/components/common/Panel';

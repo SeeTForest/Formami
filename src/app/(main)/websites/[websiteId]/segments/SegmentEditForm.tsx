@@ -8,7 +8,7 @@ import {
   Loading,
   Text,
   TextField,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { useEffect, useState } from 'react';
 import { useMessages, useUpdateQuery, useWebsiteSegmentQuery } from '@/components/hooks';
 import { FieldFilters } from '@/components/input/FieldFilters';

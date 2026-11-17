@@ -35,7 +35,7 @@ export async function POST(request: Request) {
     return error();
   }
 
-  const { id, name, domain, shareId, teamId } = body;
+  const { id, name, domain, pageOrigins, shareId, teamId } = body;
 
   if (process.env.CLOUD_MODE) {
     const account = teamId ? await fetchTeam(teamId) : await fetchAccount(auth.user.id);
@@ -70,6 +70,7 @@ export async function POST(request: Request) {
     createdBy: auth.user.id,
     name,
     domain,
+    ...(pageOrigins !== undefined && { pageOrigins }),
     teamId,
   };
 

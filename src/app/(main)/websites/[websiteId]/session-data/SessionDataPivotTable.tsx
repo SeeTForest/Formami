@@ -1,5 +1,5 @@
 'use client';
-import { Column, DataColumn, DataTable, Row, Text } from '@umami/react-zen';
+import { Column, DataColumn, DataTable, Row, Text } from '@formami/react-zen';
 import { useMemo } from 'react';
 import { Avatar } from '@/components/common/Avatar';
 import { DateDistance } from '@/components/common/DateDistance';

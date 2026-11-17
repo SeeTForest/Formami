@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { expect, test, vi } from 'vitest';
 import { FilterRecord } from './FilterRecord';
 
-vi.mock('@umami/react-zen', () => ({
+vi.mock('@formami/react-zen', () => ({
   Button: ({ children }: { children: ReactNode }) => <button>{children}</button>,
   Column: ({ children }: { children: ReactNode }) => <div>{children}</div>,
   Grid: ({ children }: { children: ReactNode }) => <div>{children}</div>,

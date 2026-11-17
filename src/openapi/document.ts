@@ -90,9 +90,9 @@ export async function buildOpenApiDocument(
       ...contract.operation,
       ...operationDescriptions[getOperationKey(contract)],
       security: getSecurityRequirements(contract.auth),
-      'x-umami-audience': contract.audience,
-      'x-umami-contract': contract.origin,
-      'x-umami-source': contract.source,
+      'x-formami-audience': contract.audience,
+      'x-formami-contract': contract.origin,
+      'x-formami-source': contract.source,
     };
 
     Object.assign(pathItem, { [contract.method]: operation });
@@ -105,7 +105,7 @@ export async function buildOpenApiDocument(
         title: 'Formami API',
         version,
         description:
-          'REST API for Formami analytics (based on Umami). Every App Router API operation is included. Operations marked with x-umami-contract: inferred are generated from handler source; colocated explicit contracts provide curated descriptions and exact response models. Self-hosted deployments serve these paths beneath their configured BASE_PATH.',
+          'REST API for Formami analytics (based on Umami). Every App Router API operation is included. Operations marked with x-formami-contract: inferred are generated from handler source; colocated explicit contracts provide curated descriptions and exact response models. Self-hosted deployments serve these paths beneath their configured BASE_PATH.',
         license: {
           name: 'MIT',
           identifier: 'MIT',

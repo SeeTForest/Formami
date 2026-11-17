@@ -1,5 +1,5 @@
 'use client';
-import { Column, Grid, Row, useTheme } from '@umami/react-zen';
+import { Column, Grid, Row, useTheme } from '@formami/react-zen';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BoardViewPage } from '@/app/(main)/boards/[boardId]/BoardViewPage';

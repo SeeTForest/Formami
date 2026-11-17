@@ -1,5 +1,5 @@
 'use client';
-import { Column } from '@umami/react-zen';
+import { Column } from '@formami/react-zen';
 import { BoardShareDialog } from '@/app/(main)/boards/[boardId]/BoardShareDialog';
 import { BoardEditForm } from '@/app/(main)/boards/BoardEditForm';
 import { IconLabel } from '@/components/common/IconLabel';

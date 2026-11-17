@@ -1,10 +1,10 @@
-# Contributing to Umami
+# Contributing to Formami
 
-Thanks for your interest in contributing to Umami! This document outlines the process for contributing code.
+Thanks for your interest in contributing to Formami! This document outlines the process for contributing code.
 
 ## Branching
 
-Umami uses the following long-lived branches:
+Formami uses the following long-lived branches:
 
 - `master` — stable, released code. **Do not open PRs against `master`.**
 - `dev` — active development. **All pull requests should target `dev`.**
@@ -33,13 +33,13 @@ PRs opened against `master` will be asked to retarget `dev`.
 
 ## Reporting Issues
 
-- Search [existing issues](https://github.com/umami-software/umami/issues) before opening a new one.
-- For bugs, include reproduction steps, expected vs. actual behavior, and your environment (Umami version, database, browser).
+- Search [existing issues](https://github.com/SeeTForest/Formami/issues) before opening a new one.
+- For bugs, include reproduction steps, expected vs. actual behavior, and your environment (Formami version, database, browser).
 - For feature requests, describe the use case before the proposed solution.
 
 ## Development Setup
 
-See the [README](./README.md) for instructions on installing dependencies, configuring the database, and running Umami locally.
+See the [README](./README.md) for instructions on installing dependencies, configuring the database, and running Formami locally.
 
 ## License
 

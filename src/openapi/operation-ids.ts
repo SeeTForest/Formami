@@ -1,7 +1,7 @@
 /**
  * Canonical operation IDs for routes that rely on source-inferred contracts.
  *
- * Operation IDs become method names in the generated `@umami/api-client`, so they are part of
+ * Operation IDs become method names in the generated `@formami/api-client`, so they are part of
  * the public contract. Entries here override the mechanical path-segment naming used by
  * `src/openapi/infer.ts`. Curated `contract.ts` modules set their own `operationId` directly.
  *

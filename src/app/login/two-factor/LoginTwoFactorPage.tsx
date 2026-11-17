@@ -9,7 +9,7 @@ import {
   Heading,
   Text,
   TextField,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { OtpInput } from '@/components/common/OtpInput';
@@ -31,12 +31,12 @@ export function LoginTwoFactorPage() {
 
   // Redirect to the login page when no token
   useEffect(() => {
-    const token = sessionStorage.getItem('umami.partial-token');
+    const token = sessionStorage.getItem('formami.partial-token');
     if (!token) {
       router.replace('/login');
       return;
     }
-    sessionStorage.removeItem('umami.partial-token');
+    sessionStorage.removeItem('formami.partial-token');
     partialTokenRef.current = token;
   }, [router]);
 

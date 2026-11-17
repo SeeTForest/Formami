@@ -7,7 +7,7 @@ These are observations and preparation notes for management review, not complian
 ## AWS access verified
 
 - Account: `662355201631`.
-- Local CLI profile: `umami`; AWS CLI version `2.37.12`.
+- Local CLI profile: `formami`; AWS CLI version `2.37.12`.
 - Caller: `arn:aws:sts::662355201631:assumed-role/AWSReservedSSO_AdministratorAccess_e326ae36900d0fe1/mike`.
 - Identity Center instance: `ssoins-7223b3270e003bf7`, primary region `us-east-1`, identity store `d-9067b9e85a`.
 - Directory users returned: `mike`, `brian`, `francis`, with their actual primary work emails. All three are members of `Admins`, which is assigned `AdministratorAccess` on this account.
@@ -18,7 +18,7 @@ These are observations and preparation notes for management review, not complian
 
 ### Public database with unrestricted inbound rule
 
-AWS reports `umami-cloud-db` in `us-west-1` as publicly accessible. Its attached security group, `sg-035516ac69ecc6077` in `vpc-01401b57fc6b3abef`, allows inbound `IpProtocol=-1` from `0.0.0.0/0`, in addition to a self-group rule.
+AWS reports `formami-cloud-db` in `us-west-1` as publicly accessible. Its attached security group, `sg-035516ac69ecc6077` in `vpc-01401b57fc6b3abef`, allows inbound `IpProtocol=-1` from `0.0.0.0/0`, in addition to a self-group rule.
 
 This is an observed configuration exposure. No unauthorized connection, compromise, or data loss has been established. HackZero's AC-14 review also flagged this configuration.
 
@@ -31,7 +31,7 @@ AWS returned one active access key for each of these IAM users:
 | IAM user | Key creation time (UTC) | Observed managed-policy attachments |
 | --- | --- | --- |
 | `clickhouse-s3` | 2022-09-22 18:04:09 | No attached managed policies or inline user policies were returned by the inspected IAM user-policy commands. Resource policies and effective access have not been established. |
-| `umami-cloud` | 2022-09-07 05:27:10 | `AmazonRoute53FullAccess`, `SecretsManagerReadWrite`, `AmazonSESFullAccess`, `AmazonS3FullAccess` |
+| `formami-cloud` | 2022-09-07 05:27:10 | `AmazonRoute53FullAccess`, `SecretsManagerReadWrite`, `AmazonSESFullAccess`, `AmazonS3FullAccess` |
 
 Only key metadata was inspected; no secret key values were retrieved. No expiry or current rotation evidence was established. Confirm who owns these users and which current workloads use them before staged replacement or retirement. Verify workloads before disabling an existing key. Review the broad managed-policy attachments against the actual workload needs.
 
@@ -58,7 +58,7 @@ This distinguishes absence of a configured trail from absence of management-even
 
 ## Database observations
 
-The regional RDS instance inspection returned one instance, `umami-cloud-db`, in `us-west-1`. This inventory is for RDS DB instances, not every possible AWS data-store type.
+The regional RDS instance inspection returned one instance, `formami-cloud-db`, in `us-west-1`. This inventory is for RDS DB instances, not every possible AWS data-store type.
 
 - Engine: PostgreSQL; status: available.
 - Storage encryption: enabled.
@@ -104,7 +104,7 @@ All treatments remain open. HackZero populated default likelihood/impact values 
 ## Human decisions and evidence still needed
 
 1. Identify required database connection sources so a safe firewall change can be prepared.
-2. Identify owners and current consumers of `clickhouse-s3` and `umami-cloud`; plan staged key replacement or removal.
+2. Identify owners and current consumers of `clickhouse-s3` and `formami-cloud`; plan staged key replacement or removal.
 3. Claim the remaining AWS non-person identities and record real privileged-access business needs and approvals in [People](https://dashboard.hackzero.ai/trust?tab=people).
 4. Review the OPS-01 account evidence and map it to the logging, retention, and deletion requirements; approve only after review.
 5. Supply the backup configuration screen and verified separate-region recovery evidence or an actual management decision in [AVAIL-02](https://dashboard.hackzero.ai/trust?control=AVAIL-02).

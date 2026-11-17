@@ -1,5 +1,5 @@
 'use client';
-import { Row, TextField } from '@umami/react-zen';
+import { Row, TextField } from '@formami/react-zen';
 import { type ClipboardEvent, type KeyboardEvent, useEffect, useRef } from 'react';
 
 interface OtpInputProps {

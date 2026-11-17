@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogTrigger, Grid, Icon, Popover, Text } from '@umami/react-zen';
+import { Button, Dialog, DialogTrigger, Grid, Icon, Popover, Text } from '@formami/react-zen';
 import { Globe } from 'lucide-react';
 import { useLocale } from '@/components/hooks';
 import { languages } from '@/lib/lang';

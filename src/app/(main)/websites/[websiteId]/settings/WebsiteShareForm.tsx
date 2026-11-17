@@ -1,4 +1,4 @@
-import { Column, Heading, Row, Text } from '@umami/react-zen';
+import { Column, Heading, Row, Text } from '@formami/react-zen';
 import { Plus } from 'lucide-react';
 import { Empty } from '@/components/common/Empty';
 import { LoadingPanel } from '@/components/common/LoadingPanel';

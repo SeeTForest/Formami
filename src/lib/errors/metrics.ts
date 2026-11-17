@@ -1,6 +1,6 @@
 import debug from 'debug';
 
-const log = debug('umami:errors');
+const log = debug('formami:errors');
 const counts = {
   accepted: 0,
   blocked: 0,

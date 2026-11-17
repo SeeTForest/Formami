@@ -1,4 +1,4 @@
-import { useTheme } from '@umami/react-zen';
+import { useTheme } from '@formami/react-zen';
 import { useMemo } from 'react';
 import { useMessages } from '@/components/hooks';
 import { getThemeColors } from '@/lib/colors';
@@ -32,8 +32,7 @@ export function WebsiteSparkline({
     return values
       .map((value, index) => {
         const x = values.length === 1 ? width / 2 : (index / (values.length - 1)) * width;
-        const y =
-          height - padding - ((value - min) / range) * Math.max(height - padding * 2, 1);
+        const y = height - padding - ((value - min) / range) * Math.max(height - padding * 2, 1);
 
         return `${x},${y}`;
       })

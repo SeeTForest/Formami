@@ -42,7 +42,7 @@ describe('hash', () => {
   });
 
   test('returns a 128-char sha512 hex string', () => {
-    expect(hash('umami')).toMatch(/^[0-9a-f]{128}$/);
+    expect(hash('formami')).toMatch(/^[0-9a-f]{128}$/);
   });
 
   test('changes when input changes', () => {
@@ -56,7 +56,7 @@ describe('md5', () => {
   });
 
   test('returns a 32-char hex string', () => {
-    expect(md5('umami')).toMatch(/^[0-9a-f]{32}$/);
+    expect(md5('formami')).toMatch(/^[0-9a-f]{32}$/);
   });
 });
 

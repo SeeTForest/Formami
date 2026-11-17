@@ -1,4 +1,4 @@
-import { Column, Grid, Icon, Row, Text } from '@umami/react-zen';
+import { Column, Grid, Icon, Row, Text } from '@formami/react-zen';
 import type { ReactNode } from 'react';
 import { DateDistance } from '@/components/common/DateDistance';
 import { Favicon } from '@/components/common/Favicon';

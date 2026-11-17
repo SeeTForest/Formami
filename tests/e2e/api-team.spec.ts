@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { teams, users } from './fixtures';
-import { type Auth, authHeaders, deleteUser, loginViaApi, umamiUser } from './helpers';
+import { type Auth, authHeaders, deleteUser, formamiUser, loginViaApi } from './helpers';
 
 test.describe('Team API tests', () => {
   test.describe.configure({ mode: 'serial' });
@@ -81,7 +81,7 @@ test.describe('Team API tests', () => {
   });
 
   test('gets a user belonging to a team', async ({ request }) => {
-    const response = await request.get(`/api/teams/${teamId}/users/${umamiUser.id}`, {
+    const response = await request.get(`/api/teams/${teamId}/users/${formamiUser.id}`, {
       headers: authHeaders(auth),
     });
     const body = await response.json();

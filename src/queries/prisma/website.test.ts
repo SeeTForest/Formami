@@ -87,6 +87,11 @@ describe('team website access', () => {
 
 function createDeleteTx(calls: string[]) {
   return {
+    accessObservation: {
+      deleteMany: vi.fn(async () => {
+        calls.push('accessObservation');
+      }),
+    },
     sessionReplaySaved: {
       deleteMany: vi.fn(async () => {
         calls.push('sessionReplaySaved');
@@ -189,7 +194,7 @@ describe('website delete dependencies', () => {
     redisDelMock.mockReset();
     redisSetMock.mockReset();
     delete process.env.CLOUD_MODE;
-    process.env.DATABASE_URL = 'postgresql://user:pass@localhost:5432/umami?schema=public';
+    process.env.DATABASE_URL = 'postgresql://user:pass@localhost:5432/formami?schema=public';
   });
 
   test('deleteWebsite runs fast event-data cleanup, a relational safety pass, and heatmap cleanup before deleting website events', async () => {
@@ -218,6 +223,7 @@ describe('website delete dependencies', () => {
       'website-1',
     );
     expect(calls).toEqual([
+      'accessObservation',
       'sessionReplaySaved',
       'sessionReplay',
       'heatmapEvent',
@@ -261,6 +267,7 @@ describe('website delete dependencies', () => {
       'website-1',
     );
     expect(calls).toEqual([
+      'accessObservation',
       'sessionReplaySaved',
       'sessionReplay',
       'heatmapEvent',
@@ -292,7 +299,7 @@ describe('website cache invalidation', () => {
     redisSetMock.mockReset();
     redisState.enabled = true;
     delete process.env.CLOUD_MODE;
-    process.env.DATABASE_URL = 'postgresql://user:pass@localhost:5432/umami?schema=public';
+    process.env.DATABASE_URL = 'postgresql://user:pass@localhost:5432/formami?schema=public';
   });
 
   test('deleteWebsite drops the cached website on a self-hosted install', async () => {

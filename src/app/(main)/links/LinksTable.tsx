@@ -1,4 +1,4 @@
-import { DataColumn, DataTable, type DataTableProps, Row } from '@umami/react-zen';
+import { DataColumn, DataTable, type DataTableProps, Row } from '@formami/react-zen';
 import { useMemo } from 'react';
 import { WebsiteSparkline } from '@/app/(main)/websites/WebsiteSparkline';
 import { DateDistance } from '@/components/common/DateDistance';
@@ -13,7 +13,11 @@ export interface LinksTableProps extends DataTableProps {
   showActions?: boolean;
 }
 
-export function LinksTable({ showActions, data = [], ...props }: LinksTableProps & { data?: any[] }) {
+export function LinksTable({
+  showActions,
+  data = [],
+  ...props
+}: LinksTableProps & { data?: any[] }) {
   const { t, labels } = useMessages();
   const { websiteId, renderUrl } = useNavigation();
   const { getSlugUrl } = useSlug('link');

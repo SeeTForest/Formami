@@ -1,5 +1,5 @@
 'use client';
-import { Button, Column, Loading, Tab, TabList, TabPanel, Tabs } from '@umami/react-zen';
+import { Button, Column, Loading, Tab, TabList, TabPanel, Tabs } from '@formami/react-zen';
 import { type Key, useState } from 'react';
 import { SessionModal } from '@/app/(main)/websites/[websiteId]/sessions/SessionModal';
 import { WebsiteControls } from '@/app/(main)/websites/[websiteId]/WebsiteControls';
@@ -13,10 +13,12 @@ import { ReplayModal } from './ReplayModal';
 import { ReplaysDataTable } from './ReplaysDataTable';
 import { SavedReplaysDataTable } from './SavedReplaysDataTable';
 
-const KEY_NAME = 'umami.replays.tab';
+const KEY_NAME = 'formami.replays.tab';
 
 export function ReplaysPage({ websiteId }: { websiteId: string }) {
-  const [tab, setTab] = useState<ReplaySource>(() => (getItem(KEY_NAME) === 'saved' ? 'saved' : 'replays'));
+  const [tab, setTab] = useState<ReplaySource>(() =>
+    getItem(KEY_NAME) === 'saved' ? 'saved' : 'replays',
+  );
   const website = useWebsite();
   const { t, labels, messages } = useMessages();
   const { hasFeature, cloudMode, isLoading } = useSubscription(website?.teamId);

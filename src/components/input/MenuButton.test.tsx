@@ -1,4 +1,4 @@
-import { Icon, MenuItem, Row, Text } from '@umami/react-zen';
+import { Icon, MenuItem, Row, Text } from '@formami/react-zen';
 import { expect, test, vi } from 'vitest';
 import { Edit } from '@/components/icons';
 import { render, screen } from '@/test/render';

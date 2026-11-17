@@ -8,7 +8,7 @@ import {
   Row,
   Text,
   TextField,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { useBoardQuery, useMessages, useUpdateQuery } from '@/components/hooks';
 import { LinkSelect } from '@/components/input/LinkSelect';
 import { PixelSelect } from '@/components/input/PixelSelect';

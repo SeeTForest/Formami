@@ -1,3 +1,4 @@
+import { reportingCountry } from '@/lib/country-policy';
 import regions from '../../../public/iso-3166-2.json';
 import { useCountryNames } from './useCountryNames';
 
@@ -15,7 +16,9 @@ export function useRegionNames(locale: string) {
 
     const region = regionCode?.includes('-') ? regionCode : `${countryCode}-${regionCode}`;
 
-    return regions[region] ? `${regions[region]}, ${countryNames[countryCode]}` : region;
+    return regions[region]
+      ? `${regions[region]}, ${countryNames[reportingCountry(countryCode)]}`
+      : region;
   };
 
   return { regionNames: regions, getRegionName };

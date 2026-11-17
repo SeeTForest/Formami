@@ -7,7 +7,7 @@ import {
   ThemeButton,
   Tooltip,
   TooltipTrigger,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { IconLabel } from '@/components/common/IconLabel';
 import Link from '@/components/common/Link';
 import { useMessages, useNavigation, useShare } from '@/components/hooks';

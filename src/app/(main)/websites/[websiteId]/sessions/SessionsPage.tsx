@@ -1,5 +1,5 @@
 'use client';
-import { Column, Tab, TabList, TabPanel, Tabs } from '@umami/react-zen';
+import { Column, Tab, TabList, TabPanel, Tabs } from '@formami/react-zen';
 import { type Key, useState } from 'react';
 import { WebsiteControls } from '@/app/(main)/websites/[websiteId]/WebsiteControls';
 import { Panel } from '@/components/common/Panel';
@@ -9,7 +9,7 @@ import { SessionModal } from './SessionModal';
 import { SessionProperties } from './SessionProperties';
 import { SessionsDataTable } from './SessionsDataTable';
 
-const KEY_NAME = 'umami.sessions.tab';
+const KEY_NAME = 'formami.sessions.tab';
 
 export function SessionsPage({ websiteId }) {
   const [tab, setTab] = useState(getItem(KEY_NAME) || 'activity');

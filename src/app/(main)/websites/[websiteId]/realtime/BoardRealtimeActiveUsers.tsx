@@ -1,4 +1,4 @@
-import { Column, Text } from '@umami/react-zen';
+import { Column, Text } from '@formami/react-zen';
 import { LoadingPanel } from '@/components/common/LoadingPanel';
 import { useActiveUsersQuery, useMessages } from '@/components/hooks';
 import { REALTIME_INTERVAL } from '@/lib/constants';

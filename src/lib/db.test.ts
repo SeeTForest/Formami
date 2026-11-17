@@ -19,24 +19,24 @@ afterEach(() => {
 
 describe('getDatabaseType', () => {
   test('maps a postgres:// url to postgresql', () => {
-    expect(db.getDatabaseType('postgres://user:pass@localhost:5432/umami')).toBe('postgresql');
+    expect(db.getDatabaseType('postgres://user:pass@localhost:5432/formami')).toBe('postgresql');
   });
 
   test('returns postgresql for a postgresql:// url', () => {
-    expect(db.getDatabaseType('postgresql://user:pass@localhost:5432/umami')).toBe('postgresql');
+    expect(db.getDatabaseType('postgresql://user:pass@localhost:5432/formami')).toBe('postgresql');
   });
 
   test('returns the raw scheme for other databases', () => {
-    expect(db.getDatabaseType('mysql://user:pass@localhost:3306/umami')).toBe('mysql');
+    expect(db.getDatabaseType('mysql://user:pass@localhost:3306/formami')).toBe('mysql');
   });
 
   test('reads process.env.DATABASE_URL by default', () => {
-    vi.stubEnv('DATABASE_URL', 'postgres://user:pass@localhost:5432/umami');
+    vi.stubEnv('DATABASE_URL', 'postgres://user:pass@localhost:5432/formami');
     expect(db.getDatabaseType()).toBe('postgresql');
   });
 
   test('falls back to the DATABASE_URL default when called with undefined', () => {
-    vi.stubEnv('DATABASE_URL', 'postgres://user:pass@localhost:5432/umami');
+    vi.stubEnv('DATABASE_URL', 'postgres://user:pass@localhost:5432/formami');
     expect(db.getDatabaseType(undefined)).toBe('postgresql');
   });
 });
@@ -64,7 +64,7 @@ describe('runQuery', () => {
 
   test('runs the prisma query for a postgresql database', async () => {
     vi.stubEnv('CLICKHOUSE_URL', '');
-    vi.stubEnv('DATABASE_URL', 'postgresql://user:pass@localhost:5432/umami');
+    vi.stubEnv('DATABASE_URL', 'postgresql://user:pass@localhost:5432/formami');
     const prisma = vi.fn().mockResolvedValue('prisma-result');
 
     await expect(db.runQuery({ prisma })).resolves.toBe('prisma-result');
@@ -73,7 +73,7 @@ describe('runQuery', () => {
 
   test('returns undefined for an unsupported database with no clickhouse', async () => {
     vi.stubEnv('CLICKHOUSE_URL', '');
-    vi.stubEnv('DATABASE_URL', 'mysql://user:pass@localhost:3306/umami');
+    vi.stubEnv('DATABASE_URL', 'mysql://user:pass@localhost:3306/formami');
     const prisma = vi.fn();
 
     await expect(db.runQuery({ prisma })).resolves.toBeUndefined();
@@ -84,21 +84,21 @@ describe('runQuery', () => {
 describe('isRelationalOnly', () => {
   test('returns true for a postgresql database without clickhouse', () => {
     vi.stubEnv('CLICKHOUSE_URL', '');
-    vi.stubEnv('DATABASE_URL', 'postgresql://user:pass@localhost:5432/umami');
+    vi.stubEnv('DATABASE_URL', 'postgresql://user:pass@localhost:5432/formami');
 
     expect(db.isRelationalOnly()).toBe(true);
   });
 
   test('returns false when clickhouse is enabled', () => {
     vi.stubEnv('CLICKHOUSE_URL', 'http://localhost:8123');
-    vi.stubEnv('DATABASE_URL', 'postgresql://user:pass@localhost:5432/umami');
+    vi.stubEnv('DATABASE_URL', 'postgresql://user:pass@localhost:5432/formami');
 
     expect(db.isRelationalOnly()).toBe(false);
   });
 
   test('returns false for unsupported non-relational databases', () => {
     vi.stubEnv('CLICKHOUSE_URL', '');
-    vi.stubEnv('DATABASE_URL', 'mysql://user:pass@localhost:3306/umami');
+    vi.stubEnv('DATABASE_URL', 'mysql://user:pass@localhost:3306/formami');
 
     expect(db.isRelationalOnly()).toBe(false);
   });

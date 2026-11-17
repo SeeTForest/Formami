@@ -10,7 +10,7 @@ test('does not match unrelated asset paths that only share the suffix', () => {
 });
 
 test('matches paths under the configured base path', () => {
-  expect(matchesConfiguredPath('/umami/d.js', 'd.js', '/umami')).toBe(true);
+  expect(matchesConfiguredPath('/formami/d.js', 'd.js', '/formami')).toBe(true);
 });
 
 test('normalizes leading slashes in configured paths', () => {

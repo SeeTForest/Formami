@@ -1,4 +1,4 @@
-import { Column } from '@umami/react-zen';
+import { Column } from '@formami/react-zen';
 import { useBoard } from '@/components/hooks';
 import { BoardViewRow } from './BoardViewRow';
 

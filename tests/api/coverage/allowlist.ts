@@ -3,7 +3,7 @@ export interface AllowlistEntry {
   key: string;
   /** Why this operation cannot be exercised by the harness. */
   reason: string;
-  /** Only applies when running against this backend (UMAMI_TEST_DB); omit for both. */
+  /** Only applies when running against this backend (FORMAMI_TEST_DB); omit for both. */
   db?: 'postgres' | 'clickhouse';
 }
 

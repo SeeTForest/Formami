@@ -27,6 +27,7 @@ export const websiteSchema = z
     id: z.uuid(),
     name: z.string(),
     domain: z.string().nullable(),
+    pageOrigins: z.string().nullable().optional(),
     resetAt: nullableDateTimeSchema,
     userId: nullableUuidSchema,
     teamId: nullableUuidSchema,

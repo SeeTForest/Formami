@@ -71,7 +71,7 @@ describe('safeDecodeURIComponent', () => {
 
 describe('isValidUrl', () => {
   test('returns true for valid urls', () => {
-    expect(isValidUrl('https://umami.is')).toBe(true);
+    expect(isValidUrl('https://example.com')).toBe(true);
     expect(isValidUrl('http://localhost:3000/path?q=1')).toBe(true);
   });
 

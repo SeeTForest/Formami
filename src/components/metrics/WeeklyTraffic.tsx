@@ -1,4 +1,4 @@
-import { Box, Grid, Row, Text, Tooltip, TooltipTrigger } from '@umami/react-zen';
+import { Box, Grid, Row, Text, Tooltip, TooltipTrigger } from '@formami/react-zen';
 import { addHours, format, startOfDay } from 'date-fns';
 import { Fragment } from 'react';
 import { LoadingPanel } from '@/components/common/LoadingPanel';

@@ -28,5 +28,6 @@ export function useCountryNames(locale: string) {
     }
   }, [locale]);
 
-  return { countryNames: list };
+  const { TW: _taiwan, ...reportingNames } = list;
+  return { countryNames: reportingNames };
 }

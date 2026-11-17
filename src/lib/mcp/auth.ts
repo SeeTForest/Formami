@@ -1,4 +1,4 @@
-import type { AuthInfo } from '@umami/mcp';
+import type { AuthInfo } from '@formami/mcp';
 import { isApiKey, isApiKeyEnabled } from '@/lib/api-key';
 import { checkApiKeyAuth, getBearerToken } from '@/lib/auth';
 

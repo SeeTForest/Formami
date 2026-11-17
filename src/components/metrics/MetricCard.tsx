@@ -1,4 +1,4 @@
-import { Button, Column, Icon, Row, Text, Tooltip, TooltipTrigger } from '@umami/react-zen';
+import { Button, Column, Icon, Row, Text, Tooltip, TooltipTrigger } from '@formami/react-zen';
 import { useSpring, useTransform } from 'motion/react';
 import { type KeyboardEvent, type ReactNode, useEffect } from 'react';
 import { AnimatedDiv } from '@/components/common/AnimatedDiv';

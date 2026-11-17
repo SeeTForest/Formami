@@ -1,4 +1,4 @@
-import { Box, Column, type ColumnProps, FloatingTooltip, Text, useTheme } from '@umami/react-zen';
+import { Box, Column, type ColumnProps, FloatingTooltip, useTheme } from '@formami/react-zen';
 import { colord } from 'colord';
 import { type CSSProperties, useMemo, useState } from 'react';
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps';
@@ -10,6 +10,7 @@ import {
 } from '@/components/hooks';
 import { getThemeColors } from '@/lib/colors';
 import { ISO_COUNTRIES, MAP_FILE } from '@/lib/constants';
+import { reportingCountry } from '@/lib/country-policy';
 import { percentFilter } from '@/lib/filters';
 import { formatLongNumber } from '@/lib/format';
 import styles from './WorldMap.module.css';
@@ -83,7 +84,7 @@ export function WorldMap({ websiteId, data, ...props }: WorldMapProps) {
           <Geographies geography={`${process.env.basePath || ''}${MAP_FILE}`}>
             {({ geographies }) => {
               return geographies.map(geo => {
-                const code = ISO_COUNTRIES[geo.id];
+                const code = reportingCountry(ISO_COUNTRIES[geo.id]);
 
                 return (
                   <Geography

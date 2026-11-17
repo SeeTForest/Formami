@@ -3,7 +3,7 @@ import { getColor, getThemeColors, hex2RGB, hex6, rgb2Hex } from './colors';
 
 describe('hex6', () => {
   test('is deterministic for the same input', () => {
-    expect(hex6('umami')).toBe(hex6('umami'));
+    expect(hex6('formami')).toBe(hex6('formami'));
   });
 
   test('returns a 6-character hex string', () => {
@@ -48,7 +48,7 @@ describe('rgb2Hex', () => {
 
 describe('getColor', () => {
   test('is deterministic for the same seed', () => {
-    expect(getColor('umami')).toBe(getColor('umami'));
+    expect(getColor('formami')).toBe(getColor('formami'));
   });
 
   test('produces different colors for different seeds', () => {

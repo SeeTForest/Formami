@@ -1,4 +1,4 @@
-import { Button, Column } from '@umami/react-zen';
+import { Button, Column } from '@formami/react-zen';
 import type { ErrorInfo, ReactNode } from 'react';
 import { ErrorBoundary as Boundary } from 'react-error-boundary';
 import { useMessages } from '@/components/hooks';

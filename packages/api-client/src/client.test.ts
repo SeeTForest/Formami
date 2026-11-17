@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { UmamiClient } from './client';
+import { FormamiClient } from './client';
 import { operations } from './generated/operations';
 
 interface Captured {
@@ -11,7 +11,7 @@ interface Captured {
 
 function createClient(response: unknown = {}, options: Record<string, unknown> = {}) {
   const calls: Captured[] = [];
-  const client = new UmamiClient({
+  const client = new FormamiClient({
     baseUrl: 'https://example.com/api',
     token: 'token',
     ...options,
@@ -33,9 +33,12 @@ function createClient(response: unknown = {}, options: Record<string, unknown> =
   return { client, calls };
 }
 
-describe('UmamiClient', () => {
+describe('FormamiClient', () => {
   test('exposes a method for every generated operation', () => {
-    const client = new UmamiClient({ fetch: async () => new Response('{}') });
+    const client = new FormamiClient({
+      baseUrl: 'https://analytics.example.com/api',
+      fetch: async () => new Response('{}'),
+    });
 
     for (const operationId of Object.keys(operations)) {
       expect(typeof (client as unknown as Record<string, unknown>)[operationId]).toBe('function');
@@ -103,9 +106,10 @@ describe('UmamiClient', () => {
     expect(calls[0].url.searchParams.get('browser1')).toBe('eq.Chrome');
   });
 
-  test('uses the Cloud base URL and API key header by default', async () => {
+  test('uses the configured base URL and Formami API key header', async () => {
     const calls: Captured[] = [];
-    const client = new UmamiClient({
+    const client = new FormamiClient({
+      baseUrl: 'https://analytics.example.com/api',
       apiKey: 'api-key',
       fetch: async (url, init) => {
         calls.push({
@@ -119,8 +123,8 @@ describe('UmamiClient', () => {
 
     await client.listWebsites();
 
-    expect(calls[0].url.toString()).toBe('https://api.umami.is/v1/websites');
-    expect(calls[0].headers['x-umami-api-key']).toBe('api-key');
+    expect(calls[0].url.toString()).toBe('https://analytics.example.com/api/websites');
+    expect(calls[0].headers['x-formami-api-key']).toBe('api-key');
   });
 
   test('merges custom and per-request headers', async () => {
@@ -147,4 +151,8 @@ describe('UmamiClient', () => {
     expect(result).toEqual({ visitors: 3 });
     expect(calls[0].url.pathname).toBe('/api/websites/w1/active');
   });
+});
+
+test('requires an explicit Formami endpoint', () => {
+  expect(() => new FormamiClient({ apiKey: 'formami_example' })).toThrow(/explicit baseUrl/);
 });

@@ -10,7 +10,7 @@ import {
   Icon,
   Row,
   TextField,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { useState } from 'react';
 import { CopyButton } from '@/components/common/CopyButton';
 import { useMessages, useUpdateQuery } from '@/components/hooks';

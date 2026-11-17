@@ -1,4 +1,4 @@
-export interface UmamiApiErrorBody {
+export interface FormamiApiErrorBody {
   error?: {
     message?: string;
     code?: string;
@@ -12,7 +12,7 @@ export interface UmamiApiErrorBody {
  * Thrown for any non-2xx response. `code` mirrors the API's error code
  * (`unauthorized`, `forbidden`, `not-found`, `bad-request`, `server-error`, …).
  */
-export class UmamiApiError extends Error {
+export class FormamiApiError extends Error {
   readonly status: number;
   readonly code: string;
   readonly method: string;
@@ -28,7 +28,7 @@ export class UmamiApiError extends Error {
     body?: unknown;
   }) {
     super(options.message ?? defaultMessage(options.status));
-    this.name = 'UmamiApiError';
+    this.name = 'FormamiApiError';
     this.status = options.status;
     this.code = options.code ?? defaultCode(options.status);
     this.method = options.method;
@@ -57,8 +57,10 @@ export class UmamiApiError extends Error {
   }
 }
 
-export function isUmamiApiError(error: unknown): error is UmamiApiError {
-  return error instanceof UmamiApiError || (error as { name?: string })?.name === 'UmamiApiError';
+export function isFormamiApiError(error: unknown): error is FormamiApiError {
+  return (
+    error instanceof FormamiApiError || (error as { name?: string })?.name === 'FormamiApiError'
+  );
 }
 
 function defaultCode(status: number) {

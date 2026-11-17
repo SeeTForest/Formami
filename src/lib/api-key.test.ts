@@ -14,10 +14,10 @@ afterEach(() => {
 });
 
 describe('generateApiKey', () => {
-  test('produces umami_ followed by 32 base62 characters', () => {
+  test('produces formami_ followed by 32 base62 characters', () => {
     const key = generateApiKey();
 
-    expect(key).toMatch(/^umami_[0-9a-zA-Z]{32}$/);
+    expect(key).toMatch(/^formami_[0-9a-zA-Z]{32}$/);
   });
 
   test('produces unique keys', () => {
@@ -39,13 +39,13 @@ describe('getApiKeyPrefix', () => {
   test('returns the prefix plus the first 8 characters', () => {
     const key = `${API_KEY_PREFIX}abcdefghijklmnopqrstuvwxyz012345`;
 
-    expect(getApiKeyPrefix(key)).toBe('umami_abcdefgh');
+    expect(getApiKeyPrefix(key)).toBe('formami_abcdefgh');
   });
 });
 
 describe('isApiKey', () => {
   test('detects api keys by prefix', () => {
-    expect(isApiKey('umami_abc')).toBe(true);
+    expect(isApiKey('formami_abc')).toBe(true);
     expect(isApiKey('eyJhbGciOi')).toBe(false);
     expect(isApiKey(undefined)).toBe(false);
     expect(isApiKey(null)).toBe(false);
@@ -84,13 +84,13 @@ describe('isApiKeyBlockedPath', () => {
   });
 
   test('blocks credential and admin routes reached through a relative API_URL', () => {
-    vi.stubEnv('API_URL', '/umami-api/');
+    vi.stubEnv('API_URL', '/formami-api/');
 
-    expect(isApiKeyBlockedPath('/umami-api/me/api-keys')).toBe(true);
-    expect(isApiKeyBlockedPath('/Umami-API/users/abc')).toBe(true);
-    expect(isApiKeyBlockedPath('/teams/abc/umami-api/2fa/status')).toBe(true);
-    expect(isApiKeyBlockedPath('/umami-api/me')).toBe(false);
-    expect(isApiKeyBlockedPath('/umami-apiusers')).toBe(false);
+    expect(isApiKeyBlockedPath('/formami-api/me/api-keys')).toBe(true);
+    expect(isApiKeyBlockedPath('/Formami-API/users/abc')).toBe(true);
+    expect(isApiKeyBlockedPath('/teams/abc/formami-api/2fa/status')).toBe(true);
+    expect(isApiKeyBlockedPath('/formami-api/me')).toBe(false);
+    expect(isApiKeyBlockedPath('/formami-apiusers')).toBe(false);
   });
 
   test('ignores an absolute API_URL, which is not rewritten', () => {

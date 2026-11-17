@@ -1,4 +1,4 @@
-import { Button, Column, Heading, Row, Text } from '@umami/react-zen';
+import { Button, Column, Heading, Row, Text } from '@formami/react-zen';
 import { useState } from 'react';
 import { Empty } from '@/components/common/Empty';
 import { IconLabel } from '@/components/common/IconLabel';
@@ -51,12 +51,7 @@ function BoardShareDialogContent({
         />
       )}
       {hasShares && <Text>{t(messages.shareUrl)}</Text>}
-      {!showCreateForm &&
-        (hasShares ? (
-          <BoardSharesTable data={shares} />
-        ) : (
-          <Empty />
-        ))}
+      {!showCreateForm && (hasShares ? <BoardSharesTable data={shares} /> : <Empty />)}
     </Column>
   );
 }

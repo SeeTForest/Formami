@@ -1,4 +1,4 @@
-import { DataColumn, DataTable, type DataTableProps, Icon, Text } from '@umami/react-zen';
+import { DataColumn, DataTable, type DataTableProps, Icon, Text } from '@formami/react-zen';
 import { type ReactNode, useMemo } from 'react';
 import { DateDistance } from '@/components/common/DateDistance';
 import { LinkButton } from '@/components/common/LinkButton';

@@ -1,4 +1,4 @@
-import { DataColumn, DataTable, Row } from '@umami/react-zen';
+import { DataColumn, DataTable, Row } from '@formami/react-zen';
 import { TeamMemberEditButton } from '@/app/(main)/teams/[teamId]/TeamMemberEditButton';
 import { TeamMemberRemoveButton } from '@/app/(main)/teams/[teamId]/TeamMemberRemoveButton';
 import Link from '@/components/common/Link';

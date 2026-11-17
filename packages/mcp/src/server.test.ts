@@ -1,9 +1,9 @@
+import { FormamiClient } from '@formami/api-client';
 import { Client } from '@modelcontextprotocol/client';
 import { InMemoryTransport } from '@modelcontextprotocol/server';
-import { UmamiClient } from '@umami/api-client';
 import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 import type { McpLogEvent } from './lib/logger';
-import { createUmamiMcpServer } from './server';
+import { createFormamiMcpServer } from './server';
 
 const WEBSITE_ID = '6f2a7e0e-2b0f-4b3f-9f0a-1234567890ab';
 const SESSION_ID = '0b3b6c2e-1f4a-4d0c-9a5e-abcdefabcdef';
@@ -20,7 +20,7 @@ interface Call {
 function createHarness(handler: Handler) {
   const calls: Call[] = [];
   const logs: McpLogEvent[] = [];
-  const umami = new UmamiClient({
+  const formami = new FormamiClient({
     baseUrl: 'https://example.com/api',
     token: 'secret-token',
     fetch: async (input, init) => {
@@ -34,8 +34,8 @@ function createHarness(handler: Handler) {
       });
     },
   });
-  const server = createUmamiMcpServer({
-    client: umami,
+  const server = createFormamiMcpServer({
+    client: formami,
     logger: { info: event => logs.push(event), error: event => logs.push(event) },
   });
   const client = new Client({ name: 'test', version: '0.0.0' });
@@ -50,7 +50,7 @@ async function connect(harness: ReturnType<typeof createHarness>) {
   await harness.client.connect(clientTransport);
 }
 
-describe('createUmamiMcpServer', () => {
+describe('createFormamiMcpServer', () => {
   let harness: ReturnType<typeof createHarness>;
 
   const routes: Handler = url => {
@@ -60,7 +60,13 @@ describe('createUmamiMcpServer', () => {
       return {
         body: {
           data: [
-            { id: WEBSITE_ID, name: 'Umami', domain: 'umami.is', teamId: null, createdAt: null },
+            {
+              id: WEBSITE_ID,
+              name: 'Formami',
+              domain: 'example.com',
+              teamId: null,
+              createdAt: null,
+            },
           ],
           count: 1,
           page: 1,
@@ -467,7 +473,7 @@ describe('createUmamiMcpServer', () => {
 
     expect(result.isError).toBeFalsy();
     expect(result.structuredContent).toMatchObject({
-      websites: [{ id: WEBSITE_ID, name: 'Umami', domain: 'umami.is' }],
+      websites: [{ id: WEBSITE_ID, name: 'Formami', domain: 'example.com' }],
       page: 1,
       count: 1,
       hasMore: false,

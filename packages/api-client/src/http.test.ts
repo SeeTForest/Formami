@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { UmamiApiError } from './errors';
+import { FormamiApiError } from './errors';
 import type { OperationDefinition } from './generated/operations';
 import {
   buildAuthHeaders,
@@ -43,8 +43,8 @@ describe('buildPath', () => {
 describe('buildUrl', () => {
   test('strips the /api prefix and joins with the base URL', () => {
     expect(stripApiPrefix('/api/websites')).toBe('/websites');
-    expect(buildUrl('https://api.umami.is/v1/', '/api/websites', {}).toString()).toBe(
-      'https://api.umami.is/v1/websites',
+    expect(buildUrl('https://analytics.example.com/api/', '/api/websites', {}).toString()).toBe(
+      'https://analytics.example.com/api/websites',
     );
     expect(buildUrl('https://example.com/api', '/api/websites', {}).toString()).toBe(
       'https://example.com/api/websites',
@@ -78,15 +78,15 @@ describe('buildAuthHeaders', () => {
   });
 
   test('sends API keys as both header conventions when no token is present', () => {
-    expect(buildAuthHeaders({ apiKey: 'umami_123' })).toEqual({
-      'x-umami-api-key': 'umami_123',
-      authorization: 'Bearer umami_123',
+    expect(buildAuthHeaders({ apiKey: 'formami_123' })).toEqual({
+      'x-formami-api-key': 'formami_123',
+      authorization: 'Bearer formami_123',
     });
   });
 
   test('prefers the explicit token as bearer when both are present', () => {
     expect(buildAuthHeaders({ apiKey: 'k', token: 't' })).toEqual({
-      'x-umami-api-key': 'k',
+      'x-formami-api-key': 'k',
       authorization: 'Bearer t',
     });
   });
@@ -158,7 +158,7 @@ describe('sendRequest', () => {
     });
   });
 
-  test('throws UmamiApiError with the API error code for 4xx responses', async () => {
+  test('throws FormamiApiError with the API error code for 4xx responses', async () => {
     const fetchImpl = async () =>
       jsonResponse(
         { error: { message: 'Nope', code: 'unauthorized', status: 401 } },
@@ -172,7 +172,7 @@ describe('sendRequest', () => {
         headers: {},
       }),
     ).rejects.toMatchObject({
-      name: 'UmamiApiError',
+      name: 'FormamiApiError',
       status: 401,
       code: 'unauthorized',
       message: 'Nope',
@@ -180,16 +180,16 @@ describe('sendRequest', () => {
     });
   });
 
-  test('throws UmamiApiError for 5xx responses without a JSON body', async () => {
+  test('throws FormamiApiError for 5xx responses without a JSON body', async () => {
     const fetchImpl = async () => new Response('boom', { status: 502 });
 
     const error = (await sendRequest(fetchImpl, {
       method: 'get',
       url: new URL('https://example.com/api/websites'),
       headers: {},
-    }).catch(e => e)) as UmamiApiError;
+    }).catch(e => e)) as FormamiApiError;
 
-    expect(error).toBeInstanceOf(UmamiApiError);
+    expect(error).toBeInstanceOf(FormamiApiError);
     expect(error.status).toBe(502);
     expect(error.code).toBe('server-error');
     expect(error.isServerError).toBe(true);

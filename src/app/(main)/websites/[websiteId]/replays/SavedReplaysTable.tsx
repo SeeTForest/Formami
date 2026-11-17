@@ -1,9 +1,8 @@
-import { Button, DataColumn, DataTable, type DataTableProps, Icon } from '@umami/react-zen';
+import { Button, DataColumn, DataTable, type DataTableProps, Icon } from '@formami/react-zen';
 import { Play } from 'lucide-react';
+import { useEffect } from 'react';
 import { DateDistance } from '@/components/common/DateDistance';
 import { useMessages, useNavigation } from '@/components/hooks';
-
-import { useEffect } from 'react';
 import { clearReplays, setReplays } from '@/store/replays';
 
 export function SavedReplaysTable({ websiteId, ...props }: DataTableProps & { websiteId: string }) {

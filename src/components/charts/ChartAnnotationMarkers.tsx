@@ -1,4 +1,4 @@
-import { Button, Column, Text, Tooltip, TooltipTrigger, useTheme } from '@umami/react-zen';
+import { Button, Column, Text, Tooltip, TooltipTrigger, useTheme } from '@formami/react-zen';
 import { isSameDay } from 'date-fns';
 import { useMemo } from 'react';
 import { IconLabel } from '@/components/common/IconLabel';

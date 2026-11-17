@@ -1,4 +1,4 @@
-import { Box, Column, Heading, Row, SearchField, StatusLight, Text } from '@umami/react-zen';
+import { Box, Column, Heading, Row, SearchField, StatusLight, Text } from '@formami/react-zen';
 import { useMemo, useState } from 'react';
 import { List, type RowComponentProps } from 'react-window';
 import { SessionModal } from '@/app/(main)/websites/[websiteId]/sessions/SessionModal';

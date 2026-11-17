@@ -2,7 +2,7 @@
 /**
  * Orchestrates a Playwright suite against a disposable Compose stack:
  *
- *   1. docker compose up (builds the umami image, starts Postgres [+ ClickHouse])
+ *   1. docker compose up (builds the formami image, starts Postgres [+ ClickHouse])
  *   2. waits for /api/heartbeat
  *   3. runs Playwright against the container: the API suite (tests/api,
  *      playwright.api.config.ts), or with --e2e the browser suite (tests/e2e,
@@ -27,10 +27,10 @@ const COMPOSE_FILE = 'docker-compose.test.yml';
 // would break the API suite (it logs in with the default) on a shared stack.
 const E2E = process.argv.slice(2).includes('--e2e');
 const PROJECT_NAME =
-  process.env.COMPOSE_PROJECT_NAME || (E2E ? 'umami-e2e-test' : 'umami-api-test');
-const PORT = process.env.UMAMI_TEST_PORT || (E2E ? '3200' : '3100');
-// docker-compose.test.yml publishes the app on UMAMI_TEST_PORT.
-process.env.UMAMI_TEST_PORT = PORT;
+  process.env.COMPOSE_PROJECT_NAME || (E2E ? 'formami-e2e-test' : 'formami-api-test');
+const PORT = process.env.FORMAMI_TEST_PORT || (E2E ? '3200' : '3100');
+// docker-compose.test.yml publishes the app on FORMAMI_TEST_PORT.
+process.env.FORMAMI_TEST_PORT = PORT;
 const BASE_URL = process.env.PLAYWRIGHT_BASE_URL || `http://localhost:${PORT}`;
 // PLAYWRIGHT_BASE_URL selects an already-running server: no Compose stack is
 // built, started, or torn down for it.
@@ -51,10 +51,10 @@ Usage: pnpm test:api [options] [-- playwright args]
 
 Options:
   --e2e               Run the browser suite (tests/e2e) instead of the API suite.
-                      Uses its own stack (project umami-e2e-test, port 3200)
+                      Uses its own stack (project formami-e2e-test, port 3200)
   --clickhouse        Run against Postgres + ClickHouse (analytics stored in ClickHouse)
   --keep              Leave the containers running after the tests finish
-  --no-build          Skip the image build (use the existing UMAMI_TEST_IMAGE)
+  --no-build          Skip the image build (use the existing FORMAMI_TEST_IMAGE)
   --up-only           Start the stack, wait for readiness, and exit (see --keep)
   --down              Tear down the stack and exit
   --grep <expr>       Only run matching tests (implies --coverage-report)
@@ -62,9 +62,9 @@ Options:
   -h, --help          Show this help
 
 Environment:
-  UMAMI_TEST_PORT     Host port for the app (default 3100, or 3200 with --e2e)
-  UMAMI_TEST_IMAGE    Image tag to build/run (default umami-test:local)
-  COMPOSE_PROJECT_NAME  Compose project name (default umami-api-test, or umami-e2e-test)
+  FORMAMI_TEST_PORT     Host port for the app (default 3100, or 3200 with --e2e)
+  FORMAMI_TEST_IMAGE    Image tag to build/run (default formami-test:local)
+  COMPOSE_PROJECT_NAME  Compose project name (default formami-api-test, or formami-e2e-test)
   PLAYWRIGHT_BASE_URL  Test an already-running server instead of starting the
                       Compose stack (pass --clickhouse if it stores analytics there)
   API_ALLOW_DESTRUCTIVE=1  Required for non-loopback PLAYWRIGHT_BASE_URL targets: the suite
@@ -231,7 +231,7 @@ async function waitForHeartbeat(url: string, timeoutMs: number) {
 async function main() {
   const options = parseArgs(process.argv.slice(2));
   const profile = options.clickhouse ? 'clickhouse' : 'postgres';
-  const appService = options.clickhouse ? 'umami-clickhouse' : 'umami';
+  const appService = options.clickhouse ? 'formami-clickhouse' : 'formami';
   const logServices = options.clickhouse ? [appService, 'db', 'clickhouse'] : [appService, 'db'];
 
   const teardown = () => {
@@ -298,11 +298,11 @@ async function main() {
 
       if (!ownStackRunning && !(await isPortFree(Number(PORT)))) {
         console.error(
-          `Port ${PORT} is already in use on this machine, so the umami container cannot be published there.
+          `Port ${PORT} is already in use on this machine, so the formami container cannot be published there.
 ` +
             `Stop whatever is listening on ${PORT} (e.g. another dev server), or pick a different port:
 ` +
-            `  UMAMI_TEST_PORT=3200 pnpm test:api`,
+            `  FORMAMI_TEST_PORT=3200 pnpm test:api`,
         );
         return 2;
       }
@@ -326,7 +326,7 @@ async function main() {
 
     await waitForHeartbeat(BASE_URL, HEARTBEAT_TIMEOUT_MS);
 
-    console.log(`umami is ready at ${BASE_URL}`);
+    console.log(`formami is ready at ${BASE_URL}`);
 
     if (options.upOnly) {
       options.keep = true;
@@ -334,7 +334,7 @@ async function main() {
         options.e2e
           ? `\nRun tests with: PLAYWRIGHT_BASE_URL=${BASE_URL} PLAYWRIGHT_SKIP_WEB_SERVER=1 pnpm test:e2e` +
               `\nStop the stack with: ${DOWN_COMMAND}`
-          : `\nRun tests with: PLAYWRIGHT_BASE_URL=${BASE_URL} UMAMI_TEST_DB=${profile} pnpm test:api:run` +
+          : `\nRun tests with: PLAYWRIGHT_BASE_URL=${BASE_URL} FORMAMI_TEST_DB=${profile} pnpm test:api:run` +
               '\nRe-running against the same stack? Add API_SKIP_SEED=1 (seeding is additive).' +
               `\nStop the stack with: ${DOWN_COMMAND}`,
       );
@@ -371,7 +371,7 @@ async function main() {
         ? target
         : {
             ...target,
-            UMAMI_TEST_DB: profile,
+            FORMAMI_TEST_DB: profile,
             API_COVERAGE:
               process.env.API_COVERAGE ??
               (options.grep || options.coverageReport ? 'report' : 'enforce'),

@@ -1,4 +1,4 @@
-import { cn, type ScrollAreaProps, ScrollArea as ZenScrollArea } from '@umami/react-zen';
+import { cn, type ScrollAreaProps, ScrollArea as ZenScrollArea } from '@formami/react-zen';
 import { type RefObject, useEffect, useRef, useState } from 'react';
 import { useMessages } from '@/components/hooks';
 import { ChevronDown, ChevronUp } from '@/components/icons';

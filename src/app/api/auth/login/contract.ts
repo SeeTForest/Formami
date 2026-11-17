@@ -49,7 +49,7 @@ const loginOperation = defineOperation({
     operationId: 'login',
     summary: 'Log in',
     description:
-      'Authenticates a self-hosted Umami user. Users with two-factor authentication receive a short-lived partial token instead of a full bearer token.',
+      'Authenticates a self-hosted Formami user. Users with two-factor authentication receive a short-lived partial token instead of a full bearer token.',
     tags: ['Authentication'],
     requestBody: {
       required: true,

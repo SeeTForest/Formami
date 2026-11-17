@@ -9,6 +9,7 @@ import {
   SOCIAL_DOMAINS,
   VIDEO_DOMAINS,
 } from '@/lib/constants';
+import { countrySQL, reportingCountryRows } from '@/lib/country-policy';
 import { CLICKHOUSE, PRISMA, runQuery } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import type { QueryFilters } from '@/lib/types';
@@ -35,7 +36,7 @@ export async function getRevenueMetrics(
   return runQuery({
     [PRISMA]: () => relationalQuery(...args),
     [CLICKHOUSE]: () => clickhouseQuery(...args),
-  });
+  }).then(reportingCountryRows);
 }
 
 async function relationalQuery(
@@ -85,13 +86,13 @@ async function relationalQuery(
       ${filteredSessionsQuery},
       ${filteredRevenueQuery}
       select
-        session.country as "name",
+        ${countrySQL('session.country')} as "name",
         sum(filtered_revenue.revenue) as "value"
       from filtered_revenue
       join session
         on session.website_id = filtered_revenue.website_id
           and session.session_id = filtered_revenue.session_id
-      group by session.country
+      group by ${countrySQL('session.country')}
       order by value desc
       `,
       queryParams,
@@ -314,12 +315,12 @@ async function clickhouseQuery(
         ${filteredRevenueQuery},
         ${revenueSessionQuery}
         select
-          revenue_session.country as "name",
+          ${countrySQL('revenue_session.country')} as "name",
           sum(filtered_revenue.revenue) as "value"
         from filtered_revenue
         any left join revenue_session
           on revenue_session.session_id = filtered_revenue.session_id
-        group by revenue_session.country
+        group by ${countrySQL('revenue_session.country')}
         order by value desc
         `,
         queryParams,

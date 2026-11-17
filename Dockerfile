@@ -11,7 +11,7 @@ ARG PNPM_VERSION
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-# Workspace packages (@umami/api-client, @umami/mcp) must be present for a frozen install.
+# Workspace packages (@formami/api-client, @formami/mcp) must be present for a frozen install.
 COPY packages/api-client/package.json ./packages/api-client/
 COPY packages/mcp/package.json ./packages/mcp/
 COPY packages/mcp/bin ./packages/mcp/bin/

@@ -124,7 +124,7 @@ async function clickhouseQuery(
         groupArrayMerge(property_values),
         groupArrayMerge(property_types)
       ) as propertyValues
-    from umami.event_data_pivot
+    from formami.event_data_pivot
     any left join (
           select *
           from website_event

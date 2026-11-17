@@ -1,5 +1,5 @@
 'use client';
-import { Column } from '@umami/react-zen';
+import { Column } from '@formami/react-zen';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Empty } from '@/components/common/Empty';
 import { useMobile } from '@/components/hooks';

@@ -1,5 +1,5 @@
 'use client';
-import { Button, Column, Row } from '@umami/react-zen';
+import { Button, Column, Row } from '@formami/react-zen';
 import { useState } from 'react';
 import { useMessages, useMobile } from '@/components/hooks';
 import type { PropertyDataSource } from '@/components/hooks/queries/usePropertyFieldsQuery';

@@ -5,7 +5,7 @@ import {
   type DialogProps,
   DialogTrigger,
   Modal,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import type { CSSProperties, ReactNode } from 'react';
 import { ControlledDialog } from '@/components/common/ControlledDialog';
 import { IconLabel } from '@/components/common/IconLabel';

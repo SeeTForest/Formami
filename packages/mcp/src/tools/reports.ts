@@ -18,7 +18,7 @@ export const runFunnel = defineTool({
   description:
     'Calculates how many visitors progressed through an ordered sequence of 2–8 steps (page paths or custom events) ' +
     'within a time window, and where they dropped off. Use this for conversion questions such as ' +
-    '"how many visitors who viewed /pricing went on to sign up?". Either pass "funnelId" for a funnel saved in Umami ' +
+    '"how many visitors who viewed /pricing went on to sign up?". Either pass "funnelId" for a funnel saved in Formami ' +
     '(find it with list_funnels) or define ad-hoc "steps". Requires a websiteId from list_websites.',
   inputSchema: z
     .object({
@@ -257,7 +257,7 @@ export const getRevenue = defineTool({
   name: 'get_revenue',
   title: 'Get revenue report',
   description:
-    'Returns revenue tracked through Umami revenue events for a time range: totals (sum, count, average, unique ' +
+    'Returns revenue tracked through Formami revenue events for a time range: totals (sum, count, average, unique ' +
     'customers, ARPU) with a comparison to the previous period, a revenue time series, and breakdowns by country, ' +
     'region, referrer and channel. Requires revenue tracking to be set up and a websiteId from list_websites.',
   inputSchema: z.object({

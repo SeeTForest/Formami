@@ -1,4 +1,4 @@
-import { StatusLight, Text } from '@umami/react-zen';
+import { StatusLight, Text } from '@formami/react-zen';
 import { useMemo } from 'react';
 import Link from '@/components/common/Link';
 import { useActiveUsersQuery, useMessages } from '@/components/hooks';

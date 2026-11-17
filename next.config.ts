@@ -22,8 +22,8 @@ const defaultLocale = process.env.DEFAULT_LOCALE || '';
 const forceSSL = process.env.FORCE_SSL || '';
 const trackerScriptName = process.env.TRACKER_SCRIPT_NAME || '';
 const trackerScriptURL = process.env.TRACKER_SCRIPT_URL || '';
-const selfTrack = process.env.UMAMI_SELF_TRACK || '';
-const selfRecord = process.env.UMAMI_SELF_RECORD || '';
+const selfTrack = process.env.FORMAMI_SELF_TRACK || '';
+const selfRecord = process.env.FORMAMI_SELF_RECORD || '';
 
 function isRelativeUrl(url: string) {
   return Boolean(url && !/^https?:\/\//i.test(url));
@@ -198,10 +198,10 @@ if (trackerScriptName) {
   }
 }
 
-if (isProd && cloudMode) {
+if (isProd && cloudMode && process.env.FORMAMI_CLOUD_TRACKER_URL) {
   rewrites.push({
     source: '/script.js',
-    destination: 'https://cloud.umami.is/script.js',
+    destination: process.env.FORMAMI_CLOUD_TRACKER_URL,
   });
 }
 

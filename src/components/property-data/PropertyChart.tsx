@@ -1,5 +1,5 @@
 'use client';
-import { Column, Grid } from '@umami/react-zen';
+import { Column, Grid } from '@formami/react-zen';
 import { colord } from 'colord';
 import { useCallback, useMemo } from 'react';
 import { BarChart } from '@/components/charts/BarChart';

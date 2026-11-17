@@ -13,7 +13,7 @@ import {
   Tooltip,
   TooltipTrigger,
   useTheme,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { useRouter } from 'next/navigation';
 import { useConfig, useLocale, useLoginQuery, useMessages, useMobile } from '@/components/hooks';
 import {

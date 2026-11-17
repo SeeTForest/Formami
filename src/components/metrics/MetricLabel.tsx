@@ -1,4 +1,4 @@
-import { Row, Text } from '@umami/react-zen';
+import { Row } from '@formami/react-zen';
 import { Favicon } from '@/components/common/Favicon';
 import { FilterLink } from '@/components/common/FilterLink';
 import { TypeIcon } from '@/components/common/TypeIcon';
@@ -12,6 +12,7 @@ import {
 import { Share2 } from '@/components/icons';
 import { GROUPED_DOMAINS } from '@/lib/constants';
 import { decodePunycodeDomain } from '@/lib/format';
+import { PageMetricLabel } from './PageMetricLabel';
 
 export interface MetricLabelProps {
   type: string;
@@ -40,10 +41,10 @@ export function MetricLabel({ type, data }: MetricLabelProps) {
     case 'path':
     case 'entry':
     case 'exit':
-      return <PathMetricLabel type={type} data={data} />;
+      return <PageMetricLabel type={type} label={data.label} />;
 
     case 'fullPath':
-      return <FullPathMetricLabel data={data} />;
+      return <PageMetricLabel type={type} label={data.label} />;
 
     case 'device':
       return <DeviceMetricLabel data={data} />;
@@ -141,30 +142,6 @@ function CountryMetricLabel({ data }: Pick<MetricLabelProps, 'data'>) {
       icon={<TypeIcon type="country" value={label} />}
     />
   );
-}
-
-function PathMetricLabel({ type, data }: MetricLabelProps) {
-  const { t, labels } = useMessages();
-  const { label, domain } = data;
-
-  return (
-    <FilterLink
-      type={type === 'entry' || type === 'exit' ? 'path' : type}
-      value={label}
-      label={!label && t(labels.unknown)}
-      externalUrl={
-        domain ? `${domain?.startsWith('http') ? domain : `https://${domain}`}${label}` : null
-      }
-    />
-  );
-}
-
-function FullPathMetricLabel({ data }: Pick<MetricLabelProps, 'data'>) {
-  const { t, labels } = useMessages();
-  const { label } = data;
-  const text = label || `(${t(labels.unknown)})`;
-
-  return <Text title={text}>{text}</Text>;
 }
 
 function DeviceMetricLabel({ data }: Pick<MetricLabelProps, 'data'>) {

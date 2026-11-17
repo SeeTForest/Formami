@@ -1,4 +1,4 @@
-import { isUmamiApiError } from '@umami/api-client';
+import { isFormamiApiError } from '@formami/api-client';
 
 export type McpToolErrorCode =
   | 'invalid_input'
@@ -72,7 +72,7 @@ export function describeError(error: unknown, context: ErrorContext = {}): Descr
     return { code: error.code, message: error.message };
   }
 
-  if (isUmamiApiError(error)) {
+  if (isFormamiApiError(error)) {
     const label = resourceLabel(context);
     const apiError = (error.body as { error?: Record<string, unknown> } | undefined)?.error;
 
@@ -81,7 +81,7 @@ export function describeError(error: unknown, context: ErrorContext = {}): Descr
         return {
           code: 'invalid_input',
           status: 400,
-          message: `Umami rejected the request as invalid${error.message && error.message !== 'Bad request' ? `: ${error.message}` : ''}. Check the parameters and try again.`,
+          message: `Formami rejected the request as invalid${error.message && error.message !== 'Bad request' ? `: ${error.message}` : ''}. Check the parameters and try again.`,
           details: sanitizeDetails(apiError),
         };
       case 401:
@@ -90,8 +90,8 @@ export function describeError(error: unknown, context: ErrorContext = {}): Descr
           status: 401,
           message:
             context.websiteId || context.sessionId
-              ? `You do not have access to ${label}, or your Umami authorization has expired. Use list_websites to see the websites you can access, and re-authorize if the problem persists.`
-              : 'Umami authentication failed or has expired. Re-authorize the connection and try again.',
+              ? `You do not have access to ${label}, or your Formami authorization has expired. Use list_websites to see the websites you can access, and re-authorize if the problem persists.`
+              : 'Formami authentication failed or has expired. Re-authorize the connection and try again.',
         };
       case 403:
         return {
@@ -109,7 +109,7 @@ export function describeError(error: unknown, context: ErrorContext = {}): Descr
         return {
           code: 'rate_limited',
           status: 429,
-          message: 'Umami is rate limiting requests. Wait a moment before trying again.',
+          message: 'Formami is rate limiting requests. Wait a moment before trying again.',
         };
       default:
         return {
@@ -117,8 +117,8 @@ export function describeError(error: unknown, context: ErrorContext = {}): Descr
           status: error.status,
           message:
             error.status >= 500
-              ? 'Umami returned a server error. Try again later.'
-              : `Umami request failed with status ${error.status}.`,
+              ? 'Formami returned a server error. Try again later.'
+              : `Formami request failed with status ${error.status}.`,
         };
     }
   }
@@ -126,13 +126,13 @@ export function describeError(error: unknown, context: ErrorContext = {}): Descr
   if (error instanceof TypeError && /fetch|network|ECONNREFUSED|ENOTFOUND/i.test(error.message)) {
     return {
       code: 'network_error',
-      message: 'Could not reach the Umami API. Check the server URL and network connectivity.',
+      message: 'Could not reach the Formami API. Check the server URL and network connectivity.',
     };
   }
 
   if (error instanceof Error && error.name === 'AbortError') {
-    return { code: 'network_error', message: 'The request to Umami timed out.' };
+    return { code: 'network_error', message: 'The request to Formami timed out.' };
   }
 
-  return { code: 'unknown', message: 'An unexpected error occurred while calling Umami.' };
+  return { code: 'unknown', message: 'An unexpected error occurred while calling Formami.' };
 }

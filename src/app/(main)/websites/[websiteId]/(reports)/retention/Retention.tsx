@@ -1,4 +1,4 @@
-import { Column, Grid, Icon, Row, Text } from '@umami/react-zen';
+import { Column, Grid, Icon, Row, Text } from '@formami/react-zen';
 import { differenceInCalendarDays } from 'date-fns';
 import type { ReactNode } from 'react';
 import { LoadingPanel } from '@/components/common/LoadingPanel';

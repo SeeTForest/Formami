@@ -1,4 +1,4 @@
-import type { DialogRenderProps } from '@umami/react-zen';
+import type { DialogRenderProps } from '@formami/react-zen';
 import type { ReactNode } from 'react';
 import { beforeEach, expect, test, vi } from 'vitest';
 import { render, screen } from '@/test/render';

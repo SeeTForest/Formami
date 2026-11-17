@@ -5,7 +5,7 @@ import {
   Icon,
   Sheet,
   type SheetProps,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { type ReactNode, useState } from 'react';
 import { Menu } from '@/components/icons';
 

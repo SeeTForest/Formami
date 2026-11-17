@@ -1,5 +1,4 @@
 'use client';
-import { useQueryClient } from '@tanstack/react-query';
 import {
   Button,
   Column,
@@ -10,7 +9,8 @@ import {
   Text,
   Tooltip,
   TooltipTrigger,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Badge } from '@/components/common/Badge';
 import { ControlledDialog } from '@/components/common/ControlledDialog';

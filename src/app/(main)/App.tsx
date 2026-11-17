@@ -1,5 +1,5 @@
 'use client';
-import { Column, Grid, Loading, Row, Text } from '@umami/react-zen';
+import { Column, Grid, Loading, Row, Text } from '@formami/react-zen';
 import Script from 'next/script';
 import { useEffect } from 'react';
 import { MobileNav } from '@/app/(main)/MobileNav';
@@ -92,7 +92,8 @@ export function App({ children }) {
             This team is temporarily unavailable.
           </Text>
           <Text color="muted">
-            This team&apos;s subscription payment is overdue. Please contact the team owner to restore access.
+            This team&apos;s subscription payment is overdue. Please contact the team owner to
+            restore access.
           </Text>
         </Column>
       </Grid>

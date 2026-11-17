@@ -52,7 +52,7 @@ export async function collectError(request: Request, payload: ErrorPayload) {
       return respond(badRequest({ message: 'Error timestamp is out of range.' }));
     }
     let cache: CollectionCache | null = null;
-    const header = request.headers.get('x-umami-cache');
+    const header = request.headers.get('x-formami-cache');
     if (header) {
       const token = await parseToken(header, secret());
       if (

@@ -7,7 +7,7 @@ import {
   Loading,
   Row,
   Text,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { useState } from 'react';
 import { formatAnnotationDate } from '@/components/charts/ChartAnnotationMarkers';
 import { Empty } from '@/components/common/Empty';

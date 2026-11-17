@@ -1,5 +1,6 @@
 import clickhouse from '@/lib/clickhouse';
 import { EVENT_TYPE, FILTER_COLUMNS, SESSION_COLUMNS } from '@/lib/constants';
+import { countrySQL } from '@/lib/country-policy';
 import { CLICKHOUSE, PRISMA, runQuery } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import type { QueryFilters } from '@/lib/types';
@@ -89,7 +90,7 @@ async function relationalQuery(
       where website_event.website_id = {{websiteId::uuid}}
         and website_event.created_at between {{startDate}} and {{endDate}}
         ${filterQuery}
-      group by ${parseFieldsByName(fields)},
+      group by ${fields.map((_, index) => index + 1).join(',')},
         website_event.session_id, website_event.visit_id
     ) as t
     ${visitEventsJoin}
@@ -153,7 +154,7 @@ async function clickhouseQuery(
       where website_id = {websiteId:UUID}
         and created_at between {startDate:DateTime64} and {endDate:DateTime64}
         ${filterQuery}
-      group by ${parseFieldsByName(fields)},
+      group by ${fields.map((_, index) => index + 1).join(',')},
         session_id, visit_id
     ) as t
     ${visitEventsJoin}
@@ -166,7 +167,9 @@ async function clickhouseQuery(
 }
 
 function parseFields(fields: string[]) {
-  return fields.map(name => `${FILTER_COLUMNS[name]} as "${name}"`).join(',');
+  return fields
+    .map(name => `${name === 'country' ? countrySQL() : FILTER_COLUMNS[name]} as "${name}"`)
+    .join(',');
 }
 
 function parseFieldsByName(fields: string[]) {

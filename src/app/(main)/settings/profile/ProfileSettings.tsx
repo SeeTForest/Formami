@@ -1,4 +1,4 @@
-import { Column, Label } from '@umami/react-zen';
+import { Column, Label } from '@formami/react-zen';
 import { useLoginQuery, useMessages } from '@/components/hooks';
 import { ROLES } from '@/lib/constants';
 

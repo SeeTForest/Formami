@@ -4,21 +4,27 @@ import { resolveClientOptions } from './stdio';
 describe('resolveClientOptions', () => {
   test('appends /api to a self-hosted instance URL', () => {
     expect(
-      resolveClientOptions({ UMAMI_URL: 'https://analytics.example.com/', UMAMI_API_TOKEN: 't' }),
+      resolveClientOptions({
+        FORMAMI_URL: 'https://analytics.example.com/',
+        FORMAMI_API_TOKEN: 't',
+      }),
     ).toEqual({ baseUrl: 'https://analytics.example.com/api', token: 't', apiKey: undefined });
   });
 
-  test('uses UMAMI_API_URL verbatim', () => {
+  test('uses FORMAMI_API_URL verbatim', () => {
     expect(
-      resolveClientOptions({ UMAMI_API_URL: 'https://api.umami.is/v1', UMAMI_API_KEY: 'k' }),
-    ).toEqual({ baseUrl: 'https://api.umami.is/v1', token: undefined, apiKey: 'k' });
+      resolveClientOptions({
+        FORMAMI_API_URL: 'https://analytics.example.com/api',
+        FORMAMI_API_KEY: 'k',
+      }),
+    ).toEqual({ baseUrl: 'https://analytics.example.com/api', token: undefined, apiKey: 'k' });
   });
 
-  test('defaults to Cloud when only an API key is provided', () => {
-    expect(resolveClientOptions({ UMAMI_API_KEY: 'k' }).baseUrl).toBeUndefined();
+  test('requires an explicit instance even with an API key', () => {
+    expect(() => resolveClientOptions({ FORMAMI_API_KEY: 'k' })).toThrow(/FORMAMI_API_URL/);
   });
 
   test('requires credentials', () => {
-    expect(() => resolveClientOptions({})).toThrow(/UMAMI_API_TOKEN/);
+    expect(() => resolveClientOptions({})).toThrow(/FORMAMI_API_TOKEN/);
   });
 });

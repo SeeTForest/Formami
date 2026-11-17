@@ -99,6 +99,7 @@ model Website {
   id        String    @id() @map("website_id") @db.Uuid
   name      String    @db.VarChar(100)
   domain    String?   @db.VarChar(500)
+  pageOrigins String? @map("page_origins") @db.VarChar(500)
   resetAt   DateTime? @map("reset_at") @db.Timestamptz(6)
   userId    String?   @map("user_id") @db.Uuid
   teamId    String?   @map("team_id") @db.Uuid
@@ -113,6 +114,7 @@ model Website {
   user                User?                @relation("user", fields: [userId], references: [id])
   createUser          User?                @relation("createUser", fields: [createdBy], references: [id])
   team                Team?                @relation(fields: [teamId], references: [id])
+  accessObservations  AccessObservation[]
   annotations         Annotation[]
   eventData           EventData[]
   reports             Report[]
@@ -581,4 +583,27 @@ model ErrorRateLimit {
   count     Int
 
   @@map("error_rate_limit")
+}
+
+// Separate from WebsiteEvent: requests and content-use evidence are not visits or people.
+model AccessObservation {
+  id         String @db.Uuid
+  websiteId  String @map("website_id") @db.Uuid
+  occurredAt DateTime @map("occurred_at") @db.Timestamptz(6)
+  source     String @db.VarChar(16)
+  kind       String @db.VarChar(16)
+  contentKey String @map("content_key") @db.VarChar(64)
+  signal     String @db.VarChar(32)
+  provider   String @db.VarChar(16)
+  outcome    String @db.VarChar(16)
+  actor      String @db.VarChar(16)
+  purpose    String @db.VarChar(32)
+  evidence   String @db.VarChar(32)
+  confidence String @db.VarChar(16)
+  ruleVersion String @map("rule_version") @db.VarChar(32)
+  website Website @relation(fields: [websiteId], references: [id], onDelete: Cascade)
+
+  @@id([websiteId, id])
+  @@index([websiteId, occurredAt])
+  @@map("access_observation")
 }

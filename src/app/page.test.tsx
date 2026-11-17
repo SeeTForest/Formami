@@ -19,7 +19,7 @@ test('sends visitors without a token straight to login', () => {
 });
 
 test('sends logged-in users to their websites', () => {
-  localStorage.setItem('umami.auth', JSON.stringify('token'));
+  localStorage.setItem('formami.auth', JSON.stringify('token'));
 
   render(<RootPage />);
 
@@ -27,8 +27,8 @@ test('sends logged-in users to their websites', () => {
 });
 
 test('sends logged-in users back to their last team', () => {
-  localStorage.setItem('umami.auth', JSON.stringify('token'));
-  localStorage.setItem('umami.last-team', JSON.stringify('team-1'));
+  localStorage.setItem('formami.auth', JSON.stringify('token'));
+  localStorage.setItem('formami.last-team', JSON.stringify('team-1'));
 
   render(<RootPage />);
 

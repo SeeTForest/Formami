@@ -1,5 +1,5 @@
 'use client';
-import { Column, useTheme } from '@umami/react-zen';
+import { Column, useTheme } from '@formami/react-zen';
 import { useCallback, useMemo } from 'react';
 import { BarChart } from '@/components/charts/BarChart';
 import { LoadingPanel } from '@/components/common/LoadingPanel';

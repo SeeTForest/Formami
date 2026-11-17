@@ -8,7 +8,7 @@ import {
   Row,
   Tooltip,
   TooltipTrigger,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { useMemo, useState } from 'react';
 import { ControlledDialog } from '@/components/common/ControlledDialog';
 import { Empty } from '@/components/common/Empty';

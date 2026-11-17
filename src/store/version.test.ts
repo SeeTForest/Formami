@@ -2,6 +2,14 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { getItem } from '@/lib/storage';
 import { checkVersion, useVersion } from './version';
 
+const updateConfig = vi.hoisted(() => ({ url: 'https://updates.example.com' }));
+vi.mock('@/lib/constants', async importOriginal => ({
+  ...(await importOriginal<typeof import('@/lib/constants')>()),
+  get UPDATES_URL() {
+    return updateConfig.url;
+  },
+}));
+
 vi.mock('@/lib/storage', () => ({
   getItem: vi.fn(),
 }));
@@ -22,6 +30,7 @@ function mockFetch(response: { ok: boolean; body?: any }) {
 }
 
 beforeEach(() => {
+  updateConfig.url = 'https://updates.example.com';
   useVersion.setState({ ...initialState }, true);
   vi.mocked(getItem).mockReset();
 });
@@ -78,4 +87,12 @@ describe('checkVersion', () => {
     expect(state.checked).toBe(true);
     expect(state.hasUpdate).toBe(false);
   });
+});
+
+test('does not contact an upstream service without a configured endpoint', async () => {
+  updateConfig.url = '';
+  const fetch = vi.fn();
+  vi.stubGlobal('fetch', fetch);
+  await checkVersion();
+  expect(fetch).not.toHaveBeenCalled();
 });

@@ -1,4 +1,4 @@
-import { Column, Dialog, Modal, Text, useToast } from '@umami/react-zen';
+import { Column, Dialog, Modal, Text, useToast } from '@formami/react-zen';
 import { PasswordEditForm } from '@/app/(main)/settings/security/PasswordEditForm';
 import { ControlledDialog } from '@/components/common/ControlledDialog';
 import { useLoginQuery, useMessages } from '@/components/hooks';

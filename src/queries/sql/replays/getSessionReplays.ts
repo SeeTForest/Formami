@@ -1,4 +1,5 @@
 import clickhouse from '@/lib/clickhouse';
+import { reportingCountryRows } from '@/lib/country-policy';
 import { CLICKHOUSE, PRISMA, runQuery } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import type { PageResult, QueryFilters, SessionReplaySummary } from '@/lib/types';
@@ -11,7 +12,7 @@ export function getSessionReplays(
   return runQuery({
     [PRISMA]: () => relationalQuery(...args),
     [CLICKHOUSE]: () => clickhouseQuery(...args),
-  });
+  }).then(reportingCountryRows);
 }
 
 async function relationalQuery(websiteId: string, filters: QueryFilters, sessionId?: string) {

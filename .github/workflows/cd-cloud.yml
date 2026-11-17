@@ -1,13 +1,11 @@
 name: Create docker images (cloud)
 
 on:
-  push:
-    branches:
-      - analytics
-      - cloud
+  workflow_dispatch:
 
 jobs:
   build:
+    if: ${{ vars.FORMAMI_ENABLE_PUBLISH == 'true' }}
     name: Build, push, and deploy
     runs-on: blacksmith-4vcpu-ubuntu-2404
 
@@ -21,7 +19,7 @@ jobs:
       - uses: mr-smithers-excellent/docker-build-push@v6
         name: Build & push Docker image to docker.io
         with:
-          image: umamisoftware/umami
+          image: seetforest/formami
           tags: cloud-${{ steps.random_hash.outputs.hash }}, cloud-latest
           buildArgs: DATABASE_TYPE=postgresql
           registry: docker.io

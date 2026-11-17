@@ -325,6 +325,14 @@ export const operations = {
     ],
     hasBody: false,
   },
+  getAccessEvidence: {
+    operationId: 'getAccessEvidence',
+    method: 'get',
+    path: '/api/websites/{websiteId}/access-evidence',
+    pathParams: ['websiteId'],
+    queryParams: ['startAt', 'endAt', 'actor', 'purpose', 'kind', 'contentKey'],
+    hasBody: false,
+  },
   getBoard: {
     operationId: 'getBoard',
     method: 'get',
@@ -3106,6 +3114,14 @@ export const operations = {
     queryParams: [],
     hasBody: false,
   },
+  saveAccessEvidence: {
+    operationId: 'saveAccessEvidence',
+    method: 'post',
+    path: '/api/websites/{websiteId}/access-evidence',
+    pathParams: ['websiteId'],
+    queryParams: [],
+    hasBody: true,
+  },
   saveWebsiteReplay: {
     operationId: 'saveWebsiteReplay',
     method: 'post',
@@ -3301,7 +3317,7 @@ export type OperationOutput<K extends OperationId> = OperationTypes[K]['response
   ? R
   : unknown;
 
-export abstract class GeneratedUmamiClient {
+export abstract class GeneratedFormamiClient {
   protected abstract execute<K extends OperationId>(
     operationId: K,
     input: Record<string, unknown> | undefined,
@@ -3750,6 +3766,18 @@ export abstract class GeneratedUmamiClient {
     options?: RequestOptions,
   ): Promise<OperationOutput<'exportWebsite'>> {
     return this.execute('exportWebsite', input, options);
+  }
+
+  /**
+   * Query separate access and content-use observations
+   * Counts observations, not people. UA and reporter claims are unverified. Fetch, citation, referral and conversion totals are independent; no automatic attribution or training-use inference. Overview filters are not applied. At most 500 groups; totals are complete.
+   * `GET /api/websites/{websiteId}/access-evidence`
+   */
+  getAccessEvidence(
+    input: OperationInput<'getAccessEvidence'>,
+    options?: RequestOptions,
+  ): Promise<OperationOutput<'getAccessEvidence'>> {
+    return this.execute('getAccessEvidence', input, options);
   }
 
   /**
@@ -5154,6 +5182,18 @@ export abstract class GeneratedUmamiClient {
     options?: RequestOptions,
   ): Promise<OperationOutput<'resetWebsite'>> {
     return this.execute('resetWebsite', input, options);
+  }
+
+  /**
+   * Report server-side access observations with write permission
+   * Server-side credentials only; requires website update permission, granted consent and FORMAMI_ACCESS_CONTENT_KEYS allowlist. No raw URLs, UA, prompts, IP or identity. Maximum 100 observations / 64 KiB, timestamps within past 7 days and 5 minutes future. Stable IDs deduplicate retries within a website; conflicting duplicates are not overwritten. Conversion reports require backend source.
+   * `POST /api/websites/{websiteId}/access-evidence`
+   */
+  saveAccessEvidence(
+    input: OperationInput<'saveAccessEvidence'>,
+    options?: RequestOptions,
+  ): Promise<OperationOutput<'saveAccessEvidence'>> {
+    return this.execute('saveAccessEvidence', input, options);
   }
 
   /**

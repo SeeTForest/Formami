@@ -1,4 +1,4 @@
-import { Grid } from '@umami/react-zen';
+import { Grid } from '@formami/react-zen';
 import { useMemo } from 'react';
 import { LoadingPanel } from '@/components/common/LoadingPanel';
 import { type RevenueMetricType, useMessages, useRevenueMetricsQuery } from '@/components/hooks';

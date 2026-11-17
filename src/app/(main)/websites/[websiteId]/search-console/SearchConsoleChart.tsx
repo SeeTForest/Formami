@@ -1,4 +1,4 @@
-import { useTheme } from '@umami/react-zen';
+import { useTheme } from '@formami/react-zen';
 import { format } from 'date-fns';
 import { useTranslations } from 'next-intl';
 import { useCallback, useMemo } from 'react';

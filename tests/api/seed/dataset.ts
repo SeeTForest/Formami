@@ -19,7 +19,7 @@ export interface RecordPayload {
   payload: Record<string, unknown>;
 }
 
-/** Events sent sequentially, chained with the `x-umami-cache` token. */
+/** Events sent sequentially, chained with the `x-formami-cache` token. */
 export interface Visit {
   events: SendPayload[];
 }
@@ -102,7 +102,7 @@ export const PERSONAS: Persona[] = [
       'Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36',
     screen: '412x915',
     language: 'fr-FR',
-    referrer: 'https://www.bing.com/search?q=umami',
+    referrer: 'https://www.bing.com/search?q=formami',
     utm: true,
   },
   {
@@ -121,7 +121,7 @@ export const PERSONAS: Persona[] = [
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0',
     screen: '1366x768',
     language: 'en-US',
-    referrer: 'https://github.com/umami-software/umami',
+    referrer: 'https://github.com/SeeTForest/Formami',
   },
 ];
 

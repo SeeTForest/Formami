@@ -1,4 +1,4 @@
-import { Box, Grid, type GridProps } from '@umami/react-zen';
+import { Box, Grid, type GridProps } from '@formami/react-zen';
 import { createContext, type ReactNode, useContext } from 'react';
 import styles from './MetricsBar.module.css';
 

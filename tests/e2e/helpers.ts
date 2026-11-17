@@ -6,13 +6,13 @@ export type Auth = {
   authorization: string;
 };
 
-/** Password the migration seeds; admin.setup.ts replaces it with umamiUser.password. */
+/** Historical bootstrap password (not changed by the product rename); admin.setup.ts replaces it with formamiUser.password. */
 export const DEFAULT_ADMIN_PASSWORD = 'umami';
 
-export const umamiUser = {
-  username: process.env.UMAMI_USER ?? 'admin',
-  password: process.env.UMAMI_PASSWORD ?? 'umami-e2e-password',
-  id: process.env.UMAMI_USER_ID ?? '41e2b680-648e-4b09-bcd7-3e2b10c06264',
+export const formamiUser = {
+  username: process.env.FORMAMI_USER ?? 'admin',
+  password: process.env.FORMAMI_PASSWORD ?? 'formami-e2e-password',
+  id: process.env.FORMAMI_USER_ID ?? '41e2b680-648e-4b09-bcd7-3e2b10c06264',
 };
 
 export const authHeaders = (auth: Auth) => ({
@@ -22,8 +22,8 @@ export const authHeaders = (auth: Auth) => ({
 
 export async function loginViaApi(
   request: APIRequestContext,
-  username = umamiUser.username,
-  password = umamiUser.password,
+  username = formamiUser.username,
+  password = formamiUser.password,
 ): Promise<Auth> {
   const response = await request.post('/api/auth/login', {
     data: { username, password },
@@ -43,7 +43,7 @@ export async function loginPage(page: Page, request: APIRequestContext): Promise
   const auth = await loginViaApi(request);
 
   await page.addInitScript(token => {
-    window.localStorage.setItem('umami.auth', JSON.stringify(token));
+    window.localStorage.setItem('formami.auth', JSON.stringify(token));
   }, auth.token);
 
   return auth;
@@ -65,7 +65,7 @@ export async function addWebsite(
     headers: authHeaders(auth),
     data: {
       id: uuid(),
-      createdBy: umamiUser.id,
+      createdBy: formamiUser.id,
       name,
       domain,
     },

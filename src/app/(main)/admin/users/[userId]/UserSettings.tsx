@@ -1,4 +1,4 @@
-import { Column, Tab, TabList, TabPanel, Tabs } from '@umami/react-zen';
+import { Column, Tab, TabList, TabPanel, Tabs } from '@formami/react-zen';
 import { useMessages } from '@/components/hooks';
 import { UserEditForm } from './UserEditForm';
 import { UserTwoFactorSettings } from './UserTwoFactorSettings';

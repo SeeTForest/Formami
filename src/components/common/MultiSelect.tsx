@@ -1,4 +1,4 @@
-import { Button, Icon, Menu, MenuItem, MenuTrigger, SearchField } from '@umami/react-zen';
+import { Button, Icon, Menu, MenuItem, MenuTrigger, SearchField } from '@formami/react-zen';
 import { Children, type ReactNode } from 'react';
 import { ChevronRight } from '@/components/icons';
 

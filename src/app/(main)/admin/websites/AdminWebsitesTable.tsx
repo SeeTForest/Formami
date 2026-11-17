@@ -1,4 +1,13 @@
-import { DataColumn, DataTable, Dialog, Icon, MenuItem, Modal, Row, Text } from '@umami/react-zen';
+import {
+  DataColumn,
+  DataTable,
+  Dialog,
+  Icon,
+  MenuItem,
+  Modal,
+  Row,
+  Text,
+} from '@formami/react-zen';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { WebsiteDeleteForm } from '@/app/(main)/websites/[websiteId]/settings/WebsiteDeleteForm';

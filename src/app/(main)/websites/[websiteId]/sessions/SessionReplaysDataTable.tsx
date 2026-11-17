@@ -1,5 +1,5 @@
 'use client';
-import { Column } from '@umami/react-zen';
+import { Column } from '@formami/react-zen';
 import { useState } from 'react';
 import { DataGrid } from '@/components/common/DataGrid';
 import { useMobile, useSessionReplaysQuery } from '@/components/hooks';

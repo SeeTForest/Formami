@@ -11,7 +11,7 @@ import {
   MenuTrigger,
   Popover,
   Row,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { format } from 'date-fns';
 import { Empty } from '@/components/common/Empty';
 import { LoadingPanel } from '@/components/common/LoadingPanel';

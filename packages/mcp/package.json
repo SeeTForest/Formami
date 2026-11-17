@@ -1,14 +1,14 @@
 {
-  "name": "@umami/mcp",
+  "name": "@formami/mcp",
   "version": "0.2.0",
-  "description": "Model Context Protocol server for Umami analytics.",
+  "description": "Model Context Protocol server for Formami analytics.",
   "author": "Umami Software, Inc. <hello@umami.is>",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "umami-mcp": "./bin/umami-mcp.js"
+    "formami-mcp": "./bin/formami-mcp.js"
   },
   "exports": {
     ".": {
@@ -17,7 +17,11 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": ["bin", "dist", "README.md"],
+  "files": [
+    "bin",
+    "dist",
+    "README.md"
+  ],
   "engines": {
     "node": ">=20"
   },
@@ -26,14 +30,14 @@
   },
   "scripts": {
     "build": "tsup",
-    "prepack": "pnpm --filter @umami/api-client build && pnpm run build",
+    "prepack": "pnpm --filter @formami/api-client build && pnpm run build",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "start": "node dist/cli.js"
   },
   "dependencies": {
     "@modelcontextprotocol/server": "^2.3.1",
-    "@umami/api-client": "^0.81.0",
+    "@formami/api-client": "workspace:*",
     "zod": "^4.6.6"
   },
   "devDependencies": {

@@ -75,7 +75,7 @@ export async function deleteTeam(client: ApiClient, teamId: string) {
 export async function createLink(client: ApiClient, overrides: Record<string, unknown> = {}) {
   const response = await client.post('/api/links', {
     name: uniqueName('link'),
-    url: 'https://umami.is/',
+    url: 'https://example.com/',
     slug: uniqueSlug('link'),
     ...overrides,
   });

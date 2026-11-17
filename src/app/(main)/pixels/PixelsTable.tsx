@@ -1,4 +1,4 @@
-import { DataColumn, DataTable, type DataTableProps, Row } from '@umami/react-zen';
+import { DataColumn, DataTable, type DataTableProps, Row } from '@formami/react-zen';
 import { useMemo } from 'react';
 import { WebsiteSparkline } from '@/app/(main)/websites/WebsiteSparkline';
 import { DateDistance } from '@/components/common/DateDistance';
@@ -33,7 +33,11 @@ export function PixelsTable({
           return <Link href={renderUrl(`/pixels/${id}`)}>{name}</Link>;
         }}
       </DataColumn>
-      <DataColumn id="url" label={<SortableLabel label="URL" sortKey="slug" />} style={{ minWidth: 0 }}>
+      <DataColumn
+        id="url"
+        label={<SortableLabel label="URL" sortKey="slug" />}
+        style={{ minWidth: 0 }}
+      >
         {({ slug }: any) => {
           const url = getSlugUrl(slug);
           return (

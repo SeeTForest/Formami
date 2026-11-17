@@ -109,7 +109,7 @@ beforeEach(() => {
 });
 
 describe('checkAuth api keys', () => {
-  const API_KEY = 'umami_abcdefghijklmnopqrstuvwxyz012345';
+  const API_KEY = 'formami_abcdefghijklmnopqrstuvwxyz012345';
 
   function apiKeyRequest(path = '/api/websites') {
     return new Request(`http://localhost${path}`, {
@@ -123,7 +123,7 @@ describe('checkAuth api keys', () => {
       userId: 'user-1',
       name: 'CI',
       keyHash: hashApiKey(API_KEY),
-      keyPrefix: 'umami_abcdefgh',
+      keyPrefix: 'formami_abcdefgh',
       lastUsedAt,
       createdAt: new Date(),
     } as any);
@@ -419,7 +419,7 @@ describe('checkAuth share tokens', () => {
 
   function shareRequest() {
     return new Request('http://localhost/api/test', {
-      headers: { 'x-umami-share-token': 'share-jwt', 'x-umami-share-context': '1' },
+      headers: { 'x-formami-share-token': 'share-jwt', 'x-formami-share-context': '1' },
     });
   }
 

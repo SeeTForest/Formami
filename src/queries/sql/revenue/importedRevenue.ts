@@ -1,4 +1,4 @@
-// Payment providers whose sales Umami Cloud imports. Every imported payment or refund is
+// Payment providers whose sales Formami Cloud imports. Every imported payment or refund is
 // written as a custom event named `<provider>:payment` / `<provider>:refund`, either in
 // the buyer's tracked session or in a synthetic session (one per provider customer) that
 // has no tracked events. A revenue row can also outlive its event row, so imported revenue

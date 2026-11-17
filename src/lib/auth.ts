@@ -25,7 +25,7 @@ import { getApiKeyByHash, updateApiKeyLastUsed } from '@/queries/prisma/apiKey';
 import { getShare } from '@/queries/prisma/share';
 import { getUser } from '@/queries/prisma/user';
 
-const log = debug('umami:auth');
+const log = debug('formami:auth');
 
 export function getBearerToken(request: Request) {
   const auth = request.headers.get('authorization');

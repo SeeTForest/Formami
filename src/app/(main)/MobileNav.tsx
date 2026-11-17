@@ -1,4 +1,4 @@
-import { Column, Grid, Row, Text } from '@umami/react-zen';
+import { Column, Grid, Row, Text } from '@formami/react-zen';
 import { WebsiteNav } from '@/app/(main)/websites/[websiteId]/WebsiteNav';
 import { IconLabel } from '@/components/common/IconLabel';
 import Link from '@/components/common/Link';

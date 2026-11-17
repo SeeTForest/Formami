@@ -6,9 +6,9 @@ const distDir = path.resolve(process.cwd(), 'dist');
 const packageFile = path.join(distDir, 'package.json');
 
 const defaultPackage = {
-  name: '@umami/components',
+  name: '@formami/components',
   version: '0.0.0',
-  description: 'Umami React components.',
+  description: 'Formami React components.',
   author: 'Mike Cao <mike@mikecao.com>',
   license: 'MIT',
   type: 'module',

@@ -34,29 +34,26 @@ describe('authenticateMcpRequest', () => {
     expect(response.headers.get('cache-control')).toBe('no-store');
   });
 
-  test.each(['not-a-token', 'not-a-key'])(
-    'rejects non-API-key credentials: %s',
-    async token => {
-      await expect(authenticateMcpRequest(request(token))).resolves.toMatchObject({
-        ok: false,
-        status: 401,
-      });
-      expect(checkApiKeyAuthMock).not.toHaveBeenCalled();
-    },
-  );
+  test.each(['not-a-token', 'not-a-key'])('rejects non-API-key credentials: %s', async token => {
+    await expect(authenticateMcpRequest(request(token))).resolves.toMatchObject({
+      ok: false,
+      status: 401,
+    });
+    expect(checkApiKeyAuthMock).not.toHaveBeenCalled();
+  });
 
   test('accepts self-hosted API keys and preserves owner identity', async () => {
     checkApiKeyAuthMock.mockResolvedValue({
-      token: 'umami_key',
+      token: 'formami_key',
       user: { id: 'user-1' },
       apiKey: { id: 'key-1', name: 'MCP' },
     } as never);
 
-    await expect(authenticateMcpRequest(request('umami_key'))).resolves.toMatchObject({
+    await expect(authenticateMcpRequest(request('formami_key'))).resolves.toMatchObject({
       ok: true,
       userId: 'user-1',
       authInfo: {
-        token: 'umami_key',
+        token: 'formami_key',
         clientId: 'api-key:key-1',
         scopes: [],
         extra: { userId: 'user-1', authType: 'api-key' },
@@ -66,7 +63,7 @@ describe('authenticateMcpRequest', () => {
 
   test('rejects revoked or unknown keys', async () => {
     checkApiKeyAuthMock.mockResolvedValue(null);
-    await expect(authenticateMcpRequest(request('umami_revoked'))).resolves.toMatchObject({
+    await expect(authenticateMcpRequest(request('formami_revoked'))).resolves.toMatchObject({
       ok: false,
       status: 401,
       error: 'invalid_token',
@@ -75,7 +72,7 @@ describe('authenticateMcpRequest', () => {
 
   test('rejects self-hosted keys in Cloud mode', async () => {
     vi.stubEnv('CLOUD_MODE', '1');
-    await expect(authenticateMcpRequest(request('umami_key'))).resolves.toMatchObject({
+    await expect(authenticateMcpRequest(request('formami_key'))).resolves.toMatchObject({
       ok: false,
       status: 401,
     });

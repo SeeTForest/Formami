@@ -1,5 +1,5 @@
 'use client';
-import { Column, DataColumn, DataTable, Text } from '@umami/react-zen';
+import { Column, DataColumn, DataTable, Text } from '@formami/react-zen';
 import { useTranslations } from 'next-intl';
 import { Badge } from '@/components/common/Badge';
 import { DataGrid } from '@/components/common/DataGrid';

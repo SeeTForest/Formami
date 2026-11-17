@@ -1,4 +1,4 @@
-import { Icon, Row, Text } from '@umami/react-zen';
+import { Icon, Row, Text } from '@formami/react-zen';
 import { Favicon } from '@/components/common/Favicon';
 import { IconLabel } from '@/components/common/IconLabel';
 import { LinkButton } from '@/components/common/LinkButton';

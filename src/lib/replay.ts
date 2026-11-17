@@ -3,7 +3,7 @@ export const RRWEB_EVENT_TYPE = {
   FullSnapshot: 2,
 } as const;
 
-export const REPLAY_EVENT_FRAGMENT_TYPE = 'umami:rrweb-event-fragment';
+export const REPLAY_EVENT_FRAGMENT_TYPE = 'formami:rrweb-event-fragment';
 
 interface ReplayEventFragment {
   type: typeof REPLAY_EVENT_FRAGMENT_TYPE;
@@ -20,7 +20,7 @@ export function isReplayEventFragment(event: any): event is ReplayEventFragment 
   const { data } = event || {};
 
   return (
-    event?.type === REPLAY_EVENT_FRAGMENT_TYPE &&
+    (event?.type === REPLAY_EVENT_FRAGMENT_TYPE || event?.type === 'umami:rrweb-event-fragment') &&
     typeof data?.id === 'string' &&
     Number.isInteger(data?.index) &&
     Number.isInteger(data?.total) &&

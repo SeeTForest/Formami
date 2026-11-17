@@ -24,13 +24,13 @@ test.describe('Links', () => {
   test('POST /api/links creates a link for the current user', async ({ admin, seed }) => {
     const name = uniqueName('link');
     slug = uniqueSlug('link');
-    const response = await admin.post('/api/links', { name, url: 'https://umami.is/', slug });
+    const response = await admin.post('/api/links', { name, url: 'https://example.com/', slug });
 
     expect(response.status).toBe(200);
     expect(response.body).toMatchObject({
       id: expect.any(String),
       name,
-      url: 'https://umami.is/',
+      url: 'https://example.com/',
       slug,
       userId: seed.admin.id,
       teamId: null,
@@ -46,7 +46,7 @@ test.describe('Links', () => {
     const response = await admin.post('/api/links', {
       id,
       name: uniqueName('team-link'),
-      url: 'https://umami.is/',
+      url: 'https://example.com/',
       slug: uniqueSlug('team'),
       teamId: seed.team.id,
     });
@@ -64,18 +64,18 @@ test.describe('Links', () => {
   }) => {
     const shortSlug = await admin.post('/api/links', {
       name: 'x',
-      url: 'https://umami.is/',
+      url: 'https://example.com/',
       slug: 'short',
     });
     const missingUrl = await admin.post('/api/links', { name: 'x', slug: uniqueSlug('link') });
     const denied = await viewer.post('/api/links', {
       name: 'x',
-      url: 'https://umami.is/',
+      url: 'https://example.com/',
       slug: uniqueSlug('link'),
     });
     const anonymous = await api.post('/api/links', {
       name: 'x',
-      url: 'https://umami.is/',
+      url: 'https://example.com/',
       slug: uniqueSlug('link'),
     });
 
@@ -136,13 +136,18 @@ test.describe('Links', () => {
     const response = await admin.post(`/api/links/${linkId}`, {
       name,
       slug,
-      url: 'https://umami.is/docs',
+      url: 'https://example.com/docs',
     });
     const duplicate = await admin.post(`/api/links/${linkId}`, { slug: seed.link.slug });
     const denied = await user.post(`/api/links/${linkId}`, { name });
 
     expect(response.status).toBe(200);
-    expect(response.body).toMatchObject({ id: linkId, name, slug, url: 'https://umami.is/docs' });
+    expect(response.body).toMatchObject({
+      id: linkId,
+      name,
+      slug,
+      url: 'https://example.com/docs',
+    });
     expect(duplicate.status).toBe(400);
     expect(duplicate.body.error.message).toBe('That slug is already taken.');
     expect(denied.status).toBe(401);

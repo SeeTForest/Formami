@@ -6,7 +6,7 @@ import { BASE_URL as baseURL } from './tests/api/paths';
  * Playwright config for the API integration suite (tests/api).
  *
  * The suite only uses the `request` fixture — no browser is launched. It expects
- * a running umami server (normally started by scripts/test-api.ts via
+ * a running formami server (normally started by scripts/test-api.ts via
  * docker-compose.test.yml) at PLAYWRIGHT_BASE_URL or http://localhost:3100.
  */
 

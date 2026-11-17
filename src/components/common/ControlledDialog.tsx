@@ -1,5 +1,5 @@
 'use client';
-import { DialogTrigger } from '@umami/react-zen';
+import { DialogTrigger } from '@formami/react-zen';
 import type { ReactElement } from 'react';
 
 export function ControlledDialog({ children }: { children: ReactElement }) {

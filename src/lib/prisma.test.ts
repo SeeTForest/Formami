@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, test, vi } from 'vitest';
 
-process.env.DATABASE_URL ??= 'postgresql://user:pass@localhost:5432/umami?schema=public';
+process.env.DATABASE_URL ??= 'postgresql://user:pass@localhost:5432/formami?schema=public';
 delete process.env.DATABASE_REPLICA_URL;
 
 vi.mock('@prisma/adapter-pg', () => ({
@@ -126,9 +126,9 @@ describe('getFilterQuery null handling', () => {
     expect(prisma.getFilterQuery({ distinctId: value })).toContain(`and ${clause}`);
   });
 
-  test('keeps positive filters on the bare column so they can use indexes', () => {
-    expect(prisma.getFilterQuery({ country: 'US' })).toContain(
-      'and session.country = ANY({{country}})',
+  test('keeps positive non-country filters on the bare column so they can use indexes', () => {
+    expect(prisma.getFilterQuery({ browser: 'chrome' })).toContain(
+      'and session.browser = ANY({{browser}})',
     );
   });
 });

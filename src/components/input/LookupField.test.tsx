@@ -6,7 +6,7 @@ import { LookupField } from './LookupField';
 
 const queryMock = vi.fn();
 
-vi.mock('@umami/react-zen', () => ({
+vi.mock('@formami/react-zen', () => ({
   ListItem: ({ children }: { children: ReactNode }) => <div>{children}</div>,
   Loading: () => <div>Loading</div>,
   useDebounce: (value: string) => value,

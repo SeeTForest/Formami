@@ -68,15 +68,15 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.104.1
         version: 5.104.1(react@19.3.1)
-      '@umami/api-client':
+      '@formami/api-client':
         specifier: workspace:*
         version: link:packages/api-client
-      '@umami/mcp':
+      '@formami/mcp':
         specifier: workspace:*
         version: link:packages/mcp
-      '@umami/react-zen':
-        specifier: ^0.255.0
-        version: 0.255.0(@date-fns/tz@1.5.0)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(date-fns@4.4.0)(immer@11.1.21)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(tailwindcss@4.1.18)(use-sync-external-store@1.6.0(react@19.3.1))
+      '@formami/react-zen':
+        specifier: npm:@umami/react-zen@^0.255.0
+        version: '@umami/react-zen@0.255.0(@date-fns/tz@1.5.0)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(date-fns@4.4.0)(immer@11.1.21)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(tailwindcss@4.1.18)(use-sync-external-store@1.6.0(react@19.3.1))'
       bcryptjs:
         specifier: ^3.0.2
         version: 3.0.3
@@ -342,9 +342,9 @@ importers:
       '@modelcontextprotocol/server':
         specifier: ^2.3.1
         version: 2.3.1
-      '@umami/api-client':
-        specifier: ^0.81.0
-        version: 0.81.0
+      '@formami/api-client':
+        specifier: workspace:*
+        version: link:../api-client
       zod:
         specifier: ^4.6.6
         version: 4.6.7
@@ -2690,9 +2690,6 @@ packages:
 
   '@types/yargs@17.0.35':
     resolution: {integrity: sha512-qUHkeCyQFxMXg79wQfTtfndEC+N9ZZg76HJftDJp+qH2tV7Gj4OJi7l+PiWwJ+pWtW8GwSmqsDj/oymhrTWXjg==}
-
-  '@umami/api-client@0.81.0':
-    resolution: {integrity: sha512-cwkQbe8U/m+zEgfe+nNExU0AoY8BSd+x4Qs7i5nfR2gGrktfoH6Y375e237OFYpmvhJr5BJdML1Vzuu6v7+kmw==}
 
   '@umami/react-zen@0.255.0':
     resolution: {integrity: sha512-5GEp0CqHENc2DszNvjojxRx7xoEgTrJC2QJqcjVrJ9osEp7cM35jY9eRhxPasY7a63Rgcf7cgQ78df7Kfx1J1g==}
@@ -7923,8 +7920,6 @@ snapshots:
   '@types/yargs@17.0.35':
     dependencies:
       '@types/yargs-parser': 21.0.3
-
-  '@umami/api-client@0.81.0': {}
 
   '@umami/react-zen@0.255.0(@date-fns/tz@1.5.0)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(date-fns@4.4.0)(immer@11.1.21)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(tailwindcss@4.1.18)(use-sync-external-store@1.6.0(react@19.3.1))':
     dependencies:

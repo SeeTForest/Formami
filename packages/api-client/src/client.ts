@@ -1,5 +1,5 @@
 import {
-  GeneratedUmamiClient,
+  GeneratedFormamiClient,
   type OperationId,
   type OperationInput,
   type OperationOutput,
@@ -16,7 +16,7 @@ import {
   splitInput,
   trimSlashes,
 } from './http';
-import type { FetchLike, RequestOptions, UmamiClientOptions } from './types';
+import type { FetchLike, FormamiClientOptions, RequestOptions } from './types';
 
 type Input<K extends OperationId> = OperationInput<K>;
 type Output<K extends OperationId> = Promise<OperationOutput<K>>;
@@ -36,25 +36,26 @@ function positional<K extends OperationId>(
 }
 
 /**
- * Typed client for the Umami API. Every method corresponds to an OpenAPI `operationId`.
+ * Typed client for the Formami API. Every method corresponds to an OpenAPI `operationId`.
  *
  * ```ts
- * const umami = new UmamiClient({ baseUrl: 'https://api.umami.is/v1', apiKey: process.env.UMAMI_API_KEY });
- * const stats = await umami.getWebsiteStats({ websiteId, startAt, endAt });
+ * const formami = new FormamiClient({ baseUrl: 'https://analytics.example.com/api', apiKey: process.env.FORMAMI_API_KEY });
+ * const stats = await formami.getWebsiteStats({ websiteId, startAt, endAt });
  * ```
  *
  * Methods accept a single object that merges path parameters, query parameters and the request
- * body. Non-2xx responses throw {@link UmamiApiError}.
+ * body. Non-2xx responses throw {@link FormamiApiError}.
  */
-export class UmamiClient extends GeneratedUmamiClient {
+export class FormamiClient extends GeneratedFormamiClient {
   readonly baseUrl: string;
   readonly headers: Record<string, string>;
   readonly timeout?: number;
   private readonly fetchImpl: FetchLike;
 
-  constructor(options: UmamiClientOptions = {}) {
+  constructor(options: FormamiClientOptions = {}) {
     super();
     this.baseUrl = trimSlashes(options.baseUrl || DEFAULT_BASE_URL);
+    if (!this.baseUrl) throw new Error('Formami requires an explicit baseUrl.');
     this.headers = { ...buildAuthHeaders(options), ...options.headers };
     this.timeout = options.timeout;
     this.fetchImpl = resolveFetch(options.fetch);
@@ -64,7 +65,7 @@ export class UmamiClient extends GeneratedUmamiClient {
   withToken(token: string) {
     const { authorization: _auth, [API_KEY_HEADER]: _key, ...headers } = this.headers;
 
-    return new UmamiClient({
+    return new FormamiClient({
       baseUrl: this.baseUrl,
       token,
       headers,
@@ -102,7 +103,7 @@ export class UmamiClient extends GeneratedUmamiClient {
   }
 
   // ---------------------------------------------------------------------------
-  // Compatibility overloads for the previous hand-written @umami/api-client.
+  // Compatibility overloads for the previous hand-written @formami/api-client.
   // The object form is canonical; positional forms are kept so that
   // `client.getWebsiteStats(websiteId, params)` keeps working.
   // ---------------------------------------------------------------------------

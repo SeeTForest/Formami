@@ -1,5 +1,5 @@
 'use client';
-import { Icon, Row } from '@umami/react-zen';
+import { Icon, Row } from '@formami/react-zen';
 import { useNavigation } from '@/components/hooks';
 import { Minus } from '@/components/icons';
 import { BoardSelect } from '@/components/input/BoardSelect';

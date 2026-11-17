@@ -34,7 +34,7 @@ vi.mock('@/components/hooks', async () => {
 
 beforeEach(() => {
   mockVerify.mockReset();
-  sessionStorage.setItem('umami.partial-token', 'partial-token');
+  sessionStorage.setItem('formami.partial-token', 'partial-token');
 });
 
 test('focuses the first code digit on load', () => {

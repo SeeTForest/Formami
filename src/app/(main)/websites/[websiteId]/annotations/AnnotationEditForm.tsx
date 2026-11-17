@@ -8,7 +8,7 @@ import {
   FormSubmitButton,
   Text,
   TextField,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { startOfDay } from 'date-fns';
 import { useMemo, useState } from 'react';
 import { useLocale, useMessages, useTimezone, useUpdateQuery } from '@/components/hooks';

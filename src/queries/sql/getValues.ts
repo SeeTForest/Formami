@@ -1,5 +1,6 @@
 import clickhouse from '@/lib/clickhouse';
 import { FILTER_COLUMNS, SESSION_COLUMNS } from '@/lib/constants';
+import { countrySQL } from '@/lib/country-policy';
 import { CLICKHOUSE, PRISMA, runQuery } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import { escapeLikeValue } from '@/lib/search';
@@ -25,6 +26,8 @@ async function relationalQuery(websiteId: string, column: string, filters: Query
   const params = {};
   const { startDate, endDate, search } = filters;
 
+  const isSessionColumn = SESSION_DB_COLUMNS.has(column);
+  if (column === 'country') column = countrySQL(column);
   let searchQuery = '';
   let excludeDomain = '';
 
@@ -51,7 +54,7 @@ async function relationalQuery(websiteId: string, column: string, filters: Query
     }
   }
 
-  if (SESSION_DB_COLUMNS.has(column)) {
+  if (isSessionColumn) {
     return rawQuery(
       `
       select ${column} as "value", count(*) as "count"
@@ -90,6 +93,7 @@ async function clickhouseQuery(websiteId: string, column: string, filters: Query
   const params = {};
   const { startDate, endDate, search } = filters;
 
+  if (column === 'country') column = countrySQL(column);
   let searchQuery = '';
   let excludeDomain = '';
 

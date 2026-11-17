@@ -1,5 +1,5 @@
 'use client';
-import { Button, Column, Dialog, Modal, Row, Text } from '@umami/react-zen';
+import { Button, Column, Dialog, Modal, Row, Text } from '@formami/react-zen';
 import { useState } from 'react';
 import { ControlledDialog } from '@/components/common/ControlledDialog';
 import { useMessages } from '@/components/hooks';

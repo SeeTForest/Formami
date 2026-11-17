@@ -1,7 +1,7 @@
 import ipaddr from 'ipaddr.js';
 
 export const IP_ADDRESS_HEADERS = [
-  ...(process.env.CLOUD_MODE ? ['x-umami-client-ip'] : []), // Umami custom header (cloud mode only)
+  ...(process.env.CLOUD_MODE ? ['x-formami-client-ip'] : []), // Formami custom header (cloud mode only)
   'true-client-ip', // CDN
   'cf-connecting-ip', // Cloudflare
   'fastly-client-ip', // Fastly
@@ -67,7 +67,7 @@ let trustedProxyCache: { value: string; ranges: IpRange[] } | undefined;
 /**
  * Parse TRUSTED_PROXIES: a comma-separated list of IPs, CIDR ranges and/or
  * presets (loopback, linklocal, private) belonging to proxies/load balancers
- * in front of Umami. Invalid entries are ignored.
+ * in front of Formami. Invalid entries are ignored.
  */
 function getTrustedProxies() {
   const value = process.env.TRUSTED_PROXIES ?? '';

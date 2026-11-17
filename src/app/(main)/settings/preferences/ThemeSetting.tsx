@@ -1,4 +1,4 @@
-import { useTheme } from '@umami/react-zen';
+import { useTheme } from '@formami/react-zen';
 import { ThemeModeSelector } from '@/components/input/ThemeModeSelector';
 
 export function ThemeSetting() {

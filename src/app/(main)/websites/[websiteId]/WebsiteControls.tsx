@@ -1,4 +1,4 @@
-import { Column, Grid, Row } from '@umami/react-zen';
+import { Column, Grid, Row } from '@formami/react-zen';
 import { useShare } from '@/components/hooks';
 import { ExportButton } from '@/components/input/ExportButton';
 import { FilterBar } from '@/components/input/FilterBar';

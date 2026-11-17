@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type { UmamiTracker } from '../../src/tracker';
+import type { FormamiTracker } from '../../src/tracker';
 import { authHeaders, loginPage, loginViaApi } from './helpers';
 
 test.beforeEach(async ({ baseURL }) => {
@@ -50,7 +50,7 @@ test('existing Tracker API records a pageview, identity and event in Formami', a
     await page.goto('/forami-local-smoke');
     expect((await pageview).status()).toBe(200);
     await page.evaluate(async () => {
-      const tracker = (window as unknown as { umami: UmamiTracker }).umami;
+      const tracker = (window as unknown as { formami: FormamiTracker }).formami;
       await tracker.identify('forami-local-subject', { plan: 'test' });
       await tracker.track('feature_used', { feature: 'local_smoke' });
     });

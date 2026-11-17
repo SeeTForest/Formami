@@ -1,4 +1,4 @@
-import { DataColumn, DataTable, type DataTableProps, Row } from '@umami/react-zen';
+import { DataColumn, DataTable, type DataTableProps, Row } from '@formami/react-zen';
 import { SegmentDeleteButton } from '@/app/(main)/websites/[websiteId]/segments/SegmentDeleteButton';
 import { SegmentEditButton } from '@/app/(main)/websites/[websiteId]/segments/SegmentEditButton';
 import { DateDistance } from '@/components/common/DateDistance';

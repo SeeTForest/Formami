@@ -1,4 +1,4 @@
-import { Box, Button, Icon, Row, Tooltip, TooltipTrigger } from '@umami/react-zen';
+import { Box, Button, Icon, Row, Tooltip, TooltipTrigger } from '@formami/react-zen';
 import { produce } from 'immer';
 import { Fragment, useEffect, useRef } from 'react';
 import { Group, type GroupImperativeHandle, Panel, Separator } from 'react-resizable-panels';

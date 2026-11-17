@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Column, Label, Row, Text, TextField } from '@umami/react-zen';
+import { Button, Column, Label, Row, Text, TextField } from '@formami/react-zen';
 import { useState } from 'react';
 import { useMessages, useNavigation } from '@/components/hooks';
 import { ListFilter } from '@/components/icons';
@@ -20,13 +20,7 @@ function getMinDurationValue(value: unknown) {
   return Number(value) > 0 ? value : DEFAULT_MIN_DURATION;
 }
 
-function ReplayFilterForm({
-  minDuration,
-  onClose,
-}: {
-  minDuration: string;
-  onClose?: () => void;
-}) {
+function ReplayFilterForm({ minDuration, onClose }: { minDuration: string; onClose?: () => void }) {
   const { t, labels, messages } = useMessages();
   const { router, updateParams } = useNavigation();
   const [value, setValue] = useState(minDuration);

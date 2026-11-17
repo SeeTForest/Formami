@@ -1,5 +1,6 @@
 import clickhouse from '@/lib/clickhouse';
 import { EVENT_TYPE } from '@/lib/constants';
+import { reportingCountryRows } from '@/lib/country-policy';
 import { CLICKHOUSE, PRISMA, runQuery } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import type { PageResult, QueryFilters, WebsiteSession } from '@/lib/types';
@@ -13,7 +14,7 @@ export async function getRevenueSessions(
   return runQuery({
     [PRISMA]: () => relationalQuery(...args),
     [CLICKHOUSE]: () => clickhouseQuery(...args),
-  });
+  }).then(reportingCountryRows);
 }
 
 async function relationalQuery(websiteId: string, currency: string, filters: QueryFilters) {

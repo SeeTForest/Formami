@@ -1,5 +1,5 @@
 'use client';
-import { Text } from '@umami/react-zen';
+import { Text } from '@formami/react-zen';
 
 export function TextBlock({ text }: { text?: string }) {
   if (!text) {

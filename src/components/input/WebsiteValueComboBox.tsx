@@ -1,4 +1,4 @@
-import { type ComboBoxProps, cn, Label, ListItem, Loading, useDebounce } from '@umami/react-zen';
+import { type ComboBoxProps, cn, Label, ListItem, Loading, useDebounce } from '@formami/react-zen';
 import { useEffect, useMemo, useState } from 'react';
 import { ComboBox } from '@/components/common/ComboBox';
 import { Empty } from '@/components/common/Empty';

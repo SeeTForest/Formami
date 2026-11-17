@@ -1,4 +1,4 @@
-import { Box, Column, Icon, Text } from '@umami/react-zen';
+import { Box, Column, Icon, Text } from '@formami/react-zen';
 import type { ReactNode } from 'react';
 
 export interface EmptyPlaceholderProps {

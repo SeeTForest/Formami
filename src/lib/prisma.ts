@@ -2,6 +2,7 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import { readReplicas } from '@prisma/extension-read-replicas';
 import debug from 'debug';
 import { PrismaClient } from '@/generated/prisma/client';
+import { countryFilterValue, countrySQL } from '@/lib/country-policy';
 import {
   DATA_TYPE,
   DEFAULT_PAGE_SIZE,
@@ -12,7 +13,7 @@ import {
 import { filtersObjectToArray } from './params';
 import type { Operator, PropertyFilter, QueryFilters, QueryOptions } from './types';
 
-const log = debug('umami:prisma');
+const log = debug('formami:prisma');
 
 const EQUALITY_OPERATORS: Operator[] = [OPERATORS.equals, OPERATORS.notEquals];
 const SEARCH_OPERATORS: Operator[] = [OPERATORS.contains, OPERATORS.doesNotContain];
@@ -158,21 +159,22 @@ function mapFilter(
   }
 
   const table = SESSION_COLUMNS.includes(name) ? 'session' : 'website_event';
+  const field = column === 'country' ? countrySQL(`${table}.${column}`) : `${table}.${column}`;
 
   // Negative operators read NULL as '' to match ClickHouse, which stores missing values as ''.
   switch (operator) {
     case OPERATORS.equals:
-      return `${table}.${column} = ANY(${value})`;
+      return `${field} = ANY(${value})`;
     case OPERATORS.notEquals:
-      return `coalesce(${table}.${column}, '') != ALL(${value})`;
+      return `coalesce(${field}, '') != ALL(${value})`;
     case OPERATORS.contains:
-      return `${table}.${column} ilike ${value}`;
+      return `${field} ilike ${value}`;
     case OPERATORS.doesNotContain:
-      return `coalesce(${table}.${column}, '') not ilike ${value}`;
+      return `coalesce(${field}, '') not ilike ${value}`;
     case OPERATORS.regex:
-      return `${table}.${column} ~* ${value}`;
+      return `${field} ~* ${value}`;
     case OPERATORS.notRegex:
-      return `coalesce(${table}.${column}, '') !~* ${value}`;
+      return `coalesce(${field}, '') !~* ${value}`;
     default:
       return '';
   }
@@ -291,6 +293,7 @@ function getQueryParams(filters: Record<string, any>) {
 
       if (!resolvedColumn) return obj;
 
+      if (resolvedColumn === 'country') value = countryFilterValue(value, operator);
       const key = paramName ?? name;
 
       if (SEARCH_OPERATORS.includes(operator)) {
@@ -776,18 +779,18 @@ async function pagedQuery<T>(model: string, criteria: T, filters?: QueryFilters)
   // Independent queries; run concurrently (mirrors pagedRawQuery).
   const [data, count] = await Promise.all([
     client[model].findMany({
-    ...criteria,
-    ...{
-      ...(size > 0 && { take: +size, skip: +size * (+page - 1) }),
-      ...(orderBy && {
-        orderBy: [
-          {
-            [orderBy]: sortDescending ? 'desc' : 'asc',
-          },
-        ],
-      }),
-    },
-  }),
+      ...criteria,
+      ...{
+        ...(size > 0 && { take: +size, skip: +size * (+page - 1) }),
+        ...(orderBy && {
+          orderBy: [
+            {
+              [orderBy]: sortDescending ? 'desc' : 'asc',
+            },
+          ],
+        }),
+      },
+    }),
     client[model].count({ where: (criteria as any).where }),
   ]);
 

@@ -1,4 +1,4 @@
-import { Column, Heading, Row, Text } from '@umami/react-zen';
+import { Column, Heading, Row, Text } from '@formami/react-zen';
 import { Empty } from '@/components/common/Empty';
 import { Panel } from '@/components/common/Panel';
 import { useBoard } from '@/components/hooks';

@@ -1,4 +1,4 @@
-import { Icon, Row, Text } from '@umami/react-zen';
+import { Icon, Row, Text } from '@formami/react-zen';
 import { DataGrid } from '@/components/common/DataGrid';
 import Link from '@/components/common/Link';
 import { useLoginQuery, useNavigation, useUserWebsitesQuery } from '@/components/hooks';

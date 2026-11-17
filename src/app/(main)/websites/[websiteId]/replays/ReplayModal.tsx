@@ -1,5 +1,5 @@
 'use client';
-import { Column, Dialog, Modal, type ModalProps } from '@umami/react-zen';
+import { Column, Dialog, Modal, type ModalProps } from '@formami/react-zen';
 import { useEffect, useState } from 'react';
 import { ReplayPlayback } from '@/app/(main)/websites/[websiteId]/replays/[replayId]/ReplayPlayback';
 import { ControlledDialog } from '@/components/common/ControlledDialog';
@@ -14,7 +14,13 @@ export interface ReplayModalProps extends ModalProps {
   replaySource?: ReplaySource;
 }
 
-export function ReplayModal({ websiteId, replayId, replaySource, className, ...props }: ReplayModalProps) {
+export function ReplayModal({
+  websiteId,
+  replayId,
+  replaySource,
+  className,
+  ...props
+}: ReplayModalProps) {
   const {
     router,
     query: { replay },

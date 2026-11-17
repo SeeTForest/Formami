@@ -1,4 +1,4 @@
-import { Column, Row, Tooltip, TooltipTrigger } from '@umami/react-zen';
+import { Column, Row, Tooltip, TooltipTrigger } from '@formami/react-zen';
 import { IconLabel } from '@/components/common/IconLabel';
 import Link from '@/components/common/Link';
 import { NavMenu } from '@/components/common/NavMenu';

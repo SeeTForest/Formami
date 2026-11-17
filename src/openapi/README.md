@@ -1,6 +1,6 @@
 # OpenAPI contracts
 
-Umami generates `public/openapi.json` for every App Router API handler. It statically infers a
+Formami generates `public/openapi.json` for every App Router API handler. It statically infers a
 baseline contract from route source and replaces that baseline with a colocated, Zod-backed
 contract wherever one exists. Paths listed in `UNPUBLISHED_PATHS` (`src/openapi/document.ts`) keep
 their contracts but are left out of the published document and the generated API client.
@@ -37,14 +37,14 @@ handlers, database clients, Redis clients, or modules with environment-dependent
 The generated artifact contains all audiences. Every operation declares one of:
 
 - `public` operations are intended for API consumers.
-- `internal` operations support the Umami application or deployment.
+- `internal` operations support the Formami application or deployment.
 - `collect` operations identify tracker ingestion APIs.
 
 Route paths and HTTP methods are discovered independently from `src/app/api/**/route.ts`. The check
 requires all discovered non-OPTIONS operations in the artifact and rejects duplicate contracts,
 duplicate operation IDs, orphaned contracts, and mismatched dynamic path parameters.
 
-New operations are initially marked with `x-umami-contract: inferred` and their source file. The
+New operations are initially marked with `x-formami-contract: inferred` and their source file. The
 inference layer extracts path parameters, Zod request fields, authentication, typed response bodies,
 response status helpers, and response media types without importing route modules. Running
 `pnpm openapi:contracts` snapshots that behavior into an explicit contract. Curated `contract.ts`
@@ -82,7 +82,7 @@ modified. Run `pnpm generate:api` after editing this file as well.
 
 ## Operation IDs
 
-Operation IDs are public: they become method names in `@umami/api-client`. Routes with a curated
+Operation IDs are public: they become method names in `@formami/api-client`. Routes with a curated
 `contract.ts` set `operationId` directly. For inferred contracts, `src/openapi/operation-ids.ts`
 overrides the mechanical path-based name (`getWebsitesWebsiteIdStats` -> `getWebsiteStats`).
 Never rename an operation ID without a migration note for the client.

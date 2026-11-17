@@ -1,4 +1,4 @@
-import { type ComboBoxProps, type ListProps, ComboBox as ZenComboBox } from '@umami/react-zen';
+import { type ComboBoxProps, type ListProps, ComboBox as ZenComboBox } from '@formami/react-zen';
 
 const defaultListProps: Partial<ListProps> = {
   style: {

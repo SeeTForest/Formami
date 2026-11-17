@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { DOMAIN_REGEX } from '@/lib/constants';
+import { validPageOrigins } from '@/lib/page-link';
 import { pagingParams, searchParams, sortingParams } from '@/lib/schema';
 
 export const replayConfigInputSchema = z
@@ -25,10 +26,19 @@ export const listWebsitesQuerySchema = z
   })
   .meta({ id: 'ListWebsitesQuery' });
 
+export const pageOriginsSchema = z
+  .string()
+  .trim()
+  .max(500)
+  .refine(validPageOrigins, 'Invalid page origins')
+  .nullable()
+  .optional();
+
 export const createWebsiteRequestSchema = z
   .object({
     name: z.string().trim().min(1).max(100),
     domain: z.string().trim().regex(DOMAIN_REGEX).max(500),
+    pageOrigins: pageOriginsSchema,
     shareId: z.string().max(50).nullable().optional(),
     teamId: z.uuid().nullable().optional(),
     id: z.uuid().nullable().optional(),
@@ -39,6 +49,7 @@ export const updateWebsiteRequestSchema = z
   .object({
     name: z.string().trim().min(1).max(100).optional(),
     domain: z.string().trim().regex(DOMAIN_REGEX).max(500).optional(),
+    pageOrigins: pageOriginsSchema,
     shareId: z.string().max(50).nullable().optional(),
     replayConfig: replayConfigInputSchema.nullable().optional(),
   })

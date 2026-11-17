@@ -1,11 +1,11 @@
+import type { FormamiClient } from '@formami/api-client';
 import type { CallToolResult, McpServer, ToolAnnotations } from '@modelcontextprotocol/server';
-import type { UmamiClient } from '@umami/api-client';
 import type { z } from 'zod';
 import { describeError } from './errors';
 import type { McpLogger } from './logger';
 
 export interface ToolContext {
-  client: UmamiClient;
+  client: FormamiClient;
   logger: McpLogger;
   /** Identity attached to the connection (HTTP mode). Used for logs only. */
   identity?: { userId?: string; clientId?: string; requestId?: string };

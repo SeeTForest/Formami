@@ -1,5 +1,5 @@
 'use client';
-import { Column, Grid } from '@umami/react-zen';
+import { Column, Grid } from '@formami/react-zen';
 import { WebsiteControls } from '@/app/(main)/websites/[websiteId]/WebsiteControls';
 import { Empty } from '@/components/common/Empty';
 import { LoadingPanel } from '@/components/common/LoadingPanel';

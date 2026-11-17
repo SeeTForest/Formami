@@ -1,4 +1,13 @@
-import { Button, Dialog, Icon, Modal, Row, Text, Tooltip, TooltipTrigger } from '@umami/react-zen';
+import {
+  Button,
+  Dialog,
+  Icon,
+  Modal,
+  Row,
+  Text,
+  Tooltip,
+  TooltipTrigger,
+} from '@formami/react-zen';
 import { useState } from 'react';
 import { SegmentEditForm } from '@/app/(main)/websites/[websiteId]/segments/SegmentEditForm';
 import { ControlledDialog } from '@/components/common/ControlledDialog';

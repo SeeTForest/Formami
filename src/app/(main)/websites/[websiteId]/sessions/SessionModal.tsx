@@ -1,5 +1,5 @@
 'use client';
-import { Column, Dialog, Modal, type ModalProps } from '@umami/react-zen';
+import { Column, Dialog, Modal, type ModalProps } from '@formami/react-zen';
 import { SessionProfile } from '@/app/(main)/websites/[websiteId]/sessions/SessionProfile';
 import { ControlledDialog } from '@/components/common/ControlledDialog';
 import { useMobile, useNavigation } from '@/components/hooks';

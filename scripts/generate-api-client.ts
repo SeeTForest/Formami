@@ -42,7 +42,7 @@ interface OpenApiOperation {
   tags?: string[];
   parameters?: OpenApiParameter[];
   requestBody?: { required?: boolean };
-  'x-umami-audience'?: string;
+  'x-formami-audience'?: string;
 }
 
 interface OpenApiDocument {
@@ -79,7 +79,7 @@ function collectOperations(document: OpenApiDocument): OperationDefinition[] {
       }
 
       const key = `${method.toUpperCase()} ${route}`;
-      const audience = operation['x-umami-audience'] ?? 'public';
+      const audience = operation['x-formami-audience'] ?? 'public';
 
       if (!INCLUDED_AUDIENCES.has(audience)) {
         continue;
@@ -243,7 +243,7 @@ export type OperationOutput<K extends OperationId> = OperationTypes[K]['response
   ? R
   : unknown;
 
-export abstract class GeneratedUmamiClient {
+export abstract class GeneratedFormamiClient {
   protected abstract execute<K extends OperationId>(
     operationId: K,
     input: Record<string, unknown> | undefined,

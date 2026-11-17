@@ -5,7 +5,7 @@ export const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)
 
 /** Server under test (started by scripts/test-api.ts unless PLAYWRIGHT_BASE_URL is set). */
 export const BASE_URL =
-  process.env.PLAYWRIGHT_BASE_URL ?? `http://localhost:${process.env.UMAMI_TEST_PORT ?? '3100'}`;
+  process.env.PLAYWRIGHT_BASE_URL ?? `http://localhost:${process.env.FORMAMI_TEST_PORT ?? '3100'}`;
 
 /**
  * Runtime state shared between global setup, workers and the coverage reporter.

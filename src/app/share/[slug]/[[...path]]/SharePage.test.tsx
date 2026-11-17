@@ -19,8 +19,8 @@ const mockShare = vi.hoisted(() => ({
 
 const initTheme = vi.fn();
 
-vi.mock('@umami/react-zen', async importOriginal => {
-  const actual = await importOriginal<typeof import('@umami/react-zen')>();
+vi.mock('@formami/react-zen', async importOriginal => {
+  const actual = await importOriginal<typeof import('@formami/react-zen')>();
 
   return {
     ...actual,

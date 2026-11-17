@@ -1,5 +1,5 @@
 'use client';
-import { Column, Grid, ListItem, Loading, Select, useDebounce } from '@umami/react-zen';
+import { Column, Grid, ListItem, Loading, Select, useDebounce } from '@formami/react-zen';
 import { useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
 import { BarChart } from '@/components/charts/BarChart';

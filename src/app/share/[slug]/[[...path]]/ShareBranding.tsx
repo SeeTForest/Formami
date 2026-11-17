@@ -1,5 +1,5 @@
 'use client';
-import { Icon, Row, Text } from '@umami/react-zen';
+import { Icon, Row, Text } from '@formami/react-zen';
 import { useShare } from '@/components/hooks';
 import { Logo } from '@/components/svg';
 import { HOMEPAGE_URL } from '@/lib/constants';

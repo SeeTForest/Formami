@@ -9,7 +9,7 @@ import {
   TabList,
   TabPanel,
   Tabs,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { useMemo, useState } from 'react';
 import { GridRow } from '@/components/common/GridRow';
 import { LoadingPanel } from '@/components/common/LoadingPanel';

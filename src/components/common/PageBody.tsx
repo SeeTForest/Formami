@@ -1,5 +1,5 @@
 'use client';
-import { Alert, AlertTitle, Column, type ColumnProps, Loading } from '@umami/react-zen';
+import { Alert, AlertTitle, Column, type ColumnProps, Loading } from '@formami/react-zen';
 import type { ReactNode } from 'react';
 import { useMessages } from '@/components/hooks';
 

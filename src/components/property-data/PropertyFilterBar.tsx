@@ -1,5 +1,5 @@
 'use client';
-import { Button, Icon, Row, Text, Tooltip, TooltipTrigger } from '@umami/react-zen';
+import { Button, Icon, Row, Text, Tooltip, TooltipTrigger } from '@formami/react-zen';
 import { useMessages } from '@/components/hooks';
 import { X } from '@/components/icons';
 import { OPERATORS } from '@/lib/constants';

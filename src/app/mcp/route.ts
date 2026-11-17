@@ -1,6 +1,6 @@
-import { UmamiClient } from '@umami/api-client';
-import type { CreateUmamiMcpHttpHandlerOptions, McpLogger } from '@umami/mcp';
-import { createUmamiMcpHttpHandler } from '@umami/mcp';
+import { FormamiClient } from '@formami/api-client';
+import type { CreateFormamiMcpHttpHandlerOptions, McpLogger } from '@formami/mcp';
+import { createFormamiMcpHttpHandler } from '@formami/mcp';
 import debug from 'debug';
 import { uuid } from '@/lib/crypto';
 import { getBaseUrl } from '@/lib/get-base-url';
@@ -9,7 +9,7 @@ import { createInProcessFetch } from '@/lib/mcp/dispatch';
 
 export const dynamic = 'force-dynamic';
 
-const log = debug('umami:mcp');
+const log = debug('formami:mcp');
 
 const logger: McpLogger = {
   info: event => log('%j', event),
@@ -19,24 +19,24 @@ const logger: McpLogger = {
 /**
  * Remote MCP endpoint (Streamable HTTP, protocol revision 2026-07-28, stateless).
  *
- * Request path: MCP client → bearer token → @umami/mcp → @umami/api-client → in-process API
+ * Request path: MCP client → bearer token → @formami/mcp → @formami/api-client → in-process API
  * route handlers → existing user/team authorization. MCP never touches storage directly.
  */
-const handler = createUmamiMcpHttpHandler({
+const handler = createFormamiMcpHttpHandler({
   logger,
   onerror: error => log('handler error: %s', error?.message),
   createClient: (authInfo, ctx) => {
     const baseUrl = getBaseUrl(ctx.requestInfo?.headers).toString().replace(/\/+$/, '');
     const basePath = (process.env.BASE_PATH ?? '').replace(/\/+$/, '');
 
-    // @umami/mcp resolves its declared api-client dependency independently.
+    // @formami/mcp resolves its declared api-client dependency independently.
     // Both copies use the same public client API, but TypeScript treats their
     // private fetch implementation fields as incompatible.
-    return new UmamiClient({
+    return new FormamiClient({
       baseUrl: `${baseUrl}${basePath}/api`,
       token: authInfo.token,
       fetch: createInProcessFetch(),
-    }) as unknown as Awaited<ReturnType<CreateUmamiMcpHttpHandlerOptions['createClient']>>;
+    }) as unknown as Awaited<ReturnType<CreateFormamiMcpHttpHandlerOptions['createClient']>>;
   },
 });
 

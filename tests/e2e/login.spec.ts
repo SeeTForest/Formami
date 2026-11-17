@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { logout, umamiUser } from './helpers';
+import { formamiUser, logout } from './helpers';
 
 test.describe('Login tests', () => {
   test.beforeEach(async ({ page }) => {
@@ -7,8 +7,8 @@ test.describe('Login tests', () => {
   });
 
   test('logs user in with correct credentials and logs user out', async ({ page }) => {
-    await page.getByTestId('input-username').locator('input').fill(umamiUser.username);
-    await page.getByTestId('input-password').locator('input').fill(umamiUser.password);
+    await page.getByTestId('input-username').locator('input').fill(formamiUser.username);
+    await page.getByTestId('input-password').locator('input').fill(formamiUser.password);
     await page.getByTestId('button-submit').click();
 
     await expect(page).toHaveURL(/\/websites$/);
@@ -21,7 +21,7 @@ test.describe('Login tests', () => {
     await expect(page.getByTestId('input-username').getByText(/Required/i)).toBeVisible();
     await expect(page.getByTestId('input-password').getByText(/Required/i)).toBeVisible();
 
-    await page.getByTestId('input-username').locator('input').fill(umamiUser.username);
+    await page.getByTestId('input-username').locator('input').fill(formamiUser.username);
     await page.getByTestId('input-password').locator('input').fill('wrongpassword');
     await page.getByTestId('button-submit').click();
 

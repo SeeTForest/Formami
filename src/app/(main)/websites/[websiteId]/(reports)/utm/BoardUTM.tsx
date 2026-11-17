@@ -1,4 +1,4 @@
-import { Column, Heading, Text } from '@umami/react-zen';
+import { Column, Heading, Text } from '@formami/react-zen';
 import { useEffect, useRef, useState } from 'react';
 import { PieChart } from '@/components/charts/PieChart';
 import { LoadingPanel } from '@/components/common/LoadingPanel';

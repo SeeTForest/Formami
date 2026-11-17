@@ -9,7 +9,7 @@ import {
   Popover,
   Row,
   Text,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { type ReactNode, useState } from 'react';
 import { ControlledDialog } from '@/components/common/ControlledDialog';
 import { useMessages } from '@/components/hooks';

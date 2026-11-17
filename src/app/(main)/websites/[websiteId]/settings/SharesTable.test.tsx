@@ -39,7 +39,7 @@ vi.mock('./ShareEditForm', () => ({
 describe('SharesTable', () => {
   test('renders the share url content in the table row with actions', () => {
     render(<SharesTable data={[{ id: '1', name: 'hello', slug: 'world' }]} />, {
-      route: 'https://app.umami.is/settings',
+      route: 'https://analytics.example.com/settings',
     });
 
     const link = screen.getByRole('link', { name: 'http://localhost:3000/share/world' });

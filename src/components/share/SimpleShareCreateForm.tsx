@@ -7,7 +7,7 @@ import {
   Row,
   Switch,
   TextField,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { useState } from 'react';
 import { useApi, useMessages, useModified } from '@/components/hooks';
 import { ThemeModeSelector } from '@/components/input/ThemeModeSelector';

@@ -28,7 +28,7 @@ test('switches to the session issued for the new password after saving', async (
 
   render(<PasswordEditForm onSave={onSave} required={true} />);
 
-  await userEvent.type(await screen.findByLabelText('Current password'), 'umami');
+  await userEvent.type(await screen.findByLabelText('Current password'), 'formami');
   await userEvent.type(screen.getByLabelText('New password'), 'new-password');
   await userEvent.type(screen.getByLabelText('Confirm password'), 'new-password');
   await userEvent.click(screen.getByRole('button', { name: 'Save' }));
@@ -47,7 +47,7 @@ test('keeps the stored token when the server does not return a new one', async (
 
   render(<PasswordEditForm onSave={onSave} required={true} />);
 
-  await userEvent.type(await screen.findByLabelText('Current password'), 'umami');
+  await userEvent.type(await screen.findByLabelText('Current password'), 'formami');
   await userEvent.type(screen.getByLabelText('New password'), 'new-password');
   await userEvent.type(screen.getByLabelText('Confirm password'), 'new-password');
   await userEvent.click(screen.getByRole('button', { name: 'Save' }));

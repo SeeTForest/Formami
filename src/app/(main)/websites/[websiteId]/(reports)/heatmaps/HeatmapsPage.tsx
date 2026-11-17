@@ -1,5 +1,5 @@
 'use client';
-import { Button, Column, Loading, Row, SearchField } from '@umami/react-zen';
+import { Button, Column, Loading, Row, SearchField } from '@formami/react-zen';
 import { useState } from 'react';
 import { WebsiteControls } from '@/app/(main)/websites/[websiteId]/WebsiteControls';
 import { EmptyPlaceholder } from '@/components/common/EmptyPlaceholder';

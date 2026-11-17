@@ -1,4 +1,4 @@
-import { Icon, Row, Text } from '@umami/react-zen';
+import { Icon, Row, Text } from '@formami/react-zen';
 import type { ReactNode } from 'react';
 import { CopyButton } from '@/components/common/CopyButton';
 import { useConfig, useMessages, useMobile } from '@/components/hooks';

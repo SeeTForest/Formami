@@ -1,20 +1,23 @@
+import type { FormamiClient } from '@formami/api-client';
 import {
   type AuthInfo,
   createMcpHandler,
   type McpHttpHandler,
   type McpRequestContext,
 } from '@modelcontextprotocol/server';
-import type { UmamiClient } from '@umami/api-client';
 import type { McpLogger } from './lib/logger';
 import type { AnyToolDefinition } from './lib/tool';
-import { createUmamiMcpServer } from './server';
+import { createFormamiMcpServer } from './server';
 
-export interface CreateUmamiMcpHttpHandlerOptions {
+export interface CreateFormamiMcpHttpHandlerOptions {
   /**
    * Builds the API client for one request. Receives the verified `AuthInfo` (bearer token,
-   * client ID, scopes) so the token can be propagated to the Umami API unchanged.
+   * client ID, scopes) so the token can be propagated to the Formami API unchanged.
    */
-  createClient: (authInfo: AuthInfo, ctx: McpRequestContext) => UmamiClient | Promise<UmamiClient>;
+  createClient: (
+    authInfo: AuthInfo,
+    ctx: McpRequestContext,
+  ) => FormamiClient | Promise<FormamiClient>;
   logger?: McpLogger;
   tools?: AnyToolDefinition[];
   onerror?: (error: Error) => void;
@@ -24,8 +27,8 @@ export interface CreateUmamiMcpHttpHandlerOptions {
  * Streamable HTTP handler (web-standard Request/Response) for the 2026-07-28 stateless protocol.
  * The host is responsible for verifying the bearer token and passing `authInfo` to `handler.fetch`.
  */
-export function createUmamiMcpHttpHandler(
-  options: CreateUmamiMcpHttpHandlerOptions,
+export function createFormamiMcpHttpHandler(
+  options: CreateFormamiMcpHttpHandlerOptions,
 ): McpHttpHandler {
   return createMcpHandler(
     async ctx => {
@@ -40,7 +43,7 @@ export function createUmamiMcpHttpHandler(
       const client = await options.createClient(authInfo, ctx);
       const extra = (authInfo.extra ?? {}) as { userId?: string; requestId?: string };
 
-      return createUmamiMcpServer({
+      return createFormamiMcpServer({
         client,
         logger: options.logger,
         tools: options.tools,

@@ -12,7 +12,7 @@ import {
   Row,
   Select,
   Text,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { Laptop, Monitor, Smartphone, Tablet } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ControlledDialog } from '@/components/common/ControlledDialog';
@@ -1049,7 +1049,7 @@ function IframeSnapshot({ snapshot, onReady }: { snapshot: HeatmapSnapshot; onRe
         className={`${styles.snapshotIframe} rr-block`}
         src={iframeUrl}
         title={iframeUrl}
-        name="umami.disabled"
+        name="formami.disabled"
         tabIndex={-1}
         loading="lazy"
         scrolling="no"

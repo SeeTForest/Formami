@@ -1,5 +1,14 @@
 'use client';
-import { Button, Column, Dialog, DialogTrigger, Icon, Popover, Row, Text } from '@umami/react-zen';
+import {
+  Button,
+  Column,
+  Dialog,
+  DialogTrigger,
+  Icon,
+  Popover,
+  Row,
+  Text,
+} from '@formami/react-zen';
 import { Bookmark, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { SessionInfo } from '@/app/(main)/websites/[websiteId]/sessions/SessionInfo';
@@ -14,9 +23,9 @@ import {
   useUpdateQuery,
   useWebsiteSessionQuery,
 } from '@/components/hooks';
-import { type ReplaySource, useReplays } from '@/store/replays';
 import { touch } from '@/components/hooks/useModified';
 import { getReplayViewport } from '@/lib/replay';
+import { type ReplaySource, useReplays } from '@/store/replays';
 import { ReplayPlayer } from './ReplayPlayer';
 import { ReplaySaveForm } from './ReplaySaveForm';
 
@@ -50,7 +59,8 @@ export function ReplayPlayback({
   const storedReplaySource = useReplays(state => state.source);
   const getReplayId = (r: any) => r.visitId || r.id;
 
-  const navigationReplays = replayWebsiteId === websiteId && storedReplaySource === replaySource ? replays : [];
+  const navigationReplays =
+    replayWebsiteId === websiteId && storedReplaySource === replaySource ? replays : [];
   const currentIndex = navigationReplays.findIndex(r => getReplayId(r) === replayId);
   const prevReplay = currentIndex > 0 ? navigationReplays[currentIndex - 1] : null;
   const nextReplay =
@@ -70,7 +80,8 @@ export function ReplayPlayback({
       ? 'landscape'
       : null;
 
-  const saved = savedState?.replayId === replayId ? savedState.isSaved : (replaySaved?.isSaved ?? false);
+  const saved =
+    savedState?.replayId === replayId ? savedState.isSaved : (replaySaved?.isSaved ?? false);
 
   useEffect(() => {
     onReplayStateChange?.(replayOrientation);
@@ -87,7 +98,9 @@ export function ReplayPlayback({
         e.metaKey ||
         e.shiftKey ||
         e.isComposing ||
-        target?.closest('input, textarea, select, [contenteditable="true"], [role="listbox"], [role="menu"], [role="slider"]')
+        target?.closest(
+          'input, textarea, select, [contenteditable="true"], [role="listbox"], [role="menu"], [role="slider"]',
+        )
       ) {
         return;
       }

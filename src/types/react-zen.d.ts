@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
-import '@umami/react-zen';
+import '@formami/react-zen';
 
-declare module '@umami/react-zen' {
+declare module '@formami/react-zen' {
   interface SelectProps {
     children?: ReactNode;
   }

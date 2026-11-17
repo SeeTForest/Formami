@@ -1,5 +1,5 @@
 'use client';
-import { Column, Row } from '@umami/react-zen';
+import { Column, Row } from '@formami/react-zen';
 import { useShare } from '@/components/hooks';
 import { ShareBranding } from './ShareBranding';
 

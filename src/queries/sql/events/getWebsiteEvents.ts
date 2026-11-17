@@ -1,5 +1,6 @@
 import clickhouse from '@/lib/clickhouse';
 import { DEFAULT_PAGE_SIZE, EVENT_TYPE } from '@/lib/constants';
+import { reportingCountryRows } from '@/lib/country-policy';
 import { CLICKHOUSE, PRISMA, runQuery } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import type { PageResult, QueryFilters, WebsiteEvent } from '@/lib/types';
@@ -12,7 +13,7 @@ export function getWebsiteEvents(
   return runQuery({
     [PRISMA]: () => relationalQuery(...args),
     [CLICKHOUSE]: () => clickhouseQuery(...args),
-  });
+  }).then(reportingCountryRows);
 }
 
 async function relationalQuery(websiteId: string, filters: QueryFilters) {
@@ -203,7 +204,7 @@ async function clickhouseQuery(websiteId: string, filters: QueryFilters) {
       select
         event_id,
         toUInt8(1) as has_data
-      from umami.event_data_pivot
+      from formami.event_data_pivot
       inner join paged_events on paged_events.id = event_data_pivot.event_id
       where website_id = {websiteId:UUID}
       ${hasDataDateQuery}

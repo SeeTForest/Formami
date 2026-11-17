@@ -1,4 +1,4 @@
-import { Column, DataColumn, DataTable, Text } from '@umami/react-zen';
+import { Column, DataColumn, DataTable, Text } from '@formami/react-zen';
 import { useTranslations } from 'next-intl';
 import { Empty } from '@/components/common/Empty';
 import { LoadingPanel } from '@/components/common/LoadingPanel';

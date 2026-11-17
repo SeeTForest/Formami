@@ -1,4 +1,4 @@
-import { Column, Grid, Row, Text } from '@umami/react-zen';
+import { Column, Grid, Row, Text } from '@formami/react-zen';
 import { useSpring, useTransform } from 'motion/react';
 import { type ReactNode, useEffect } from 'react';
 import { List, type RowComponentProps } from 'react-window';

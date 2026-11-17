@@ -1,5 +1,5 @@
 'use client';
-import { Button, Column, Heading, Loading, Tab, TabList, TabPanel, Tabs } from '@umami/react-zen';
+import { Button, Column, Heading, Loading, Tab, TabList, TabPanel, Tabs } from '@formami/react-zen';
 import { format } from 'date-fns';
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';

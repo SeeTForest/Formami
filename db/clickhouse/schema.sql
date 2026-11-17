@@ -1,5 +1,5 @@
 -- Create Event
-CREATE TABLE umami.website_event
+CREATE TABLE formami.website_event
 (
     website_id UUID,
     session_id UUID,
@@ -54,7 +54,7 @@ ENGINE = MergeTree
     PRIMARY KEY (toStartOfHour(created_at), website_id, session_id, visit_id)
     SETTINGS index_granularity = 8192;
 
-CREATE TABLE umami.event_data
+CREATE TABLE formami.event_data
 (
     website_id UUID,
     session_id UUID,
@@ -73,7 +73,7 @@ ENGINE = MergeTree
     ORDER BY (website_id, event_id, data_key, created_at)
     SETTINGS index_granularity = 8192;
 
-CREATE TABLE umami.session_data
+CREATE TABLE formami.session_data
 (
     website_id UUID,
     session_id UUID,
@@ -90,10 +90,10 @@ ENGINE = ReplacingMergeTree
     ORDER BY (website_id, session_id, data_key)
     SETTINGS index_granularity = 8192;
 
-ALTER TABLE umami.session_data
+ALTER TABLE formami.session_data
 MODIFY SETTING deduplicate_merge_projection_mode = 'drop';
 
-ALTER TABLE umami.session_data
+ALTER TABLE formami.session_data
 ADD PROJECTION session_data_property_filter_projection (
     SELECT *
     ORDER BY (
@@ -107,10 +107,10 @@ ADD PROJECTION session_data_property_filter_projection (
     )
 );
 
-ALTER TABLE umami.session_data MATERIALIZE PROJECTION session_data_property_filter_projection;
+ALTER TABLE formami.session_data MATERIALIZE PROJECTION session_data_property_filter_projection;
 
 -- stats hourly
-CREATE TABLE umami.website_event_stats_hourly
+CREATE TABLE formami.website_event_stats_hourly
 (
     website_id UUID,
     session_id UUID,
@@ -161,8 +161,8 @@ ENGINE = AggregatingMergeTree
     )
     SAMPLE BY cityHash64(visit_id);
 
-CREATE MATERIALIZED VIEW umami.website_event_stats_hourly_mv
-TO umami.website_event_stats_hourly
+CREATE MATERIALIZED VIEW formami.website_event_stats_hourly_mv
+TO formami.website_event_stats_hourly
 AS
 SELECT
     website_id,
@@ -240,7 +240,7 @@ FROM (SELECT
     arrayFilter(x -> x != '', groupArray(tag)) tag,
     distinct_id,
     toStartOfHour(created_at) timestamp
-FROM umami.website_event
+FROM formami.website_event
 GROUP BY website_id,
     session_id,
     visit_id,
@@ -258,22 +258,22 @@ GROUP BY website_id,
     timestamp);
 
 -- projections
-ALTER TABLE umami.website_event 
+ALTER TABLE formami.website_event
 ADD PROJECTION website_event_url_path_projection (
 SELECT * ORDER BY toStartOfDay(created_at), website_id, url_path, created_at
 );
 
-ALTER TABLE umami.website_event MATERIALIZE PROJECTION website_event_url_path_projection;
+ALTER TABLE formami.website_event MATERIALIZE PROJECTION website_event_url_path_projection;
 
-ALTER TABLE umami.website_event 
+ALTER TABLE formami.website_event
 ADD PROJECTION website_event_referrer_domain_projection (
 SELECT * ORDER BY toStartOfDay(created_at), website_id, referrer_domain, created_at
 );
 
-ALTER TABLE umami.website_event MATERIALIZE PROJECTION website_event_referrer_domain_projection;
+ALTER TABLE formami.website_event MATERIALIZE PROJECTION website_event_referrer_domain_projection;
 
 -- revenue
-CREATE TABLE umami.website_revenue
+CREATE TABLE formami.website_revenue
 (
     website_id UUID,
     session_id UUID,
@@ -289,7 +289,7 @@ ENGINE = MergeTree
     SETTINGS index_granularity = 8192;
 
 -- Create session_replay
-CREATE TABLE umami.session_replay
+CREATE TABLE formami.session_replay
 (
     replay_id UUID,
     website_id UUID,
@@ -308,7 +308,7 @@ ORDER BY (replay_id, website_id, session_id, visit_id, chunk_index)
 SETTINGS index_granularity = 8192;
 
 -- Create event_data_pivot
-CREATE TABLE IF NOT EXISTS umami.event_data_pivot
+CREATE TABLE IF NOT EXISTS formami.event_data_pivot
 (
     website_id      UUID,
     session_id      UUID,
@@ -325,8 +325,8 @@ PARTITION BY toYYYYMM(created_at)
 ORDER BY (website_id, event_name, created_at, event_id)
 SETTINGS index_granularity = 8192;
 
-CREATE MATERIALIZED VIEW IF NOT EXISTS umami.event_data_pivot_mv
-TO umami.event_data_pivot
+CREATE MATERIALIZED VIEW IF NOT EXISTS formami.event_data_pivot_mv
+TO formami.event_data_pivot
 AS SELECT
     website_id,
     session_id,
@@ -342,11 +342,11 @@ AS SELECT
         ''
     )) AS property_values,
     groupArrayState(data_type) AS property_types
-FROM umami.event_data
+FROM formami.event_data
 GROUP BY website_id, session_id, event_id, event_name, url_path, created_at;
 
 -- Create session_data_pivot
-CREATE TABLE IF NOT EXISTS umami.session_data_pivot
+CREATE TABLE IF NOT EXISTS formami.session_data_pivot
 (
     website_id      UUID,
     session_id      UUID,
@@ -362,8 +362,8 @@ PARTITION BY created_year_month
 ORDER BY (website_id, session_id, distinct_id)
 SETTINGS index_granularity = 8192;
 
-CREATE MATERIALIZED VIEW IF NOT EXISTS umami.session_data_pivot_mv
-TO umami.session_data_pivot
+CREATE MATERIALIZED VIEW IF NOT EXISTS formami.session_data_pivot_mv
+TO formami.session_data_pivot
 AS SELECT
     website_id,
     session_id,
@@ -378,11 +378,11 @@ AS SELECT
         ''
     )) AS property_values,
     groupArrayState(data_type) AS property_types
-FROM umami.session_data
+FROM formami.session_data
 GROUP BY website_id, session_id, distinct_id;
 
 -- Create heatmap_event
-CREATE TABLE umami.heatmap_event
+CREATE TABLE formami.heatmap_event
 (
     heatmap_event_id UUID,
     website_id UUID,
@@ -407,7 +407,7 @@ ENGINE = MergeTree
     SETTINGS index_granularity = 8192;
 
 -- Create session_link
-CREATE TABLE umami.session_link
+CREATE TABLE formami.session_link
 (
     website_id UUID,
     session_id UUID,
@@ -419,7 +419,7 @@ ENGINE = ReplacingMergeTree
     ORDER BY (website_id, distinct_id, session_id)
     SETTINGS index_granularity = 8192;
 
-CREATE TABLE IF NOT EXISTS umami.error_event
+CREATE TABLE IF NOT EXISTS formami.error_event
 (
     website_id UUID,
     event_id UUID,

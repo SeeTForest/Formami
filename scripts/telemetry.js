@@ -6,9 +6,10 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const pkg = require(path.resolve(process.cwd(), 'package.json'));
 
-const url = 'https://api.umami.is/v1/telemetry';
+const url = process.env.FORMAMI_TELEMETRY_URL;
 
 export async function sendTelemetry(type) {
+  if (!url || process.env.DISABLE_TELEMETRY) return;
   const { default: isDocker } = await import('is-docker');
   const { default: fetch } = await import('node-fetch');
 

@@ -1,6 +1,7 @@
-import { Row } from '@umami/react-zen';
+import { Row } from '@formami/react-zen';
 import type { ReactNode } from 'react';
 import { CircleHelp } from '@/components/icons';
+import { reportingCountry } from '@/lib/country-policy';
 
 export function TypeIcon({
   type,
@@ -13,6 +14,7 @@ export function TypeIcon({
   unknown?: boolean;
   children?: ReactNode;
 }) {
+  if (type === 'country') value = reportingCountry(value);
   const iconValue = type === 'browser' && value === 'browser' ? 'unknown' : value;
   const showUnknown = unknown ?? (!iconValue || iconValue.toLowerCase() === 'unknown');
   const blank = `${process.env.basePath || ''}/images/${type}/unknown.png`;

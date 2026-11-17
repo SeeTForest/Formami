@@ -1,4 +1,5 @@
 import { beforeEach, expect, test, vi } from 'vitest';
+import { API_KEY_PREFIX } from '@/lib/api-key';
 import { parseRequest } from '@/lib/request';
 import { GET, POST } from './route';
 
@@ -33,7 +34,7 @@ beforeEach(() => {
 });
 
 test('GET returns the current user api keys', async () => {
-  const keys = [{ id: 'key-1', name: 'CI pipeline', keyPrefix: 'umami_abcdefgh' }];
+  const keys = [{ id: 'key-1', name: 'CI pipeline', keyPrefix: 'formami_abcdefgh' }];
   mocks.getUserApiKeys.mockResolvedValue(keys as any);
 
   const response = await GET(new Request('http://localhost/api/me/api-keys'));
@@ -77,9 +78,9 @@ test('POST creates a key, stores only the hash, and returns the plaintext once',
 
   const body = await response.json();
 
-  expect(body.key).toMatch(/^umami_[0-9a-zA-Z]{32}$/);
+  expect(body.key).toMatch(/^formami_[0-9a-zA-Z]{32}$/);
   expect(body.name).toBe('CI pipeline');
-  expect(body.keyPrefix).toBe(body.key.slice(0, 14));
+  expect(body.keyPrefix).toBe(body.key.slice(0, API_KEY_PREFIX.length + 8));
   expect(body).not.toHaveProperty('keyHash');
 
   const stored = mocks.createApiKey.mock.calls[0][0];

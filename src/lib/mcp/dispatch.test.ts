@@ -10,7 +10,7 @@ describe('MCP dispatch table', () => {
   });
 
   test('ignores a base path prefix and rejects unknown routes', () => {
-    expect(matchDispatchRoute('GET', '/umami/api/websites')?.route.path).toBe('/api/websites');
+    expect(matchDispatchRoute('GET', '/formami/api/websites')?.route.path).toBe('/api/websites');
     expect(matchDispatchRoute('POST', '/api/websites')).toBeNull();
     expect(matchDispatchRoute('GET', '/api/admin/users')).toBeNull();
     expect(matchDispatchRoute('DELETE', '/api/websites/abc')).toBeNull();

@@ -1,4 +1,3 @@
-import type { UseQueryResult } from '@tanstack/react-query';
 import {
   Button,
   Column,
@@ -8,7 +7,8 @@ import {
   Text,
   Tooltip,
   TooltipTrigger,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
+import type { UseQueryResult } from '@tanstack/react-query';
 import { LayoutGrid, Table2 } from 'lucide-react';
 import {
   cloneElement,
@@ -28,7 +28,7 @@ import { getItem, setItem } from '@/lib/storage';
 import type { PageResult } from '@/lib/types';
 
 const DEFAULT_SEARCH_DELAY = 600;
-const DISPLAY_MODE_STORAGE_KEY = 'umami.datagrid.displayMode';
+const DISPLAY_MODE_STORAGE_KEY = 'formami.datagrid.displayMode';
 
 type DisplayMode = 'table' | 'cards';
 

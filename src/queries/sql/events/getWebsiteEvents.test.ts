@@ -133,7 +133,7 @@ describe('getWebsiteEvents', () => {
     expect(dataQuery).toContain('website_id as websiteId');
     expect(dataQuery).toContain('paged_event_data as (');
     expect(dataQuery).toContain('where website_id = {websiteId:UUID}');
-    expect(dataQuery).toContain('from umami.event_data_pivot');
+    expect(dataQuery).toContain('from formami.event_data_pivot');
     expect(dataQuery).toContain(
       'inner join paged_events on paged_events.id = event_data_pivot.event_id',
     );

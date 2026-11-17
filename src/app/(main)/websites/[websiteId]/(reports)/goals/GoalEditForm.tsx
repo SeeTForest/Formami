@@ -9,7 +9,7 @@ import {
   Label,
   Loading,
   TextField,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { useGoalDefinitionQuery, useMessages, useMobile, useUpdateQuery } from '@/components/hooks';
 import { ActionSelect } from '@/components/input/ActionSelect';
 import { LookupField } from '@/components/input/LookupField';

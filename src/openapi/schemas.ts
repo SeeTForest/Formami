@@ -9,7 +9,7 @@ export const apiErrorSchema = z
       status: z.number().int(),
     }),
   })
-  .meta({ id: 'ApiError', description: 'Standard Umami API error response.' });
+  .meta({ id: 'ApiError', description: 'Standard Formami API error response.' });
 
 export const okSchema = z
   .object({

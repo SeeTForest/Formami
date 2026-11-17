@@ -1,4 +1,4 @@
-import { Icon, Row, Text } from '@umami/react-zen';
+import { Icon, Row, Text } from '@formami/react-zen';
 import { Favicon } from '@/components/common/Favicon';
 import { Grid2x2, Link } from '@/components/icons';
 import type { BoardEntityType } from '@/lib/boards';

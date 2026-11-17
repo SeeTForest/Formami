@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-import { serveUmamiStdio } from './stdio';
+import { serveFormamiStdio } from './stdio';
 
 try {
-  serveUmamiStdio();
+  serveFormamiStdio();
 } catch (error) {
   process.stderr.write(`${error instanceof Error ? error.message : String(error)}\n`);
   process.exit(1);

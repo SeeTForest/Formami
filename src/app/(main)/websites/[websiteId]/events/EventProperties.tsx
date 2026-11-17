@@ -1,5 +1,5 @@
 'use client';
-import { Column, Grid, Label, ListItem, Row, Select } from '@umami/react-zen';
+import { Column, Grid, Label, ListItem, Row, Select } from '@formami/react-zen';
 import { useMemo, useState } from 'react';
 import { ComboBox } from '@/components/common/ComboBox';
 import { LoadingPanel } from '@/components/common/LoadingPanel';

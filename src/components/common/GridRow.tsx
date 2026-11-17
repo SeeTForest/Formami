@@ -1,4 +1,4 @@
-import { Grid } from '@umami/react-zen';
+import { Grid } from '@formami/react-zen';
 
 const LAYOUTS = {
   one: { columns: '1fr' },

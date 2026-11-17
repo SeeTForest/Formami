@@ -1,4 +1,4 @@
-import { DataColumn, DataTable, Row, Text } from '@umami/react-zen';
+import { DataColumn, DataTable, Row, Text } from '@formami/react-zen';
 import { useTranslations } from 'next-intl';
 import { Empty } from '@/components/common/Empty';
 import { LoadingPanel } from '@/components/common/LoadingPanel';
@@ -96,7 +96,7 @@ function DimensionLabel({
       );
     }
     case 'country': {
-      // Google reports ISO alpha-3 codes ("usa"); Umami's names and flags use alpha-2.
+      // Google reports ISO alpha-3 codes ("usa"); Formami's names and flags use alpha-2.
       const code = toAlpha2(value);
 
       return (

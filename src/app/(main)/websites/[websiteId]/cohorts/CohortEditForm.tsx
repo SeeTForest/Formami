@@ -10,7 +10,7 @@ import {
   Loading,
   Text,
   TextField,
-} from '@umami/react-zen';
+} from '@formami/react-zen';
 import { useEffect, useState } from 'react';
 import { useMessages, useUpdateQuery, useWebsiteCohortQuery } from '@/components/hooks';
 import { ActionSelect } from '@/components/input/ActionSelect';

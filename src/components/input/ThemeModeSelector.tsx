@@ -1,4 +1,4 @@
-import { Button, Icon, Row } from '@umami/react-zen';
+import { Button, Icon, Row } from '@formami/react-zen';
 import type { ReactNode } from 'react';
 import { Monitor, Moon, Sun } from '@/components/icons';
 

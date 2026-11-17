@@ -56,7 +56,7 @@ beforeEach(() => {
 function mockSuccessfulChange(auth: Record<string, unknown> = {}) {
   parseRequestMock.mockResolvedValue({
     auth: { user: { id: 'admin-user' }, ...auth },
-    body: { currentPassword: 'umami', newPassword: 'new-password' },
+    body: { currentPassword: 'formami', newPassword: 'new-password' },
     error: undefined,
   } as any);
   getUserMock.mockResolvedValue({

@@ -1,4 +1,4 @@
-import { Column, cn, Icon, Row, Text, Tooltip, TooltipTrigger } from '@umami/react-zen';
+import { Column, cn, Icon, Row, Text, Tooltip, TooltipTrigger } from '@formami/react-zen';
 import { useMemo, useState } from 'react';
 import { firstBy } from 'thenby';
 import { LoadingPanel } from '@/components/common/LoadingPanel';

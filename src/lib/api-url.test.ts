@@ -5,16 +5,16 @@ describe('getApiUrl', () => {
   test('calls an absolute API_URL directly', () => {
     expect(
       getApiUrl('/websites', {
-        apiUrl: 'https://gateway-eu.umami.dev/api',
+        apiUrl: 'https://gateway-eu.example.com/api',
         basePath: '/analytics',
       }),
-    ).toBe('https://gateway-eu.umami.dev/api/websites');
+    ).toBe('https://gateway-eu.example.com/api/websites');
   });
 
   test('keeps app routes on the local api path when API_URL is absolute', () => {
     expect(
       getApiUrl('/auth/verify', {
-        apiUrl: 'https://gateway-eu.umami.dev/api',
+        apiUrl: 'https://gateway-eu.example.com/api',
         basePath: '/analytics',
       }),
     ).toBe('/analytics/api/auth/verify');
