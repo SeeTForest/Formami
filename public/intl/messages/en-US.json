@@ -688,7 +688,7 @@
     "success": "Success",
     "failure": "Failure",
     "noEvidence": "No observations in this range. Connect an authorized server-side reporter; browser tracking cannot observe all crawlers.",
-    "truncated": "Showing the top 500 groups; totals include all matching observations.",
+    "truncated": "Showing part of the matching groups; totals include all matching observations.",
     "pageOrigins": "Page link origins (optional)",
     "pageOriginsHelp": "Comma-separated HTTP(S) origins. Empty uses HTTPS with the website domain. Multiple origins show explicit choices because path statistics combine hostnames."
   }

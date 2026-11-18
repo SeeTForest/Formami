@@ -12,6 +12,19 @@ export const accessSignals = [
   'googlebot',
 ] as const;
 export const accessKinds = ['fetch', 'citation', 'referral', 'conversion'] as const;
+export const accessRepresentations = [
+  'html',
+  'markdown',
+  'json',
+  'context',
+  'discovery',
+  'other',
+] as const;
+export const accessSources = ['server', 'cdn', 'mcp', 'backend', 'manual'] as const;
+export const accessProviders = ['openai', 'google', 'other', 'unknown'] as const;
+export const accessOutcomes = ['success', 'failure', 'unknown'] as const;
+export const accessVersionSchema = z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9._-]{0,63}$/);
+export const accessContentKeySchema = z.string().regex(/^[a-z][a-z0-9_-]{0,63}$/);
 export const accessActors = ['human', 'agent', 'automation', 'unknown'] as const;
 export const accessPurposes = [
   'reading',
@@ -78,14 +91,66 @@ export const accessObservationSchema = z
   .strictObject({
     id: z.uuid(),
     occurredAt: z.iso.datetime(),
-    consent: z.literal('granted'),
-    source: z.enum(['server', 'cdn', 'mcp', 'backend', 'manual']),
+    consent: z.literal('granted').optional(),
+    collectionPolicyVersion: accessVersionSchema.optional(),
+    source: z.enum(accessSources),
     kind: z.enum(accessKinds),
     // Product-owned public content/category key, never a raw path, title, user ID, or prompt.
-    contentKey: z.string().regex(/^[a-z][a-z0-9_-]{0,63}$/),
+    contentKey: accessContentKeySchema,
     signal: z.enum(accessSignals).default('unknown'),
-    provider: z.enum(['openai', 'google', 'other', 'unknown']).default('unknown'),
-    outcome: z.enum(['success', 'failure', 'unknown']).default('unknown'),
+    provider: z.enum(accessProviders).default('unknown'),
+    outcome: z.enum(accessOutcomes).default('unknown'),
+    representation: z.enum(accessRepresentations).optional(),
+    httpMethod: z.enum(['GET', 'HEAD']).optional(),
+    statusCode: z.number().int().min(100).max(599).optional(),
+    contentVersion: accessVersionSchema.optional(),
+    collectorVersion: accessVersionSchema.max(32).optional(),
+    synthetic: z.boolean().optional(),
+    verificationRunId: z.uuid().optional(),
+  })
+  .superRefine((value, context) => {
+    if (value.collectionPolicyVersion) {
+      if (
+        value.consent !== undefined ||
+        !['server', 'cdn'].includes(value.source) ||
+        value.kind !== 'fetch'
+      ) {
+        context.addIssue({
+          code: 'custom',
+          message:
+            'Server collection policy applies only to server/CDN fetches, separately from consent.',
+        });
+      }
+      for (const key of [
+        'representation',
+        'httpMethod',
+        'statusCode',
+        'contentVersion',
+        'collectorVersion',
+        'synthetic',
+      ] as const) {
+        if (value[key] === undefined)
+          context.addIssue({
+            code: 'custom',
+            path: [key],
+            message: 'Required for policy-based observations.',
+          });
+      }
+    } else if (value.consent !== 'granted') {
+      context.addIssue({
+        code: 'custom',
+        message: 'Granted consent or an approved server collection policy is required.',
+      });
+    }
+    if (
+      value.synthetic === true ? !value.verificationRunId : value.verificationRunId !== undefined
+    ) {
+      context.addIssue({
+        code: 'custom',
+        path: ['verificationRunId'],
+        message: 'A verification UUID is required exactly when synthetic is true.',
+      });
+    }
   })
   .refine(value => value.kind !== 'conversion' || value.source === 'backend', {
     message: 'Conversions must be reported by the product backend.',

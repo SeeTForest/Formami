@@ -601,9 +601,19 @@ model AccessObservation {
   evidence   String @db.VarChar(32)
   confidence String @db.VarChar(16)
   ruleVersion String @map("rule_version") @db.VarChar(32)
+  representation String? @db.VarChar(16)
+  httpMethod String? @map("http_method") @db.VarChar(8)
+  statusCode Int? @map("status_code")
+  contentVersion String? @map("content_version") @db.VarChar(64)
+  collectorVersion String? @map("collector_version") @db.VarChar(32)
+  collectionPolicyVersion String? @map("collection_policy_version") @db.VarChar(64)
+  synthetic Boolean?
+  verificationRunId String? @map("verification_run_id") @db.Uuid
+  receivedAt DateTime @default(now()) @map("received_at") @db.Timestamptz(6)
   website Website @relation(fields: [websiteId], references: [id], onDelete: Cascade)
 
   @@id([websiteId, id])
   @@index([websiteId, occurredAt])
+  @@index([websiteId, verificationRunId])
   @@map("access_observation")
 }

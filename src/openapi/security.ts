@@ -1,6 +1,13 @@
 import type { ApiAuth } from '@/openapi/operation';
 
 export const securitySchemes = {
+  accessCollectorKey: {
+    type: 'apiKey' as const,
+    in: 'header' as const,
+    name: 'x-formami-access-key',
+    description:
+      'Server-only, website-bound credential accepted solely by access-evidence POST. Not an account API key.',
+  },
   bearerAuth: {
     type: 'http' as const,
     scheme: 'bearer',
@@ -32,6 +39,7 @@ export function getSecurityRequirements(auth: ApiAuth) {
   if (auth === 'bearer-or-share') {
     requirements.push({ shareToken: [], shareContext: [] });
   }
+  if (auth === 'bearer-or-access-key') requirements.push({ accessCollectorKey: [] });
 
   return requirements;
 }

@@ -63,6 +63,7 @@ Next.js 已更新至 16.4.5，完整本地构建通过。升级现有实例前�
 
 - [开发、测试与本地运行](docs/development.md)
 - [Agent API 接入与后台页面链接](docs/agent-api.md)
+- [服务端内容请求观测与完整分页](docs/access-evidence.md)
 - [TypeScript API 客户端](packages/api-client/README.md)
 - [MCP 接入](packages/mcp/README.md)
 - [API 契约](src/openapi/README.md)

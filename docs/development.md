@@ -32,11 +32,14 @@ npx --yes pnpm@12.3.4 run local:stop
 npx --yes pnpm@12.3.4 run local:build
 npx --yes pnpm@12.3.4 exec tsc --noEmit
 npx --yes pnpm@12.3.4 run local:test
+npx --yes pnpm@12.3.4 run local:verify:access
 ```
 
 `local:build` 执行完整构建及本地迁移。`local:test` 以 UTC、最多两个 Worker 运行单元测试，再运行 API Client 与 MCP 包测试，避免宿主时区和过高并行度影响结果。构建后可运行 `local:start` 本地预览；它与 `local:dev` 共用 3035 端口，不能同时启动。Next.js 上游配置忽略类型错误，因此必须单独运行 `tsc`。GeoIP 下载关闭意味着本地测试不验证真实地区识别；发布前需另行准备有适用许可的数据并验证。
 
 首次运行浏览器测试前执行 `npx --yes pnpm@12.3.4 exec playwright install chromium --only-shell`。浏览器测试使用隔离的本地实例。设置 `PLAYWRIGHT_BASE_URL=http://127.0.0.1:3035`、`PLAYWRIGHT_SKIP_WEB_SERVER=1`、`FORMAMI_USER=admin`、`FORMAMI_PASSWORD` 为本地测试密码，再执行 `pnpm exec playwright test`。测试的 setup 会将新数据库的引导密码改为该密码，并创建测试网站/用户；不得对生产 URL 执行。截图和报告保存在被忽略的 `test-results/`、`playwright-report/`。
+
+`local:verify:access` 要求 3035 端口空闲，自行启动/停止隔离本地应用，仅创建随机测试用户/网站和合成请求；覆盖 607 分组分页、鉴权/策略/热加载、幂等、浏览器界面、保留清理和本地数据库 dump/restore。它不接受生产 URL，完成后清理测试网站/账号，证据留在 ignored 的 `test-results/`。运行前执行 `local:setup` 应用本地迁移。
 
 ## 品牌与兼容性
 

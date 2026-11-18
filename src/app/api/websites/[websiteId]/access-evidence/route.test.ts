@@ -1,4 +1,5 @@
-import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { createHash } from 'node:crypto';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { GET, POST } from './route';
 import { accessQuerySchema } from './schema';
 
@@ -8,6 +9,20 @@ const mocks = vi.hoisted(() => ({
   canRead: true,
   save: vi.fn(),
   get: vi.fn(),
+  config: null as any,
+}));
+vi.mock('@/lib/access-evidence-config', async importOriginal => ({
+  ...(await importOriginal<typeof import('@/lib/access-evidence-config')>()),
+  accessWebsiteConfig: () => {
+    if (mocks.config instanceof Error) throw mocks.config;
+    return (
+      mocks.config ?? {
+        contentKeys: new Set((process.env.FORMAMI_ACCESS_CONTENT_KEYS ?? '').split(',')),
+        collectionPolicyVersion: undefined,
+        collectorKeyHashes: [],
+      }
+    );
+  },
 }));
 vi.mock('@/lib/request', () => ({
   parseRequest: async (request: Request, schema?: any) => {
@@ -52,11 +67,92 @@ beforeEach(() => {
   mocks.auth = { user: { id: 'reporter' } };
   mocks.canWrite = true;
   mocks.canRead = true;
+  mocks.config = null;
   mocks.save.mockReset().mockResolvedValue({ count: 1 });
   mocks.get.mockReset().mockResolvedValue({ groups: [] });
   vi.stubEnv('FORMAMI_ACCESS_CONTENT_KEYS', 'guide');
 });
+afterEach(() => vi.unstubAllEnvs());
 describe('access evidence API', () => {
+  const collectorKey = `fae_${'a'.repeat(64)}`;
+  const policyObservation = {
+    ...observation,
+    consent: undefined,
+    collectionPolicyVersion: 'policy-v1',
+    representation: 'markdown',
+    httpMethod: 'GET',
+    statusCode: 200,
+    contentVersion: 'release-v1',
+    collectorVersion: '1.0',
+    synthetic: false,
+  };
+  const collectorPost = (data: unknown, key = collectorKey) =>
+    POST(
+      new Request('http://localhost/api/websites/website/access-evidence', {
+        method: 'POST',
+        headers: { 'x-formami-access-key': key },
+        body: JSON.stringify(data),
+      }),
+      context,
+    );
+  const configureCollector = () => {
+    mocks.auth = null;
+    mocks.config = {
+      contentKeys: new Set(['guide']),
+      collectionPolicyVersion: 'policy-v1',
+      collectorKeyHashes: [createHash('sha256').update(collectorKey).digest('hex')],
+    };
+  };
+  test('accepts a website-bound collector without an account session, but not a query', async () => {
+    configureCollector();
+    expect((await collectorPost({ observations: [policyObservation] })).status).toBe(200);
+    expect(
+      (
+        await GET(
+          new Request('http://localhost/api?startAt=0&endAt=1000', {
+            headers: { 'x-formami-access-key': collectorKey },
+          }),
+          context,
+        )
+      ).status,
+    ).toBe(401);
+  });
+  test.each([
+    { collectionPolicyVersion: 'unapproved' },
+    { contentKey: 'foreign_content' },
+    { collectionPolicyVersion: undefined, consent: 'granted' },
+    { source: 'backend', kind: 'conversion' },
+  ])('rejects collector scope or policy violations %j', async extra => {
+    configureCollector();
+    expect(
+      (await collectorPost({ observations: [{ ...policyObservation, ...extra }] })).status,
+    ).toBe(400);
+    expect(mocks.save).not.toHaveBeenCalled();
+  });
+  test('does not fall back to an admin session for a bad collector credential', async () => {
+    configureCollector();
+    mocks.auth = { user: { isAdmin: true } };
+    expect(
+      (await collectorPost({ observations: [policyObservation] }, `fae_${'b'.repeat(64)}`)).status,
+    ).toBe(401);
+    expect((await collectorPost({ observations: [policyObservation] }, '')).status).toBe(401);
+    expect(mocks.save).not.toHaveBeenCalled();
+  });
+  test('fails closed without disclosing configuration details', async () => {
+    mocks.config = new Error('private path or key');
+    const response = await collectorPost({ observations: [policyObservation] });
+    expect(response.status).toBe(503);
+    expect(await response.text()).not.toContain('private');
+  });
+  test('rejects pagination overflow and parses false as false', () => {
+    const base = { startAt: 0, endAt: 1000 };
+    expect(accessQuerySchema.safeParse({ ...base, limit: 501 }).success).toBe(false);
+    expect(accessQuerySchema.safeParse({ ...base, offset: 1000001 }).success).toBe(false);
+    expect(accessQuerySchema.safeParse({ ...base, synthetic: 'false' }).data?.synthetic).toBe(
+      false,
+    );
+    expect(accessQuerySchema.safeParse({ ...base, synthetic: 'unknown' }).success).toBe(false);
+  });
   test('deduplicates without overwriting existing evidence', async () => {
     mocks.save.mockResolvedValue({ count: 0 });
     const response = await post({ observations: [observation] });

@@ -330,7 +330,30 @@ export const operations = {
     method: 'get',
     path: '/api/websites/{websiteId}/access-evidence',
     pathParams: ['websiteId'],
-    queryParams: ['startAt', 'endAt', 'actor', 'purpose', 'kind', 'contentKey'],
+    queryParams: [
+      'startAt',
+      'endAt',
+      'actor',
+      'purpose',
+      'kind',
+      'contentKey',
+      'representation',
+      'source',
+      'signal',
+      'provider',
+      'outcome',
+      'httpMethod',
+      'statusCode',
+      'contentVersion',
+      'collectorVersion',
+      'collectionPolicyVersion',
+      'synthetic',
+      'verificationRunId',
+      'groupBy',
+      'limit',
+      'offset',
+      'snapshotAt',
+    ],
     hasBody: false,
   },
   getBoard: {
@@ -3778,7 +3801,7 @@ export abstract class GeneratedFormamiClient {
 
   /**
    * Query separate access and content-use observations
-   * Counts observations, not people. UA and reporter claims are unverified. Fetch, citation, referral and conversion totals are independent; no automatic attribution or training-use inference. Overview filters are not applied. At most 500 groups; totals are complete.
+   * Counts observations, not people. UA and reporter claims remain unverified. Totals cover all matching rows, independently of pagination. detail groups by all evidence dimensions; content groups by kind/contentKey/representation; day groups by kind/UTC day. Stable key ordering, maximum 500 groups per page. Reuse pagination.snapshotAt, fixed startAt/endAt and filters for subsequent offsets. The receive cutoff reduces concurrent additions but is not a cross-request database snapshot; reconcile totals and retry a closed window after concurrent ingestion or retention. Overview filters are not applied.
    * `GET /api/websites/{websiteId}/access-evidence`
    */
   getAccessEvidence(
@@ -5206,7 +5229,7 @@ export abstract class GeneratedFormamiClient {
 
   /**
    * Report server-side access observations with write permission
-   * Server-side credentials only; requires website update permission, granted consent and FORMAMI_ACCESS_CONTENT_KEYS allowlist. No raw URLs, UA, prompts, IP or identity. Maximum 100 observations / 64 KiB, timestamps within past 7 days and 5 minutes future. Stable IDs deduplicate retries within a website; conflicting duplicates are not overwritten. Conversion reports require backend source.
+   * Server-side credentials only. Legacy reports require website update permission and granted consent. Policy-based server/CDN fetches use configured collectionPolicyVersion, not fabricated user consent, and require the HTTP/content/version/synthetic fields. An x-formami-access-key is accepted only for policy-based fetches for its configured website; it cannot query or access other APIs. FORMAMI_ACCESS_CONFIG_FILE provides per-website content allowlists/policies/key hashes; the old global allowlist is supported only when no file is configured. No raw URLs, UA, prompts, IP or identity. Maximum 100 observations / 64 KiB; past 7 days and 5 minutes future. Stable UUIDs deduplicate within website without overwrite. synthetic=true requires verificationRunId. Conversion reports still require backend source and user authorization.
    * `POST /api/websites/{websiteId}/access-evidence`
    */
   saveAccessEvidence(

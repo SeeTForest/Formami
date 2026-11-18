@@ -16,6 +16,62 @@ const observation = {
 };
 
 describe('access evidence boundaries', () => {
+  const policyObservation = {
+    ...observation,
+    consent: undefined,
+    collectionPolicyVersion: 'pystone-public-content-v1',
+    representation: 'markdown',
+    httpMethod: 'GET',
+    statusCode: 200,
+    contentVersion: 'a'.repeat(64),
+    collectorVersion: '1.0.0',
+    synthetic: false,
+  };
+  test('policy-based fetches retain provenance without inventing consent', () => {
+    const { observations } = accessBatchSchema.parse({ observations: [policyObservation] });
+    const record = accessRecord('website', observations[0]);
+    expect(record).toMatchObject({
+      collectionPolicyVersion: 'pystone-public-content-v1',
+      representation: 'markdown',
+      synthetic: false,
+    });
+    expect(record).not.toHaveProperty('consent');
+    expect(record).toMatchObject({ actor: 'unknown', confidence: 'unknown' });
+  });
+  test.each([
+    { consent: 'granted' },
+    { source: 'manual' },
+    { kind: 'citation' },
+    { representation: undefined },
+    { statusCode: 600 },
+    { httpMethod: 'POST' },
+    { contentVersion: 'private/path?token=secret' },
+    { collectorVersion: 'a'.repeat(33) },
+    { synthetic: true },
+    { verificationRunId: observation.id },
+    { synthetic: undefined },
+  ])('rejects invalid policy observation %j', extra => {
+    expect(
+      accessBatchSchema.safeParse({ observations: [{ ...policyObservation, ...extra }] }).success,
+    ).toBe(false);
+  });
+  test('synthetic declarations require a run UUID but do not verify identity', () => {
+    const { observations } = accessBatchSchema.parse({
+      observations: [
+        {
+          ...policyObservation,
+          synthetic: true,
+          verificationRunId: observation.id,
+          signal: 'gptbot',
+        },
+      ],
+    });
+    expect(accessRecord('website', observations[0])).toMatchObject({
+      synthetic: true,
+      evidence: 'ua_declaration',
+      confidence: 'low',
+    });
+  });
   test.each([
     ['Mozilla/5.0 (compatible; ChatGPT-User/1.0)', 'agent', 'agent_retrieval', 'ua_declaration'],
     ['GPTBot/1.4', 'automation', 'training_collection', 'ua_declaration'],

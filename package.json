@@ -77,6 +77,7 @@
     "local:stop": "node scripts/local-dev.mjs stop",
     "build:brand": "node scripts/build-brand.mjs && svgr src/assets/logo.svg src/assets/logo-white.svg --out-dir src/components/svg --typescript --icon 24 --jsx-runtime automatic && biome check --write src/components/svg/Logo.tsx src/components/svg/LogoWhite.tsx",
     "local:test": "node scripts/local-dev.mjs test",
+    "local:verify:access": "node scripts/verify-access-evidence.mjs",
     "local:start": "node scripts/local-dev.mjs start"
   },
   "cacheDirectories": [

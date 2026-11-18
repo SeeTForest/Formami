@@ -1327,13 +1327,13 @@ export interface paths {
     };
     /**
      * Query separate access and content-use observations
-     * @description Counts observations, not people. UA and reporter claims are unverified. Fetch, citation, referral and conversion totals are independent; no automatic attribution or training-use inference. Overview filters are not applied. At most 500 groups; totals are complete.
+     * @description Counts observations, not people. UA and reporter claims remain unverified. Totals cover all matching rows, independently of pagination. detail groups by all evidence dimensions; content groups by kind/contentKey/representation; day groups by kind/UTC day. Stable key ordering, maximum 500 groups per page. Reuse pagination.snapshotAt, fixed startAt/endAt and filters for subsequent offsets. The receive cutoff reduces concurrent additions but is not a cross-request database snapshot; reconcile totals and retry a closed window after concurrent ingestion or retention. Overview filters are not applied.
      */
     get: operations['getAccessEvidence'];
     put?: never;
     /**
      * Report server-side access observations with write permission
-     * @description Server-side credentials only; requires website update permission, granted consent and FORMAMI_ACCESS_CONTENT_KEYS allowlist. No raw URLs, UA, prompts, IP or identity. Maximum 100 observations / 64 KiB, timestamps within past 7 days and 5 minutes future. Stable IDs deduplicate retries within a website; conflicting duplicates are not overwritten. Conversion reports require backend source.
+     * @description Server-side credentials only. Legacy reports require website update permission and granted consent. Policy-based server/CDN fetches use configured collectionPolicyVersion, not fabricated user consent, and require the HTTP/content/version/synthetic fields. An x-formami-access-key is accepted only for policy-based fetches for its configured website; it cannot query or access other APIs. FORMAMI_ACCESS_CONFIG_FILE provides per-website content allowlists/policies/key hashes; the old global allowlist is supported only when no file is configured. No raw URLs, UA, prompts, IP or identity. Maximum 100 observations / 64 KiB; past 7 days and 5 minutes future. Stable UUIDs deduplicate within website without overwrite. synthetic=true requires verificationRunId. Conversion reports still require backend source and user authorization.
      */
     post: operations['saveAccessEvidence'];
     delete?: never;
@@ -12722,18 +12722,45 @@ export interface operations {
     parameters: {
       query: {
         actor?: 'human' | 'agent' | 'automation' | 'unknown';
+        collectionPolicyVersion?: string;
+        collectorVersion?: string;
         contentKey?: string;
+        contentVersion?: string;
         /** @description End of the date range as a Unix timestamp in milliseconds. */
         endAt: number;
+        /** @description Group products by product, variant or category. */
+        groupBy?: 'detail' | 'content' | 'day';
+        httpMethod?: 'GET' | 'HEAD';
         kind?: 'fetch' | 'citation' | 'referral' | 'conversion';
+        /** @description Maximum number of rows to return. */
+        limit?: number;
+        /** @description Number of rows to skip before returning results. */
+        offset?: number;
+        outcome?: 'success' | 'failure' | 'unknown';
+        provider?: 'openai' | 'google' | 'other' | 'unknown';
         purpose?:
           | 'reading'
           | 'agent_retrieval'
           | 'search_index'
           | 'training_collection'
           | 'unknown';
+        representation?: 'html' | 'markdown' | 'json' | 'context' | 'discovery' | 'other';
+        signal?:
+          | 'unknown'
+          | 'browser'
+          | 'user_action'
+          | 'automation'
+          | 'chatgpt_user'
+          | 'oai_searchbot'
+          | 'gptbot'
+          | 'googlebot';
+        snapshotAt?: number;
+        source?: 'server' | 'cdn' | 'mcp' | 'backend' | 'manual';
         /** @description Start of the date range as a Unix timestamp in milliseconds. */
         startAt: number;
+        statusCode?: number;
+        synthetic?: 'true' | 'false';
+        verificationRunId?: string;
       };
       header?: never;
       path: {
@@ -12753,22 +12780,48 @@ export interface operations {
           'application/json': {
             /** @constant */
             actualTrainingUse: 'unknown';
+            /** @enum {string} */
+            groupBy: 'detail' | 'content' | 'day';
             groups: {
-              actor: string;
-              confidence: string;
-              contentKey: string;
+              actor?: string;
+              collectionPolicyVersion?: string | null;
+              collectorVersion?: string | null;
+              confidence?: string;
+              contentKey?: string;
+              contentVersion?: string | null;
               /** @description Number of matching records. */
               count: number;
-              evidence: string;
+              day?: string;
+              evidence?: string;
+              httpMethod?: string | null;
               kind: string;
-              outcome: string;
-              provider: string;
-              purpose: string;
-              ruleVersion: string;
-              source: string;
+              outcome?: string;
+              provider?: string;
+              purpose?: string;
+              representation?: string | null;
+              ruleVersion?: string;
+              signal?: string;
+              source?: string;
+              statusCode?: number | null;
+              synthetic?: boolean | null;
+              verificationRunId?: string | null;
             }[];
             /** @constant */
             identityVerified: false;
+            pagination: {
+              /** @description Maximum number of rows to return. */
+              limit: number;
+              nextOffset: number | null;
+              /** @description Number of rows to skip before returning results. */
+              offset: number;
+              snapshotAt: number;
+              totalGroups: number;
+            };
+            /**
+             * @description IANA time zone used to interpret dates and group results, for example America/New_York.
+             * @constant
+             */
+            timezone: 'UTC';
             totals: {
               [key: string]: number;
             };
@@ -12803,6 +12856,15 @@ export interface operations {
           'application/json': components['schemas']['ApiError'];
         };
       };
+      /** @description Successful response. */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ApiError'];
+        };
+      };
     };
   };
   saveAccessEvidence: {
@@ -12819,9 +12881,14 @@ export interface operations {
       content: {
         'application/json': {
           observations: {
+            collectionPolicyVersion?: string;
+            collectorVersion?: string;
             /** @constant */
-            consent: 'granted';
+            consent?: 'granted';
             contentKey: string;
+            contentVersion?: string;
+            /** @enum {string} */
+            httpMethod?: 'GET' | 'HEAD';
             /**
              * Format: uuid
              * @description Unique identifier of the resource.
@@ -12841,6 +12908,8 @@ export interface operations {
              * @enum {string}
              */
             provider?: 'openai' | 'google' | 'other' | 'unknown';
+            /** @enum {string} */
+            representation?: 'html' | 'markdown' | 'json' | 'context' | 'discovery' | 'other';
             /**
              * @default unknown
              * @enum {string}
@@ -12856,6 +12925,10 @@ export interface operations {
               | 'googlebot';
             /** @enum {string} */
             source: 'server' | 'cdn' | 'mcp' | 'backend' | 'manual';
+            statusCode?: number;
+            synthetic?: boolean;
+            /** Format: uuid */
+            verificationRunId?: string;
           }[];
         };
       };
